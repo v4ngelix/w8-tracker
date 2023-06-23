@@ -19,3 +19,8 @@ main {
     padding: 1.5rem;
     background-color: snow;
 }
+
+canvas {
+    margin-bottom: 1.5rem;
+    background-color: #fff;
+}
