@@ -24,26 +24,7 @@ h2 {
 }
 
 
-.user-selection__container {
-    display: flex;
-    align-items: center;
-}
 
-.user-selection__bubble {
-    height: 1rem;
-    width: 1rem;
-    border-radius: 50%;
-}
-
-.user-selection__toggle {
-    margin: 0 .25rem;
-    width: 2rem;
-    transition: all .3s ease-in-out;
-}
-
-form {
-    display: flex;
-}
 
 img {
     width: 1rem;
