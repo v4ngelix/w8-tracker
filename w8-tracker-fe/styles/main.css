@@ -1,5 +1,6 @@
 @import "header.css";
 @import "table.css";
+@import "form.css";
 
 html {
     font-family: sans-serif;
