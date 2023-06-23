@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>W8-Tracker</title>
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <main>
+    <header>
+      <div class="header__retro-logo-effect">
+        <h1 style="z-index: 5">W</h1>
+        <h1 style="left: 6px; color: #525FE1; z-index: 4">W</h1>
+        <h1 style="left: 12px; color: #F86F03; z-index: 3">W</h1>
+        <h1 style="left: 18px; color: #FFA41B; z-index: 2">W</h1>
+        <h1 style="left: 24px; color: #FFF6F4; z-index: 1">W</h1>
+        <h1 style="left: 60px; z-index: 5">8-Tracker</h1>
+      </div>
+      <h2>The only weight tracker you need!</h2>
+    </header>
+
+    <table>
+      <thead>
+      <tr>
+        <th>
+          <img
+            src="assets/user-solid.svg"
+            alt="User icon"
+          >
+        </th>
+        <th>
+          <img src="assets/weight-hanging-solid.svg" alt="Weight icon">
+        </th>
+        <th colspan="2">
+
+        </th>
+      </tr>
+      </thead>
+    </table>
+
+    <form action="">
+      <div class="user-selection__container">
+        <label for="weight">User:</label>
+        <div class="user-selection__bubble" style="background-color: red"></div>
+        <input
+          type="range"
+          name=""
+          id=""
+          min="0"
+          max="1"
+          step="1"
+          class="user-selection__toggle"
+        >
+        <div class="user-selection__bubble" style="background-color: blue"></div>
+      </div>
+      <label for="weight">Weight:</label>
+      <input
+        type="number"
+        name="weight"
+        id="weight"
+        placeholder="Weight"
+        min="50"
+        max="110"
+        step="0.01"
+      >
+      <label for="date">Date:</label>
+      <input type="date" name="date" id="date" placeholder="Date" value="javascript:new Date()">
+      <input type="submit" value="Submit
+      </form>
+    </main>
+
+  </body>
+</html>
