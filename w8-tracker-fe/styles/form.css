@@ -1,0 +1,38 @@
+form {
+    display: grid;
+    grid-template-columns: .5fr repeat(2, 1fr) .5fr;
+    grid-template-rows: 1fr;
+}
+
+.form__element {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-selection__container {
+    display: flex;
+    align-items: center;
+}
+
+label {
+    margin-bottom: .25rem;
+    font-weight: 600;
+    font-size: .75rem;
+}
+
+input {
+    margin: 0 .25rem;
+}
+
+.user-selection__bubble {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+}
+
+.user-selection__toggle {
+    margin: 0 .25rem;
+    width: 2rem;
+    transition: all .3s ease-in-out;
+}
+
