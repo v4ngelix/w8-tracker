@@ -12,6 +12,7 @@ form {
 .user-selection__container {
     display: flex;
     align-items: center;
+    height: 100%;
 }
 
 label {
