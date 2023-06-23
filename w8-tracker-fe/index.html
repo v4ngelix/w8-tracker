@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>W8-Tracker</title>
   <link rel="stylesheet" href="styles/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <main>
@@ -19,34 +20,7 @@
       <h2>The only weight tracker you need!</h2>
     </header>
 
-    <div>
-      <canvas id="myChart"></canvas>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <script>
-      const ctx = document.getElementById('myChart');
-
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-          datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
-    </script>
+    <canvas id="myChart"></canvas>
 
     <table>
       <thead>
@@ -127,8 +101,28 @@
     </main>
 
     <script>
+      const ctx = document.getElementById('myChart');
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
       document.getElementById("dateInput").valueAsDate = new Date();
     </script>
-
   </body>
 </html>
