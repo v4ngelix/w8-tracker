@@ -1,0 +1,24 @@
+table {
+    margin-bottom: 1.5rem;
+    border: 1px solid #000;
+    border-radius: .25rem;
+    border-spacing: 0;
+    width: 100%;
+    background-color: #fff;
+}
+
+th {
+    border-bottom: 1px solid #000;
+    transition: all 250ms ease-in-out;
+}
+
+th,
+tbody tr {
+    transition: all 250ms ease-in-out;
+}
+
+th:hover,
+tbody tr:hover {
+    background-color: #eee;
+}
+
