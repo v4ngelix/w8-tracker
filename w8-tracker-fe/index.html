@@ -20,7 +20,7 @@
       <h2>The only weight tracker you need!</h2>
     </header>
 
-    <canvas id="myChart"></canvas>
+    <canvas id="weightTimeSeries"></canvas>
 
     <table>
       <thead>
@@ -101,7 +101,7 @@
     </main>
 
     <script>
-      const ctx = document.getElementById('myChart');
+      const ctx = document.getElementById('weightTimeSeries');
 
       new Chart(ctx, {
         type: 'bar',
