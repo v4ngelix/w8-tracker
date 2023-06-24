@@ -1,15 +1,12 @@
 table {
     margin-bottom: 1.5rem;
-    border: 1px solid #000;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
     border-radius: .25rem;
     border-spacing: 0;
     width: 100%;
     background-color: #fff;
-}
-
-th {
-    border-bottom: 1px solid #000;
-    transition: all 250ms ease-in-out;
 }
 
 th,
@@ -22,3 +19,23 @@ tbody tr:hover {
     background-color: #eee;
 }
 
+th,
+td {
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    padding: .25rem .75rem;
+    font-size: .875rem;
+}
+
+td:nth-child(2) {
+    text-align: right;
+}
+
+td:nth-child(3) {
+    text-align: center;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+    border-right: none;
+}
