@@ -20,4 +20,9 @@ A lightweight weight tracking application for personal use.
   * Learn RESTful by building API endpoints with pure node.js.
   * Return mock data
   * Use proxying to avoid cors issues.
+    * Get root path from .env file.
   * Retrieve data from a SQL database.
+    * Save credentials in a .env file.
+* DEVOPS:
+  * Set up PM2 to keep node.js back-end running on the server.
+  * Find a way for continuous deployment with zone.ee server and github repository.
