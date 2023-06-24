@@ -1,27 +1,52 @@
 const data = require("./mockData");
+const mysql = require('mysql');
+
+const connection = mysql.createConnection({
+  host: 'd66029.mysql.zonevs.eu',
+  user: 'd66029_w8app',
+  password: 'NoGainNoPain',
+  database: 'd66029_weight',
+});
+
+//process.env.USER_ID;
+
 
 class Controller {
-  // getting all todos
+  //
   async getWeights() {
+
+    connection.connect((err) => {
+      if (err) {
+        console.error('Error connecting to the database:', err);
+        return;
+      }
+      console.log('Connected to the database.');
+
+      // Perform a SELECT query to fetch the whole table
+      connection.query('SELECT * FROM weights_aa', (error, results) => {
+        if (error) {
+          console.error('Error executing query:', error);
+          return;
+        }
+
+        // Process the retrieved data
+        console.log('Table data:', results);
+
+        // Close the database connection
+        connection.end((err) => {
+          if (err) {
+            console.error('Error closing database connection:', err);
+            return;
+          }
+          console.log('Disconnected from the database.');
+        });
+      });
+    });
+
     return new Promise((resolve, _) => resolve(data));
   }
-/*
-  async getWeight(date) {
-    return new Promise((resolve, reject) => {
-      // get the todo
-      let todo = data.find((todo) => todo.id === parseInt(id));
-      if (todo) {
-        // return the todo
-        resolve(todo);
-      } else {
-        // return an error
-        reject(`Todo with id ${id} not found `);
-      }
-    });
-  }
 
-  // creating a todo
-  async createTodo(todo) {
+  async addWeight(weight, date) {
     return new Promise((resolve, _) => {
       // create a todo, with random id and data sent
       let newTodo = {
@@ -33,36 +58,6 @@ class Controller {
       resolve(newTodo);
     });
   }
-
-  // updating a todo
-  async updateTodo(id) {
-    return new Promise((resolve, reject) => {
-      // get the todo.
-      let todo = data.find((todo) => todo.id === parseInt(id));
-      // if no todo, return an error
-      if (!todo) {
-        reject(`No todo with id ${id} found`);
-      }
-      //else, update it by setting completed to true
-      todo["completed"] = true;
-      // return the updated todo
-      resolve(todo);
-    });
-  }
-
-  // deleting a todo
-  async deleteTodo(id) {
-    return new Promise((resolve, reject) => {
-      // get the todo
-      let todo = data.find((todo) => todo.id === parseInt(id));
-      // if no todo, return an error
-      if (!todo) {
-        reject(`No todo with id ${id} found`);
-      }
-      // else, return a success message
-      resolve(`Todo deleted successfully`);
-    });
-  }
-  */
 }
+
 module.exports = Controller;
