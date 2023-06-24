@@ -9,6 +9,12 @@ table {
     background-color: #fff;
 }
 
+th div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 th,
 tbody tr {
     transition: all 250ms ease-in-out;
