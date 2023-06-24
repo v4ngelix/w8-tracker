@@ -38,8 +38,18 @@ function getWeights() {
         weightData.forEach((weight) => {
           const row = tbody.insertRow();
           row.insertCell(0).innerHTML = `<div className="user-selection__bubble" style="background-color: red"></div>`;
-          row.insertCell(1).innerHTML = `${weight.weight}`;
-          row.insertCell(2).innerHTML = `${weight.date}`;
+          row.insertCell(1).innerHTML = `${Number(weight.weight).toFixed(2)} kg`;
+
+          const date = new Date(weight.date);
+          const day = date.getDate();
+          const dayPrefix = day < 10 ? "0" : "";
+          const dayString = dayPrefix + day;
+          const month = date.getMonth() + 1;
+          const monthPrefix = month < 10 ? "0" : "";
+          const monthString = monthPrefix + month;
+          const year = String(date.getFullYear()).slice(2, 4);
+          row.insertCell(2).innerHTML = `${dayString}.${monthString}.${year}`;
+
           row.insertCell(3).innerHTML = "";
         });
     });
