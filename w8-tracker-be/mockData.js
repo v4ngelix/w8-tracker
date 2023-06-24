@@ -11,6 +11,10 @@ const mockData = [
     date: '2023-06-24',
     weight: '102.7'
   },
+  {
+    date: '2023-06-02',
+    weight: '104'
+  },
 ]
 
 module.exports = mockData;
