@@ -21,18 +21,28 @@ new Chart(ctx, {
 document.getElementById("dateInput").valueAsDate = new Date();
 
 function getWeights() {
-  const request = new XMLHttpRequest();
-  request.open("GET", "https://w8.boheemia.ee/:3000/api/get-weights");
-  request.send();
-
-  request.onload = async function () {
-    const weightData = JSON.parse(this.response);
-    if (weightData.length > 0) {
-      console.log(weightData);
-    }
-    //document.getElementsByTagName("tbody")[0].innerHTML = "";
-  }
-
+  let weightData = [];
+  fetch("http://localhost:3000/api/get-weights")
+    .then(response => {
+      if (response.ok) {
+        return response.json()
+      } else {
+        throw new Error("Something went wrong");
+      }
+    })
+    .then(data => {
+        console.log(data)
+        weightData = data;
+        const tbody = document.getElementsByTagName("tbody")[0];
+        tbody.innerHTML = "";
+        weightData.forEach((weight) => {
+          const row = tbody.insertRow();
+          row.insertCell(0).innerHTML = `<div className="user-selection__bubble" style="background-color: red"></div>`;
+          row.insertCell(1).innerHTML = `${weight.weight}`;
+          row.insertCell(2).innerHTML = `${weight.date}`;
+          row.insertCell(3).innerHTML = "";
+        });
+    });
 }
 
 getWeights();
