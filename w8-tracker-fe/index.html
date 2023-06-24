@@ -1,101 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>W8-Tracker</title>
-  <link rel="stylesheet" href="styles/main.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-  <main>
-    <header>
-      <div class="header__retro-logo-effect">
-        <h1 style="color: #ffd36f; z-index: 1">W</h1>
-        <h1 style="left: 6px; color: #FFA41B; z-index: 2">W</h1>
-        <h1 style="left: 12px; color: #F86F03; z-index: 3">W</h1>
-        <h1 style="left: 18px; color: #525FE1; z-index: 4">W</h1>
-        <h1 style="left: 24px; z-index: 5">W8-Tracker</h1>
-      </div>
-      <h2>The only weight tracker you need!</h2>
-    </header>
+  <head>
+    <meta charset="UTF-8">
+    <title>W8-Tracker</title>
+    <link rel="stylesheet" href="./styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
 
-    <canvas id="weightTimeSeries"></canvas>
-
-    <table>
-      <thead>
-        <tr>
-          <th>
-            <img
-              src="assets/user-solid.svg"
-              alt="User icon"
-            >
-          </th>
-          <th>
-            <img src="assets/weight-hanging-solid.svg" alt="Weight icon">
-          </th>
-          <th>
-            <img src="assets/calendar-check-regular.svg" alt="Date icon">
-          </th>
-          <th>
-
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="4" style="text-align: center">
-            - No data -
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <form action="">
-      <div class="form__element">
-        <label for="user">User:</label>
-        <div class="user-selection__container">
-          <div class="user-selection__bubble" style="background-color: red"></div>
-          <input
-            type="range"
-            name="user"
-            id="user"
-            min="0"
-            max="1"
-            step="1"
-            class="user-selection__toggle"
-          >
-          <div class="user-selection__bubble" style="background-color: blue"></div>
+  <body>
+    <main>
+      <header>
+        <div class="header__retro-logo-effect">
+          <h1 style="color: #ffd36f; z-index: 1">W</h1>
+          <h1 style="left: 6px; color: #FFA41B; z-index: 2">W</h1>
+          <h1 style="left: 12px; color: #F86F03; z-index: 3">W</h1>
+          <h1 style="left: 18px; color: #525FE1; z-index: 4">W</h1>
+          <h1 style="left: 24px; z-index: 5">W8-Tracker</h1>
         </div>
-      </div>
+        <h2>The only weight tracker you need!</h2>
+      </header>
 
-      <div class="form__element">
-        <label for="weight">Weight:</label>
-        <input
-          type="number"
-          name="weight"
-          id="weight"
-          placeholder="Weight"
-          min="50"
-          max="110"
-          step="0.01"
-        >
-      </div>
+      <canvas id="weightTimeSeries"></canvas>
 
-      <div class="form__element">
-        <label for="dateInput">Date:</label>
-        <input
-          type="date"
-          name="date"
-          id="dateInput"
-          placeholder="Date"
-        >
-      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <div>
+                <img
+                  src="./assets/user-solid.svg"
+                  alt="User icon"
+                >
+              </div>
+            </th>
+            <th>
+              <div>
+                <img
+                  src="./assets/weight-hanging-solid.svg"
+                  alt="Weight icon">
+              </div>
+            </th>
+            <th>
+              <div>
+                <img
+                  src="./assets/calendar-check-regular.svg"
+                  alt="Date icon">
+              </div>
+            </th>
+            <th>
 
-      <div class="form__element">
-        <label for="dateInput">&ensp;</label>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="4" style="text-align: center">
+              - No data -
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-      <input type="submit" value="Submit">
-      </div>
+      <form action="">
+        <div class="form__element">
+          <label for="user">User:</label>
+          <div class="user-selection__container">
+            <div class="user-selection__bubble" style="background-color: red"></div>
+            <input
+              type="range"
+              name="user"
+              id="user"
+              min="0"
+              max="1"
+              step="1"
+              class="user-selection__toggle"
+            >
+            <div class="user-selection__bubble" style="background-color: blue"></div>
+          </div>
+        </div>
+
+        <div class="form__element">
+          <label for="weight">Weight:</label>
+          <input
+            type="number"
+            name="weight"
+            id="weight"
+            placeholder="Weight"
+            min="50"
+            max="110"
+            step="0.01"
+          >
+        </div>
+
+        <div class="form__element">
+          <label for="dateInput">Date:</label>
+          <input
+            type="date"
+            name="date"
+            id="dateInput"
+            placeholder="Date"
+          >
+        </div>
+
+        <div class="form__element">
+          <label for="dateInput">&ensp;</label>
+
+          <input type="submit" value="Submit">
+        </div>
       </form>
     </main>
 
