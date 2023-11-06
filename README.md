@@ -4,11 +4,11 @@
 A lightweight weight tracking application for personal use.
 
 ## Goals:
-* Make tracking weight over long period of time easier.
-  * Provide a simple interface for inputting weight - A simple website for daily measu.
-  * Save the data in a database for longterm storage - *The weight data is kept even if a journal or a piece of paper is lost.*
-* Learn how to build a RESTful application from scratch.
-
+* Make tracking personal body weight and BMI over long period of more convenient.
+  * Provide a simple interface for inputting weight - A simple website or a desktop application for daily measures.
+  * Save the data in a database for the long-term storage - *Thus the weight data would be kept even if a journal or a piece of paper is lost.*
+* Learn new technologies.
+* Set up a RESTful application from scratch.
  
 ## TODO:
 * FE
@@ -18,6 +18,7 @@ A lightweight weight tracking application for personal use.
   * Finish up the form.
 * BE:
   * Learn RESTful by building API endpoints with pure node.js.
+  * NB! First try was unsuccesful. might try Django and server side rendering instead.
   * Return mock data
   * Use proxying to avoid cors issues.
     * Get root path from .env file.
@@ -25,4 +26,5 @@ A lightweight weight tracking application for personal use.
     * Save credentials in a .env file.
 * DEVOPS:
   * Set up PM2 to keep node.js back-end running on the server.
+  * NB! It seems that I'm unable to deploy node based applications on zone virtual server.
   * Find a way for continuous deployment with zone.ee server and github repository.
