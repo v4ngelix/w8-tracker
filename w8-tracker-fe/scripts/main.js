@@ -7,13 +7,13 @@
 
 const chartHTMLReference = document.getElementById('weightTimeSeries');
 
-const placeholderChart = new Chart(chartHTMLReference, {
+const chart = new Chart(chartHTMLReference, {
   type: 'line',
   data: {
-    labels: ["21.06", "22.06", "23.06"],
+    labels: [],
     datasets: [{
       label: 'Weight',
-      data: [103.5, 103, 102.3],
+      data: [],
       borderWidth: 1
     }]
   },
@@ -60,27 +60,18 @@ function getWeights() {
           row.insertCell(3).innerHTML = "";
         });
 
-        const labels = weightData.map(d => d.date);
-        const outputData = weightData.map(d => d.weight);
-
-        placeholderChart.destroy();
-        new Chart(chartHTMLReference, {
-            type: 'line',
-            data: {
-                labels,
-                datasets: [{
-                    label: 'Weight',
-                    data: outputData,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                    }
-                }
+        let index = 0;
+        const updateEvent = () => setTimeout(() => {
+            const newData = weightData[index];
+            chart.data.labels.push(newData.date);
+            chart.data.datasets[0].data.push(newData.weight);
+            chart.update();
+            index++;
+            if (index < weightData.length) {
+                updateEvent()
             }
-        });
+        }, 200);
+        updateEvent();
     });
 }
 
