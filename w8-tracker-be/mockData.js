@@ -1,5 +1,8 @@
 const mockData = [
-
+  {
+    date: '2023-06-21',
+    weight: '103.5'
+  },
   {
     date: '2023-06-22',
     weight: '103.1'
