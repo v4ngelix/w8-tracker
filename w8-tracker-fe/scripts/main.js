@@ -44,7 +44,7 @@ function getWeights() {
         tbody.innerHTML = "";
         weightData.forEach((weight) => {
           const row = tbody.insertRow();
-          row.insertCell(0).innerHTML = `<div className="user-selection__bubble" style="background-color: red"></div>`;
+          row.insertCell(0).innerHTML = `<div class="user-selection__bubble" style="background-color: red"></div>`;
           row.insertCell(1).innerHTML = `${Number(weight.weight).toFixed(2)} kg`;
 
           const date = new Date(weight.date);
