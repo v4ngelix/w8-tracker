@@ -66,16 +66,16 @@ function getWeights() {
           return (weightData.length * 2) * Math.log(inputIndex);
         }
         const updateEvent = () => setTimeout(() => {
-            const newData = weightData[index];
-            chart.data.labels.push(newData.date);
-            chart.data.datasets[0].data.push(newData.weight);
-            chart.update();
-            index++;
-            if (index < weightData.length) {
-                updateEvent()
-            }
-        }, 200);
-        updateEvent();
+          const newData = weightData[index];
+          chart.data.labels.push(newData.date);
+          chart.data.datasets[0].data.push(newData.weight);
+          chart.update();
+          index++;
+          if (index < weightData.length) {
+              updateEvent()
+          }
+        }, nextUpdateSpeed(index));
+        updateEvent(index);
     });
 }
 
