@@ -5,7 +5,9 @@
  * 3. Replace chart.js with d3
  */
 
-new Chart(ctx, {
+const chartHTMLReference = document.getElementById('weightTimeSeries');
+
+const placeholderChart = new Chart(chartHTMLReference, {
   type: 'line',
   data: {
     labels: ["21.06", "22.06", "23.06"],
@@ -56,6 +58,28 @@ function getWeights() {
           row.insertCell(2).innerHTML = `${dayString}.${monthString}.${year}`;
 
           row.insertCell(3).innerHTML = "";
+        });
+
+        const labels = weightData.map(d => d.date);
+        const outputData = weightData.map(d => d.weight);
+
+        placeholderChart.destroy();
+        new Chart(chartHTMLReference, {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Weight',
+                    data: outputData,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                    }
+                }
+            }
         });
     });
 }
