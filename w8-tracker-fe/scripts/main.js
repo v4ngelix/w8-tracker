@@ -61,6 +61,10 @@ function getWeights() {
         });
 
         let index = 0;
+
+        function nextUpdateSpeed(inputIndex) {
+          return (weightData.length * 2) * Math.log(inputIndex);
+        }
         const updateEvent = () => setTimeout(() => {
             const newData = weightData[index];
             chart.data.labels.push(newData.date);
