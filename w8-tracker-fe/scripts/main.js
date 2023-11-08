@@ -1,4 +1,9 @@
-const ctx = document.getElementById('weightTimeSeries');
+/**
+ * TODO:
+ * 1. Convert script to typescript.
+ * 2. Setup compilation to javascript (with maps?).
+ * 3. Replace chart.js with d3
+ */
 
 new Chart(ctx, {
   type: 'line',
