@@ -20,11 +20,11 @@ main {
     padding: 1.5rem;
     background-color: #fefefe;
     box-shadow:
-        0px 1px 1px rgba(3, 7, 18, 0.02),
-        0px 5px 4px rgba(3, 7, 18, 0.03),
-        0px 12px 9px rgba(3, 7, 18, 0.05),
-        0px 20px 15px rgba(3, 7, 18, 0.06),
-        0px 32px 24px rgba(3, 7, 18, 0.08);
+        0 1px 1px rgba(3, 7, 18, 0.02),
+        0 5px 4px rgba(3, 7, 18, 0.03),
+        0 12px 9px rgba(3, 7, 18, 0.05),
+        0 20px 15px rgba(3, 7, 18, 0.06),
+        0 32px 24px rgba(3, 7, 18, 0.08);
 }
 
 canvas {
