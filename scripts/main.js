@@ -29,7 +29,7 @@ document.getElementById("dateInput").valueAsDate = new Date();
 
 function getWeights() {
   let weightData = [];
-  fetch("https://www.boheemia.ee:3000/api/get-weights").then(response => {
+  fetch("https://w8.boheemia.ee/api/get-weights").then(response => {
       if (response.ok) {
         return response.json()
       } else {
@@ -44,9 +44,9 @@ function getWeights() {
         weightData.forEach((weight) => {
           const row = tbody.insertRow();
           row.insertCell(0).innerHTML = `<div class="user-selection__bubble" style="background-color: red"></div>`;
-          row.insertCell(1).innerHTML = `${Number(weight.weight).toFixed(2)} kg`;
+          row.insertCell(1).innerHTML = `${Number(weight.Weight).toFixed(2)} kg`;
 
-          const date = new Date(weight.date);
+          const date = new Date(weight.Date);
           const day = date.getDate();
           const dayPrefix = day < 10 ? "0" : "";
           const dayString = dayPrefix + day;

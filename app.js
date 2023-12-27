@@ -14,15 +14,14 @@ const hostname = '127.0.0.1';
 const port = 3000;
 
 const server = http.createServer(async (request, response) => {
-  response.setHeader('Access-Control-Allow-Origin', 'https://www.boheemia.ee');
+  response.setHeader('Access-Control-Allow-Origin', 'https://w8.boheemia.ee');
   response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
-  console.log(request.url, request.method);
   const { url, method} = request;
   const requestPath = url.split('/').slice(1);
-  console.log(__dirname, requestPath);
 
+  console.log(url,path.join(__dirname, ...requestPath).slice(0), requestPath);
   if (url === '/' && method === 'GET') {
     const indexPath = path.join(__dirname, 'index.html')
     fs.readFile(indexPath, (err, data) => {
@@ -35,14 +34,21 @@ const server = http.createServer(async (request, response) => {
       }
     });
   } else if (['assets', 'styles', 'scripts', 'favicon.ico'].includes(requestPath[0]) && method === 'GET') {
-    console.log('trying to get an asset');
-    const indexPath = path.join(__dirname, ...requestPath)
-    fs.readFile(indexPath, (err, data) => {
+    const filePath = path.join(__dirname, ...requestPath)
+    fs.readFile(filePath, (err, data) => {
       if (err) {
         response.writeHead(500, { 'Content-Type': 'text/plain' });
         response.end('Internal Server Error');
       } else {
-        response.writeHead(200, { 'Content-Type': 'text/html' });
+        let type = 'text/html';
+        const dir = requestPath[0];
+        
+        if (dir === 'favicon.ico') type = 'image/png';
+        if (dir === 'assets') type = 'image/svg+xml';
+        if (dir === 'styles') type = 'text/css';
+        if (dir === 'scripts') type = 'text/javascript';
+
+        response.writeHead(200, { 'Content-Type': type });
         response.end(data);
       }
     });
