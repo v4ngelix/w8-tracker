@@ -29,8 +29,7 @@ document.getElementById("dateInput").valueAsDate = new Date();
 
 function getWeights() {
   let weightData = [];
-  fetch("http://127.0.0.1:3000/api/get-weights")
-    .then(response => {
+  fetch("http://www.boheemia.ee:3000/api/get-weights").then(response => {
       if (response.ok) {
         return response.json()
       } else {
