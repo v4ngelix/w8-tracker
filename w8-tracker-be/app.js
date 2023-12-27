@@ -1,6 +1,5 @@
 const http = require('http');
 const mysql = require('mysql');
-const Controller = require('./controller');
 const path = require('path');
 const fs = require('fs');
 
@@ -20,9 +19,11 @@ const server = http.createServer(async (request, response) => {
   response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
   console.log(request.url, request.method);
-  
-  if (request.url === '/' && request.method == 'GET') {
-    const indexPath = path.join(__dirname, '..', 'index.html')
+  const { url, method} = request;
+
+  const requestPath = url.split('/');
+  if (['assets', 'styles', 'scripts', 'favicon.ico'].includes(requestPath[0]) && method === 'GET') {
+    const indexPath = path.join(__dirname, '..', ...requestPath)
     fs.readFile(indexPath, (err, data) => {
       if (err) {
         response.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -32,7 +33,7 @@ const server = http.createServer(async (request, response) => {
         response.end(data);
       }
     });
-  } else if (request.url === "/api/ping" && request.method == "GET") {
+  } else if (request.url === "/api/ping" && method === "GET") {
     response.writeHead(200, { "Content-Type": "application/json" });
     response.write(JSON.stringify({ message: "Ping succesful" }));
     response.end();
@@ -65,6 +66,6 @@ connection.connect((error) => {
 });
 
 server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  console.log(`Server running at https://${hostname}:${port}/`);
 });
 
