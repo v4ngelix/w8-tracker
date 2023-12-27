@@ -20,10 +20,23 @@ const server = http.createServer(async (request, response) => {
 
   console.log(request.url, request.method);
   const { url, method} = request;
+  const requestPath = url.split('/').slice(1);
+  console.log(__dirname, requestPath);
 
-  const requestPath = url.split('/');
-  if (['assets', 'styles', 'scripts', 'favicon.ico'].includes(requestPath[0]) && method === 'GET') {
-    const indexPath = path.join(__dirname, '..', ...requestPath)
+  if (url === '/' && method === 'GET') {
+    const indexPath = path.join(__dirname, 'index.html')
+    fs.readFile(indexPath, (err, data) => {
+      if (err) {
+        response.writeHead(500, { 'Content-Type': 'text/plain' });
+        response.end('Internal Server Error');
+      } else {
+        response.writeHead(200, { 'Content-Type': 'text/html' });
+        response.end(data);
+      }
+    });
+  } else if (['assets', 'styles', 'scripts', 'favicon.ico'].includes(requestPath[0]) && method === 'GET') {
+    console.log('trying to get an asset');
+    const indexPath = path.join(__dirname, ...requestPath)
     fs.readFile(indexPath, (err, data) => {
       if (err) {
         response.writeHead(500, { 'Content-Type': 'text/plain' });
