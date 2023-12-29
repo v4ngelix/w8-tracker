@@ -41,6 +41,7 @@ function getWeights() {
         weightData = data;
         const tbody = document.getElementsByTagName("tbody")[0];
         tbody.innerHTML = "";
+
         weightData.forEach((weight) => {
           const row = tbody.insertRow();
           row.insertCell(0).innerHTML = `<div class="user-selection__bubble" style="background-color: red"></div>`;
@@ -55,7 +56,6 @@ function getWeights() {
           const monthString = monthPrefix + month;
           const year = String(date.getFullYear()).slice(2, 4);
           row.insertCell(2).innerHTML = `${dayString}.${monthString}.${year}`;
-
           row.insertCell(3).innerHTML = "";
         });
 
@@ -76,6 +76,7 @@ function getWeights() {
               updateEvent()
           }
         }, nextUpdateSpeed(index));
+
         updateEvent(index);
     });
 }
