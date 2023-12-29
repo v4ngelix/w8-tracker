@@ -62,7 +62,9 @@ function getWeights() {
         let index = 0;
 
         function nextUpdateSpeed(inputIndex) {
-          return (weightData.length * 2) * Math.log(inputIndex);
+          const nextSpeed = (weightData.length * 2) * Math.log(inputIndex);
+          console.log({nextSpeed});
+          return nextSpeed;
         }
         const updateEvent = () => setTimeout(() => {
           const newData = weightData[index];
