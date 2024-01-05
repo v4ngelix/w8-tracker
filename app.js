@@ -74,7 +74,7 @@ const server = http.createServer(
       try {
         connection.query(`SELECT * FROM weights_aa WHERE date = ${date}`, (error, rows) => {
           console.log("Existing values:", rows);
-          exists = !error;
+          exists = rows.length > 0;
         });
       } catch (error) {
         console.log('Error in query', error);
@@ -82,7 +82,7 @@ const server = http.createServer(
 
       if (exists) {
         // UPDATE `weights_aa` SET `weight` = '103.3' WHERE `weights_aa`.`date` = '2024-01-02';
-        const sql = `UPDATE weights_aa SET weight=${weight} WHERE date=${date}`;
+        const sql = `UPDATE weights_aa SET weight=${weight} WHERE date='${date}'`;
         try {
           connection.query(sql, (error) => {
             if (error) {
@@ -99,7 +99,7 @@ const server = http.createServer(
           console.log('Error in query', error);
         }
       } else {
-        const sql = `INSERT INTO weights_aa (date, weight) VALUES (${date}, ${weight})`;
+        const sql = `INSERT INTO weights_aa (date, weight) VALUES '(${date}', ${weight})`;
         try {
           connection.query(sql, (error) => {
             if (error) {
