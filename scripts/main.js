@@ -78,8 +78,7 @@ function getWeights() {
 
 getWeights();
 
-function addWeight(e) {
-  e.preventDefault();
+function addWeight() {
   const date = document.getElementById("dateInput").value;
   const weight = document.getElementById("weightInput").value;
   console.log({date, weight});
@@ -91,5 +90,4 @@ function addWeight(e) {
       throw new Error("Something went wrong");
     }
   })
-  console.log(e);
 }
