@@ -21,7 +21,7 @@ const server = http.createServer(async (request, response) => {
   const { url, method} = request;
   const requestPath = url.split('/').slice(1);
 
-  console.log(url, path.join(__dirname, ...requestPath).slice(0));
+  console.log('Incoming url: ', url);
   if (url === '/' && method === 'GET') {
     const indexPath = path.join(__dirname, 'index.html')
     fs.readFile(indexPath, (err, data) => {
@@ -61,7 +61,7 @@ const server = http.createServer(async (request, response) => {
     // GET url example https://w8.boheemia.ee/api/add-weight?user=1&weight=50&date=2024-01-05
     const weight = request?.query?.weight;
     const date =  request?.query?.date;
-    console.log(url, weight, date);
+    console.log(request?.query, weight, date);
 
 
 // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-04', '104.5');
