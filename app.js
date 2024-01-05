@@ -73,7 +73,7 @@ const server = http.createServer(
       let exists = false;
       try {
         connection.query(`SELECT * FROM weights_aa WHERE date = '${date}'`, (error, rows) => {
-          console.log("Existing values:", rows);
+          console.log("Existing values:", rows, rows.length > 0);
           exists = rows.length > 0;
         });
       } catch (error) {
