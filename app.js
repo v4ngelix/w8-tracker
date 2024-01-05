@@ -2,6 +2,8 @@ const http = require('http');
 const mysql = require('mysql');
 const path = require('path');
 const fs = require('fs');
+const querystring = require('querystring');
+const Url  = require('url');
 
 const connection = mysql.createConnection({
   host: 'd66029.mysql.zonevs.eu',
@@ -22,11 +24,11 @@ const server = http.createServer(
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
-    const { url, method} = request;
+    const { url, method, } = request;
     const requestPath = url.split('/').slice(1);
 
     console.log('Incoming url: ', url);
-    if (url === '/' && method === 'GET') {
+    if (request.url === '/' && method === 'GET') {
       const indexPath = path.join(__dirname, 'index.html')
       fs.readFile(indexPath, (err, data) => {
         if (err) {
@@ -65,8 +67,13 @@ const server = http.createServer(
       // GET url example https://w8.boheemia.ee/api/add-weight?user=1&weight=50&date=2024-01-05
       const weight = request?.query?.weight;
       const date =  request?.query?.date;
-      console.log(request?.query, weight, date);
-
+      const parsedUrl = Url.parse(url);
+      const queryParams = querystring.parse(parsedUrl.query);
+      console.log({
+        queryParams,
+        weight,
+        date
+      });
 
   // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-04', '104.5');
       const sql = `INSERT INTO weights_aa (Date, Weight) VALUES (${date}, ${weight})`;
