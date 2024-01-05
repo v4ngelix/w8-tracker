@@ -21,7 +21,7 @@ const server = http.createServer(async (request, response) => {
   const { url, method} = request;
   const requestPath = url.split('/').slice(1);
 
-  console.log(url,path.join(__dirname, ...requestPath).slice(0), requestPath);
+  console.log(url, path.join(__dirname, ...requestPath).slice(0));
   if (url === '/' && method === 'GET') {
     const indexPath = path.join(__dirname, 'index.html')
     fs.readFile(indexPath, (err, data) => {
@@ -58,11 +58,9 @@ const server = http.createServer(async (request, response) => {
     response.end();
   }
   else if (url.includes("/api/add-weight") && request.method === "GET") {
-    // Get url example https://w8.boheemia.ee/api/add-weight?user=1&weight=50&date=2024-01-05
-    // get params
-    const params = new URL(url);
-    const weight = params.searchParams.get('weight');
-    const date = params.searchParams.get('date');
+    // GET url example https://w8.boheemia.ee/api/add-weight?user=1&weight=50&date=2024-01-05
+    const weight = request?.query?.weight;
+    const date =  request?.query?.date;
     console.log(url, weight, date);
 
 
