@@ -99,7 +99,7 @@ const server = http.createServer(
           console.log('Error in query', error);
         }
       } else {
-        const sql = `INSERT INTO weights_aa (date, weight) VALUES '(${date}', ${weight})`;
+        const sql = `INSERT INTO weights_aa (date, weight) VALUES ('${date}', ${weight})`;
         try {
           connection.query(sql, (error) => {
             if (error) {
