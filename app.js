@@ -59,6 +59,7 @@ const server = http.createServer(async (request, response) => {
   } else if (request.url.includes("/api/add-weight") && request.method === "GET") {
     // Get url example https://w8.boheemia.ee/api/add-weight?user=1&weight=50&date=2024-01-05
     // get params
+    console.log(url);
     const url = new URL(request.url, `http://${hostname}:${port}`);
     const weight = url.searchParams.get('weight');
     const date = url.searchParams.get('date');
