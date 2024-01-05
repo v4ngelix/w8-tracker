@@ -64,18 +64,10 @@ const server = http.createServer(
       response.end();
     }
     else if (url.includes("/api/add-weight") && request.method === "GET") {
-      // GET url example https://w8.boheemia.ee/api/add-weight?user=1&weight=50&date=2024-01-05
-      const weight = request?.query?.weight;
-      const date =  request?.query?.date;
       const parsedUrl = Url.parse(url);
       const queryParams = querystring.parse(parsedUrl.query);
-      console.log({
-        queryParams,
-        weight,
-        date
-      });
-
-  // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-04', '104.5');
+      const weight = queryParams?.weight;
+      const date = queryParams?.date;
       const sql = `INSERT INTO weights_aa (Date, Weight) VALUES (${date}, ${weight})`;
       connection.query(sql, (error) => {
         if (error) {
