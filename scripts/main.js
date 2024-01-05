@@ -77,17 +77,3 @@ function getWeights() {
 }
 
 getWeights();
-
-function addWeight() {
-  const date = document.getElementById("date").value;
-  const weight = document.getElementById("weight").value;
-  console.log({date, weight});
-  fetch(API_URL + `/add-weight?date=${date}&weight=${weight}`).then(response => {
-    if (response.ok) {
-      getWeights();
-      return response.json()
-    } else {
-      throw new Error("Something went wrong");
-    }
-  })
-}
