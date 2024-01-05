@@ -72,7 +72,7 @@ const server = http.createServer(
       // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-03', '103.3');
       let exists = false;
       try {
-        connection.query(`SELECT * FROM weights_aa WHERE date = ${date}`, (error, rows) => {
+        connection.query(`SELECT * FROM weights_aa WHERE date = '${date}'`, (error, rows) => {
           console.log("Existing values:", rows);
           exists = rows.length > 0;
         });
