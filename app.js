@@ -68,6 +68,7 @@ const server = http.createServer(
       const queryParams = querystring.parse(parsedUrl.query);
       const weight = queryParams?.weight;
       const date = queryParams?.date;
+      console.log({weight, date});
       const sql = `INSERT INTO weights_aa (Date, Weight) VALUES (${date}, ${weight})`;
       connection.query(sql, (error) => {
         if (error) {
