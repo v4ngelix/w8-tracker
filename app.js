@@ -70,7 +70,7 @@ const server = http.createServer(
       const date = queryParams?.date;
       console.log({weight, date});
       // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-03', '103.3');
-      const sql = `INSERT INTO weights_aa (date, weight) VALUES (\'${date}\', \'${weight}\')`;
+      const sql = `INSERT INTO weights_aa ('date', 'weight') VALUES ('${date}', '${weight}')`;
       connection.query(sql, (error) => {
         if (error) {
           console.log(error);
@@ -80,7 +80,8 @@ const server = http.createServer(
         }
         // if date already exists, update the weight
         else if (error.code === 'ER_DUP_ENTRY') {
-          const sql = `UPDATE weights_aa SET weight=${weight} WHERE date='${date}'`;
+          // UPDATE `weights_aa` SET `weight` = '103.3' WHERE `weights_aa`.`date` = '2024-01-02';
+          const sql = `UPDATE weights_aa SET 'weight' = '${weight}' WHERE 'date' = '${date}'`;
           connection.query(sql, (error) => {
             if (error) {
               response.writeHead(500, { "Content-Type": "application/json" });
