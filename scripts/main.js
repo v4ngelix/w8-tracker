@@ -45,9 +45,9 @@ function getWeights() {
         weightData.forEach((weight) => {
           const row = tbody.insertRow();
           row.insertCell(0).innerHTML = `<div class="user-selection__bubble" style="background-color: red"></div>`;
-          row.insertCell(1).innerHTML = `${Number(weight.Weight).toFixed(2)} kg`;
+          row.insertCell(1).innerHTML = `${Number(weight.weight).toFixed(2)} kg`;
 
-          const date = new Date(weight.Date);
+          const date = new Date(weight.date);
           const day = date.getDate();
           const dayPrefix = day < 10 ? "0" : "";
           const dayString = dayPrefix + day;
@@ -69,8 +69,8 @@ function getWeights() {
         const updateEvent = () => setTimeout(() => {
           const newData = weightData[index];
           console.log({newData});
-          chart.data.labels.push(newData.Date);
-          chart.data.datasets[0].data.push(newData.Weight);
+          chart.data.labels.push(newData.date);
+          chart.data.datasets[0].data.push(newData.weight);
           chart.update();
           index++;
           if (index < weightData.length) {
