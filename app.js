@@ -56,7 +56,7 @@ const server = http.createServer(async (request, response) => {
     response.writeHead(200, { "Content-Type": "application/json" });
     response.write(JSON.stringify({ message: "Ping succesful" }));
     response.end();
-  } else if (request.url === "/api/add-weight" && request.method === "GET") {
+  } else if (request.url.includes("/api/add-weight") && request.method === "GET") {
     // Get url example https://w8.boheemia.ee/api/add-weight?user=1&weight=50&date=2024-01-05
     // get params
     const url = new URL(request.url, `http://${hostname}:${port}`);
