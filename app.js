@@ -56,13 +56,14 @@ const server = http.createServer(async (request, response) => {
     response.writeHead(200, { "Content-Type": "application/json" });
     response.write(JSON.stringify({ message: "Ping succesful" }));
     response.end();
-  } else if (request.url.includes("/api/add-weight") && request.method === "GET") {
+  }
+  else if (url.includes("/api/add-weight") && request.method === "GET") {
     // Get url example https://w8.boheemia.ee/api/add-weight?user=1&weight=50&date=2024-01-05
     // get params
     console.log(url);
-    const url = new URL(request.url, `http://${hostname}:${port}`);
-    const weight = url.searchParams.get('weight');
-    const date = url.searchParams.get('date');
+    const urlB = new URL(request.url, `http://${hostname}:${port}`);
+    const weight = urlB.searchParams.get('weight');
+    const date = urlB.searchParams.get('date');
 
 // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-04', '104.5');
     const sql = `INSERT INTO weights_aa (Date, Weight) VALUES (${date}, ${weight})`;
@@ -93,11 +94,7 @@ const server = http.createServer(async (request, response) => {
         response.end();
       }
     });
-    // add weight to the table
-    let body = "";
-    console.log(request);
   } else if (request.url === "/api/get-weights" && request.method === "GET") {
-    console.log('Trying to get /get-weight');
     connection.query('SELECT * FROM weights_aa', (error, rows) => {
     if (error) {
         response.writeHead(500, { "Content-Type": "application/json" });
