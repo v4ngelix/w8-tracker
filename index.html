@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>W8-Tracker</title>
     <link rel="stylesheet" href="/styles/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/scripts/main.js"></script>
   </head>
 
   <body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="/scripts/main.js"></script>
     <main>
       <header>
         <div class="header__retro-logo-effect">
@@ -22,8 +22,7 @@
       </header>
 
       <canvas id="weightTimeSeries"></canvas>
-
-      <form action="return addWeight()">
+      <form onsubmit="addWeight()">
         <div class="form__element">
           <label for="user">User:</label>
           <div class="user-selection__container">
