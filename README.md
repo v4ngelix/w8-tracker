@@ -33,3 +33,4 @@ A lightweight weight tracking application for personal use.
 
 * Random ideas:
 * Have favicon change color based on the weight. (chart rising / crhart falling).
+* Have index.html served as a default, find out a way how to use the existing back-end without port routing.
