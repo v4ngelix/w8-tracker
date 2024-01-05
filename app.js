@@ -69,7 +69,8 @@ const server = http.createServer(
       const weight = queryParams?.weight;
       const date = queryParams?.date;
       console.log({weight, date});
-      const sql = `INSERT INTO weights_aa (Date, Weight) VALUES (${date}, ${weight})`;
+      // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-03', '103.3');
+      const sql = `INSERT INTO weights_aa (date, weight) VALUES (${date}, ${weight})`;
       connection.query(sql, (error) => {
         if (error) {
           response.writeHead(500, { "Content-Type": "application/json" });
