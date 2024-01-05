@@ -29,3 +29,7 @@ A lightweight weight tracking application for personal use.
   * Set up PM2 to keep node.js back-end running on the server.
   * NB! It seems that I'm unable to deploy node based applications on zone virtual server.
   * Find a way for continuous deployment with zone.ee server and github repository.
+
+
+* Random ideas:
+* Have favicon change color based on the weight. (chart rising / crhart falling).
