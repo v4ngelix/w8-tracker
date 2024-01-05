@@ -60,10 +60,11 @@ const server = http.createServer(async (request, response) => {
   else if (url.includes("/api/add-weight") && request.method === "GET") {
     // Get url example https://w8.boheemia.ee/api/add-weight?user=1&weight=50&date=2024-01-05
     // get params
-    console.log(url);
-    const urlB = new URL(request.url, `http://${hostname}:${port}`);
-    const weight = urlB.searchParams.get('weight');
-    const date = urlB.searchParams.get('date');
+    const params = new URL(url);
+    const weight = params.searchParams.get('weight');
+    const date = params.searchParams.get('date');
+    console.log(url, weight, date);
+
 
 // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-04', '104.5');
     const sql = `INSERT INTO weights_aa (Date, Weight) VALUES (${date}, ${weight})`;
