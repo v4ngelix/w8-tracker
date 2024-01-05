@@ -117,6 +117,7 @@ const server = http.createServer(
         }
       }
     }
+    // DELETE FROM `weights_aa` WHERE `weights_aa`.`date` = '0000-00-00';
     else if (request.url === "/api/get-weights" && request.method === "GET") {
       connection.query('SELECT * FROM weights_aa', (error, rows) => {
       if (error) {
