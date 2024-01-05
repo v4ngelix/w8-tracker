@@ -5,6 +5,7 @@
  * 3. Replace chart.js with d3
  */
 
+const API_URL = "https://w8.boheemia.ee:3000/api";
 const chartHTMLReference = document.getElementById('weightTimeSeries');
 
 const chart = new Chart(chartHTMLReference, {
@@ -29,7 +30,7 @@ document.getElementById("dateInput").valueAsDate = new Date();
 
 function getWeights() {
   let weightData = [];
-  fetch("https://w8.boheemia.ee/api/get-weights").then(response => {
+  fetch(API_URL + "/get-weights").then(response => {
       if (response.ok) {
         return response.json()
       } else {
@@ -81,7 +82,7 @@ function addWeight() {
   const date = document.getElementById("date").value;
   const weight = document.getElementById("weight").value;
   console.log({date, weight});
-  fetch(`https://w8.boheemia.ee/api/add-weight?date=${date}&weight=${weight}`).then(response => {
+  fetch(API_URL + `/add-weight?date=${date}&weight=${weight}`).then(response => {
     if (response.ok) {
       getWeights();
       return response.json()
