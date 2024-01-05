@@ -56,7 +56,42 @@ const server = http.createServer(async (request, response) => {
     response.writeHead(200, { "Content-Type": "application/json" });
     response.write(JSON.stringify({ message: "Ping succesful" }));
     response.end();
-  } else if (request.url === "/api/add-weight" && request.method === "POST") {
+  } else if (request.url === "/api/add-weight" && request.method === "GET") {
+    // Get url example https://w8.boheemia.ee/api/add-weight?user=1&weight=50&date=2024-01-05
+    // get params
+    const url = new URL(request.url, `http://${hostname}:${port}`);
+    const weight = url.searchParams.get('weight');
+    const date = url.searchParams.get('date');
+
+// INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-04', '104.5');
+    const sql = `INSERT INTO 'weights_aa' (Date, Weight) VALUES (${date}, ${weight})`;
+    connection.query(sql, (error) => {
+      if (error) {
+        response.writeHead(500, { "Content-Type": "application/json" });
+        response.write(JSON.stringify({ message: "Error: " + error }));
+        response.end();
+      }
+      // if date already exists, update the weight
+      else if (error.code === 'ER_DUP_ENTRY') {
+        const sql = `UPDATE weights_aa SET weight=${weight} WHERE date='${date}'`;
+        connection.query(sql, (error) => {
+          if (error) {
+            response.writeHead(500, { "Content-Type": "application/json" });
+            response.write(JSON.stringify({ message: "Error: " + error }));
+            response.end();
+          } else {
+            response.writeHead(200, { "Content-Type": "application/json" });
+            response.write(JSON.stringify({ message: "Weight updated" }));
+            response.end();
+          }
+        });
+      }
+      else {
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.write(JSON.stringify({ message: "Weight added" }));
+        response.end();
+      }
+    });
     // add weight to the table
     let body = "";
     console.log(request);
