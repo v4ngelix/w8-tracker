@@ -30,7 +30,7 @@ document.getElementById("dateInput").valueAsDate = new Date();
 
 function getWeights() {
   let weightData = [];
-  fetch(API_URL + "/get-weights").then(response => {
+  fetch(API_URL + '/get-weights').then(response => {
       if (response.ok) {
         return response.json()
       } else {
@@ -74,6 +74,20 @@ function getWeights() {
 
       updateEvent(index);
     });
+}
+
+function addWeight() {
+  const date = document.getElementById("dateInput").value;
+  const weight = document.getElementById("weightInput").value;
+  console.log({ date, weight });
+  fetch(API_URL + `/add-weight?date=${date}&weight=${weight}`).then(response => {
+    if (response.ok) {
+      getWeights();
+      console.log('save response', response.json());
+    } else {
+      throw new Error("Something went wrong");
+    }
+  })
 }
 
 getWeights();

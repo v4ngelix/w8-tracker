@@ -110,23 +110,6 @@
         </tbody>
       </table>
     </main>
-
-  <script>
-    function addWeight() {
-      const date = document.getElementById("dateInput").value;
-      const weight = document.getElementById("weightInput").value;
-      console.log({date, weight});
-      fetch(`https://w8.boheemia.ee/api/add-weight?date=${date}&weight=${weight}`).then(response => {
-        if (response.ok) {
-          getWeights();
-          return response.json()
-        } else {
-          throw new Error("Something went wrong");
-        }
-      })
-    }
-  </script>
-
-  <script src="/scripts/main.js"></script>
+    <script src="/scripts/main.js"></script>
   </body>
 </html>
