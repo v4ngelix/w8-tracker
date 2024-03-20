@@ -26,6 +26,7 @@ const server = http.createServer(
 
     const { url, method, } = request;
     console.log('Incoming url: ', url);
+    console.log('request: ', request);
     const requestPath = url.split('/').slice(1);
 
     if (request.url === '/' && method === 'GET') {
