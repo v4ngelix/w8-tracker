@@ -28,7 +28,6 @@ const server = http.createServer(
     const requestPath = url.split('/').slice(1);
 
     console.log('Incoming url: ', url);
-    /*
     if (request.url === '/' && method === 'GET') {
       const indexPath = path.join(__dirname, 'index.html')
       fs.readFile(indexPath, (err, data) => {
@@ -64,7 +63,7 @@ const server = http.createServer(
       response.write(JSON.stringify({ message: "Ping succesful" }));
       response.end();
     }
-    else */if (url.includes("/api/add-weight") && request.method === "GET") {
+    else if (url.includes("/api/add-weight") && request.method === "GET") {
       const parsedUrl = Url.parse(url);
       const queryParams = querystring.parse(parsedUrl.query);
       const weight = queryParams?.weight;
