@@ -25,9 +25,9 @@ const server = http.createServer(
     response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
     const { url, method, } = request;
+    console.log('Incoming url: ', url);
     const requestPath = url.split('/').slice(1);
 
-    console.log('Incoming url: ', url);
     if (request.url === '/' && method === 'GET') {
       const indexPath = path.join(__dirname, 'index.html')
       fs.readFile(indexPath, (err, data) => {
