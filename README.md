@@ -18,8 +18,6 @@ A lightweight weight tracking application for personal use.
   * Finish up the form.
 * BE:
   * Learn RESTful by building API endpoints with pure node.js.
-  * NB! First try was unsuccesful. might try Django and server side rendering instead.
-  * Return mock data
   * Use proxying to avoid cors issues.
     * Get root path from .env file.
   * Retrieve data from a SQL database.
