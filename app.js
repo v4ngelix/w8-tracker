@@ -63,6 +63,7 @@ const server = http.createServer(
       response.write(JSON.stringify({ message: "Ping succesful" }));
       response.end();
     }
+
     else if (requestPath[0] === 'api') {
       const endPoint = requestPath?.[1] ?? '';
       console.log('It is an API request', endPoint);
@@ -85,6 +86,7 @@ const server = http.createServer(
         }
 
         if (exists) {
+          console.log('Trying to update');
           // UPDATE `weights_aa` SET `weight` = '103.3' WHERE `weights_aa`.`date` = '2024-01-02';
           const sql = `UPDATE weights_aa SET weight=${weight} WHERE date='${date}'`;
           try {
@@ -103,6 +105,7 @@ const server = http.createServer(
             console.log('Error while updating existing value', error);
           }
         } else {
+          console.log('Trying to insert');
           const sql = `INSERT INTO weights_aa (date, weight) VALUES ('${date}', ${weight})`;
           try {
             connection.query(sql, (error) => {
