@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const Url  = require('url');
+const getWeights = require('./controls/getWeights');
 
 const connection = mysql.createConnection({
   host: 'd66029.mysql.zonevs.eu',
