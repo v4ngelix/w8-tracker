@@ -64,8 +64,8 @@ const server = http.createServer(
       response.end();
     }
     else if (requestPath[0] === 'api') {
-      console.log('It is an API request', endPoint);
       const endPoint = requestPath?.[1] ?? '';
+      console.log('It is an API request', endPoint);
 
       if (endPoint.includes("addWeight") && request.method === "GET") {
         const parsedUrl = Url.parse(url);
