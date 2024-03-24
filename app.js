@@ -100,7 +100,7 @@ const server = http.createServer(
               }
             });
           } catch (error) {
-            console.log('Error in query', error);
+            console.log('Error while updating existing value', error);
           }
         } else {
           const sql = `INSERT INTO weights_aa (date, weight) VALUES ('${date}', ${weight})`;
@@ -117,7 +117,7 @@ const server = http.createServer(
               }
             });
           } catch (error) {
-            console.log('Error in query', error);
+            console.log('Error while adding new value', error);
           }
         }
       }
