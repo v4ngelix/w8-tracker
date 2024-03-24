@@ -23,7 +23,7 @@
 
       <canvas id="weightTimeSeries"></canvas>
 
-      <form onsubmit="addWeight()">
+      <form>
         <!-- Temporarily remove
         <div class="form__element">
           <label for="user">User:</label>
@@ -67,7 +67,11 @@
         </div>
 
         <div class="form__element">
-          <input type="submit" value="Submit">
+          <input
+            type="submit"
+            value="Submit"
+            onclick="addWeight()"
+          >
         </div>
       </form>
 
