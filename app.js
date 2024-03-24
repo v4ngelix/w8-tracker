@@ -25,9 +25,8 @@ const server = http.createServer(
     response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
     const { url, method, } = request;
-    console.log('Incoming url: ', url);
-    console.log('request: ', request);
     const requestPath = url.split('/').slice(1);
+    console.log('Incoming url: ', url, requestPath, method);
 
     if (request.url === '/' && method === 'GET') {
       const indexPath = path.join(__dirname, 'index.html')
