@@ -85,11 +85,11 @@ function addWeight() {
   console.log(addWeightUrl);
   fetch(addWeightUrl).then(response => {
     if (response.ok) {
-      // getWeights();
+      getWeights();
       console.log('save response', response.json());
-    } else {
-      throw new Error("Something went wrong");
     }
+  }).catch(error => {
+    console.error(error);
   })
 }
 
