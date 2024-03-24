@@ -64,7 +64,7 @@ const server = http.createServer(
       response.end();
     }
     else if (requestPath[0] === 'api') {
-      const endPoint = requestPath[1] ?? '';
+      const endPoint = requestPath?.[1] ?? '';
       console.log('It is an API request', endPoint);
 
 
