@@ -64,10 +64,9 @@ const server = http.createServer(
       response.end();
     }
     else if (requestPath[0] === 'api') {
-      const endPoint = requestPath?.[1] ?? '';
       console.log('It is an API request', endPoint);
 
-      if (requestPath?.[1]?.includes("addWeight") && request.method === "GET") {
+      if (requestPath[1].includes("addWeight") && request.method === "GET") {
         const parsedUrl = Url.parse(url);
         const queryParams = querystring.parse(parsedUrl.query);
         const weight = queryParams?.weight;
@@ -124,7 +123,7 @@ const server = http.createServer(
     }
 
     // DELETE FROM `weights_aa` WHERE `weights_aa`.`date` = '0000-00-00';
-    if (requestPath?.[1]?.includes("getWeights") && request.method === "GET") {
+    if ( requestPath[1].includes("getWeights") && request.method === "GET") {
       connection.query('SELECT * FROM weights_aa', (error, rows) => {
       if (error) {
           response.writeHead(500, { "Content-Type": "application/json" });
