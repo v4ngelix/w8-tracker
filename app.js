@@ -63,60 +63,65 @@ const server = http.createServer(
       response.write(JSON.stringify({ message: "Ping succesful" }));
       response.end();
     }
-    else if (url.includes("/api/add-weight") && request.method === "GET") {
-      const parsedUrl = Url.parse(url);
-      const queryParams = querystring.parse(parsedUrl.query);
-      const weight = queryParams?.weight;
-      const date = queryParams?.date;
-      console.log({weight, date});
-      // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-03', '103.3');
-      let exists = false;
-      try {
-        connection.query(`SELECT * FROM weights_aa WHERE date = '${date}'`, (error, rows) => {
-          console.log("Existing values:", rows, rows.length > 0);
-          exists = rows.length > 0;
-        });
-      } catch (error) {
-        console.log('Error in query', error);
-      }
+    else if (requestPath[0] === 'api') {
+      console.log('It is an API request');
 
-      if (exists) {
-        // UPDATE `weights_aa` SET `weight` = '103.3' WHERE `weights_aa`.`date` = '2024-01-02';
-        const sql = `UPDATE weights_aa SET weight=${weight} WHERE date='${date}'`;
+      if (requestPath[2].includes("add-weight") && request.method === "GET") {
+        const parsedUrl = Url.parse(url);
+        const queryParams = querystring.parse(parsedUrl.query);
+        const weight = queryParams?.weight;
+        const date = queryParams?.date;
+        console.log({weight, date});
+        // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-03', '103.3');
+        let exists = false;
         try {
-          connection.query(sql, (error) => {
-            if (error) {
-              response.writeHead(500, { "Content-Type": "application/json" });
-              response.write(JSON.stringify({ message: "Error: " + error }));
-              response.end();
-            } else {
-              response.writeHead(200, { "Content-Type": "application/json" });
-              response.write(JSON.stringify({ message: "Weight updated" }));
-              response.end();
-            }
+          connection.query(`SELECT * FROM weights_aa WHERE date = '${date}'`, (error, rows) => {
+            console.log("Existing values:", rows, rows.length > 0);
+            exists = rows.length > 0;
           });
         } catch (error) {
           console.log('Error in query', error);
         }
-      } else {
-        const sql = `INSERT INTO weights_aa (date, weight) VALUES ('${date}', ${weight})`;
-        try {
-          connection.query(sql, (error) => {
-            if (error) {
-              response.writeHead(500, { "Content-Type": "application/json" });
-              response.write(JSON.stringify({ message: "Error: " + error }));
-              response.end();
-            } else {
-              response.writeHead(200, { "Content-Type": "application/json" });
-              response.write(JSON.stringify({ message: "Weight added" }));
-              response.end();
-            }
-          });
-        } catch (error) {
-          console.log('Error in query', error);
+
+        if (exists) {
+          // UPDATE `weights_aa` SET `weight` = '103.3' WHERE `weights_aa`.`date` = '2024-01-02';
+          const sql = `UPDATE weights_aa SET weight=${weight} WHERE date='${date}'`;
+          try {
+            connection.query(sql, (error) => {
+              if (error) {
+                response.writeHead(500, { "Content-Type": "application/json" });
+                response.write(JSON.stringify({ message: "Error: " + error }));
+                response.end();
+              } else {
+                response.writeHead(200, { "Content-Type": "application/json" });
+                response.write(JSON.stringify({ message: "Weight updated" }));
+                response.end();
+              }
+            });
+          } catch (error) {
+            console.log('Error in query', error);
+          }
+        } else {
+          const sql = `INSERT INTO weights_aa (date, weight) VALUES ('${date}', ${weight})`;
+          try {
+            connection.query(sql, (error) => {
+              if (error) {
+                response.writeHead(500, { "Content-Type": "application/json" });
+                response.write(JSON.stringify({ message: "Error: " + error }));
+                response.end();
+              } else {
+                response.writeHead(200, { "Content-Type": "application/json" });
+                response.write(JSON.stringify({ message: "Weight added" }));
+                response.end();
+              }
+            });
+          } catch (error) {
+            console.log('Error in query', error);
+          }
         }
       }
     }
+
     // DELETE FROM `weights_aa` WHERE `weights_aa`.`date` = '0000-00-00';
     else if (request.url === "/api/get-weights" && request.method === "GET") {
       connection.query('SELECT * FROM weights_aa', (error, rows) => {
