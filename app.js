@@ -124,7 +124,17 @@ const server = http.createServer(
 
       // DELETE FROM `weights_aa` WHERE `weights_aa`.`date` = '0000-00-00';
       if (endPoint.includes("getWeights") && request.method === "GET") {
-        getWeights(response);
+        connection.query('SELECT * FROM weights_aa', (error, rows) => {
+        if (error) {
+            response.writeHead(500, { "Content-Type": "application/json" });
+            response.write(JSON.stringify({ message: "Error: " + error }));
+            response.end();
+          } else {
+            response.writeHead(200, { "Content-Type": "application/json" });
+            response.write(JSON.stringify(rows));
+            response.end();
+          }
+        });
       } else {
         response.writeHead(404, { "Content-Type": "application/json" });
         response.write(JSON.stringify({ message: "Not found" }));
