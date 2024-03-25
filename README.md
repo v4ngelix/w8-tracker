@@ -13,6 +13,7 @@ A lightweight weight tracking application for personal use.
 ## TODO:
 * FE
   * Replace chart.js with d3.js.
+  * Adding value will make the chart to add the whole dataset again.
   * Have a nice looking and well animated chart.
   * Use separate urls for me and her weights?
   * Finish up the form.
