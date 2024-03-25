@@ -28,6 +28,10 @@ const chart = new Chart(chartHTMLReference, {
 
 document.getElementById("dateInput").valueAsDate = new Date();
 
+function rerenderChartAndTable() {
+  // TODO: Have an separate method for updating view.
+}
+
 function getWeights() {
   let weightData = [];
   const getWeightsUrl = API_URL + '/getWeights';
@@ -58,7 +62,9 @@ function getWeights() {
       const monthString = monthPrefix + month;
       const year = String(date.getFullYear()).slice(2, 4);
       row.insertCell(2).innerHTML = `${dayString}.${monthString}.${year}`;
-      row.insertCell(3).innerHTML = "";
+      row.insertCell(3).innerHTML = (
+        `<button onclick="deleteWeight('${weight.date}')">Delete</button>`
+      );
     });
 
     let index = 0;
@@ -84,6 +90,18 @@ function addWeight() {
   const addWeightUrl = API_URL + `/addWeight?date=${ date }&weight=${ weight }`;
   console.log(addWeightUrl);
   fetch(addWeightUrl).then(response => {
+    if (response.ok) {
+      getWeights();
+      console.log('save response', response.json());
+    }
+  }).catch(error => {
+    console.error(error);
+  })
+}
+
+function deleteWeight(date) {
+  const deleteWeightUrl = API_URL + `/deleteWeight/${ date }`;
+  fetch(deleteWeightUrl).then(response => {
     if (response.ok) {
       getWeights();
       console.log('save response', response.json());
