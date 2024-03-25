@@ -23,6 +23,12 @@ A lightweight weight tracking application for personal use.
   * Set up typescript compilation
   * Enable sorting table by date and weight (reuse getWEights function with sorting override?) 
   * have rendering method separate from the data fetching method.
+  * Show up to 7 last days weight as "open".
+  * Other weights group based by week. Should be displayed in the table as collapsible rows.
+  * Chart should show the whole dataset, or maybe 7 day averages from the beginning?
+  * or maybe have it toggleable, show all or the previous 365 days.
+  * Somewhat same with the table. Table shouldnt be too long
+  * Where does the 7 day average calculation take place? Save it to DB? or calculate on the fly in BE or FE?
   * Add "Estimated date for desired weight achieved" prediction.
     * Show weight trend (probably based on 7 day average).
     * Have favicon change color based on the weight. (chart rising / crhart falling).
