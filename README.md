@@ -20,6 +20,8 @@ A lightweight weight tracking application for personal use.
   * Enable updating weights
   * Add a BMI chart.
   * Set up typescript compilation
+  * Enable sorting table by date and weight (reuse getWEights function with sorting override?) 
+  * have rendering method separate from the data fetching method.
   * Add "Estimated date for desired weight achieved" prediction.
     * Show weight trend (probably based on 7 day average).
     * Have favicon change color based on the weight. (chart rising / crhart falling).
