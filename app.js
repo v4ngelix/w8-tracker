@@ -39,7 +39,8 @@ const server = http.createServer(
           response.end(data);
         }
       });
-    } else if (['assets', 'styles', 'scripts', 'favicon.ico'].includes(requestPath[0]) && method === 'GET') {
+    }
+    else if (['assets', 'styles', 'scripts', 'favicon.ico'].includes(requestPath[0]) && method === 'GET') {
       const filePath = path.join(__dirname, ...requestPath)
       fs.readFile(filePath, (err, data) => {
         if (err) {
@@ -78,9 +79,9 @@ const server = http.createServer(
           connection.query(`SELECT * FROM weights_aa WHERE date = '${date}'`, (error, rows) => {
             console.log("Existing values:", rows, rows.length > 0);
             if (rows.length > 0) {
-              updateValues(date, weight);
+              updateValues(response, date, weight);
             } else {
-              addValues(date, weight);
+              addValues(response, date, weight);
             }
           });
         } catch (error) {
@@ -130,7 +131,7 @@ const server = http.createServer(
   }
 );
 
-updateValues = (date, weight) => {
+updateValues = (response, date, weight) => {
   console.log('Trying to update', date);
   const sql = `UPDATE 'weights_aa' SET 'weight' = '${ weight }' WHERE 'weights_aa'.'date' = '${date}'`;
   console.log({ sql });
@@ -151,7 +152,7 @@ updateValues = (date, weight) => {
   }
 }
 
-addValues = (date, weight) => {
+addValues = (response, date, weight) => {
   console.log('Trying to insert');
   const sql = `INSERT INTO weights_aa (date, weight) VALUES ('${date}', ${weight})`;
   try {
