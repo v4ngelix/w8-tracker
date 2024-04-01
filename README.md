@@ -10,24 +10,25 @@ A lightweight weight tracking application for personal use.
 * Learn new technologies.
 * Set up a RESTful application from scratch.
  
-## TODO:
+## Roadmap / TODO:
 * FE
+  1. fix an issue where on adding a weight the chart has keeps adding new data to the existing dataset.
   * Replace chart.js with d3.js.
   * Adding value will make the chart to add the whole dataset again.
   * Have a nice looking and well animated chart.
   * Use separate urls for me and her weights?
   * Finish up the form.
-  * Enable deleting of weight
-  * Enable updating weights
+  * Enable deleting of weight.
+  * Enable updating weights.
   * Add a BMI chart.
-  * Set up typescript compilation
-  * Enable sorting table by date and weight (reuse getWEights function with sorting override?) 
+  * Set up typescript compilation.
+  * Enable sorting table by date and weight (reuse getWEights function with sorting override?) .
   * have rendering method separate from the data fetching method.
   * Show up to 7 last days weight as "open".
   * Other weights group based by week. Should be displayed in the table as collapsible rows.
   * Chart should show the whole dataset, or maybe 7 day averages from the beginning?
   * or maybe have it toggleable, show all or the previous 365 days.
-  * Somewhat same with the table. Table shouldnt be too long
+  * Somewhat same with the table. Table shouldn't be too long.
   * Where does the 7 day average calculation take place? Save it to DB? or calculate on the fly in BE or FE?
   * Add "Estimated date for desired weight achieved" prediction.
     * Show weight trend (probably based on 7 day average).
@@ -36,12 +37,11 @@ A lightweight weight tracking application for personal use.
     * Might not be possible to use several ports on zone.ee server.
 
 * BE:
-  * Set up typescript compilation
-  * Learn RESTful by building API endpoints with pure node.js.
-  * Use proxying to avoid cors issues.
-    * Get root path from .env file.
-  * Retrieve data from a SQL database.
-    * Save credentials in a .env file.
+  1. Set up typescript compilation.
+  2.Use proxying to avoid cors issues.
+  3. Get root path from .env file.
+  4. Remove credentials from the code, read them from an .env file.
+  5. Enable deleting weights.
 
 * DEVOPS:
   * Try Github webhooks. (POST query after events)
