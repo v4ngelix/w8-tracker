@@ -70,8 +70,8 @@ function getWeights() {
     let index = 0;
     const updateEvent = () => setTimeout(() => {
       const newData = weightData[index];
-      chart.data.labels.push(newData.date);
-      chart.data.datasets[0].data.push(newData.weight);
+      chart.data.labels = newData.date;
+      chart.data.datasets[0].data = newData.weight;
       chart.update();
       index++;
       if (index < weightData.length) {
