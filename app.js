@@ -74,10 +74,8 @@ const server = http.createServer(
         const queryParams = querystring.parse(parsedUrl.query);
         const weight = queryParams?.weight;
         const date = queryParams?.date;
-        console.log({weight, date});
         try {
           connection.query(`SELECT * FROM weights_aa WHERE date = '${date}'`, (error, rows) => {
-            console.log("Existing values:", rows, rows.length > 0);
             if (rows.length > 0) {
               updateValues(response, date, weight);
             } else {
