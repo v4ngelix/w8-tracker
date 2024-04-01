@@ -135,6 +135,27 @@ const server = http.createServer(
             response.end();
           }
         });
+      } else if (request.method === "DELETE") {
+        const parsedUrl = Url.parse(url);
+        const queryParams = querystring.parse(parsedUrl.query);
+        const date = queryParams?.date;
+        console.log({date});
+        const sql = `DELETE FROM weights_aa WHERE date = '${date}'`;
+        try {
+          connection.query(sql, (error) => {
+            if (error) {
+              response.writeHead(500, { "Content-Type": "application/json" });
+              response.write(JSON.stringify({ message: "Error: " + error }));
+              response.end();
+            } else {
+              response.writeHead(200, { "Content-Type": "application/json" });
+              response.write(JSON.stringify({ message: "Weight deleted" }));
+              response.end();
+            }
+          });
+        } catch (error) {
+          console.log('Error while deleting value', error);
+        }
       } else {
         response.writeHead(404, { "Content-Type": "application/json" });
         response.write(JSON.stringify({ message: "Not found" }));
