@@ -74,54 +74,17 @@ const server = http.createServer(
         const weight = queryParams?.weight;
         const date = queryParams?.date;
         console.log({weight, date});
-        let exists = false;
         try {
           connection.query(`SELECT * FROM weights_aa WHERE date = '${date}'`, (error, rows) => {
             console.log("Existing values:", rows, rows.length > 0);
-            exists = rows.length > 0;
+            if (rows.length > 0) {
+              updateValues(date, weight);
+            } else {
+              addValues(date, weight);
+            }
           });
         } catch (error) {
           console.log('Error in query', error);
-        }
-
-        console.log({ exists })
-        if (exists) {
-          console.log('Trying to update', date);
-          const sql = `UPDATE 'weights_aa' SET 'weight' = '${ weight }' WHERE 'weights_aa'.'date' = '${date}'`;
-          console.log({ sql });
-          try {
-            connection.query(sql, (error) => {
-              if (error) {
-                response.writeHead(500, { "Content-Type": "application/json" });
-                response.write(JSON.stringify({ message: "Error: " + error }));
-                response.end();
-              } else {
-                response.writeHead(200, { "Content-Type": "application/json" });
-                response.write(JSON.stringify({ message: "Weight updated" }));
-                response.end();
-              }
-            });
-          } catch (error) {
-            console.log('Error while updating existing value', error);
-          }
-        } else {
-          console.log('Trying to insert');
-          const sql = `INSERT INTO weights_aa (date, weight) VALUES ('${date}', ${weight})`;
-          try {
-            connection.query(sql, (error) => {
-              if (error) {
-                response.writeHead(500, { "Content-Type": "application/json" });
-                response.write(JSON.stringify({ message: "Error: " + error }));
-                response.end();
-              } else {
-                response.writeHead(200, { "Content-Type": "application/json" });
-                response.write(JSON.stringify({ message: "Weight added" }));
-                response.end();
-              }
-            });
-          } catch (error) {
-            console.log('Error while adding new value', error);
-          }
         }
       }
       else if (endPoint.includes("getWeights") && request.method === "GET") {
@@ -163,11 +126,50 @@ const server = http.createServer(
         response.write(JSON.stringify({ message: "Not found" }));
         response.end();
       }
-
-      // DELETE FROM `weights_aa` WHERE `weights_aa`.`date` = '0000-00-00';
     }
   }
 );
+
+updateValues = (date, weight) => {
+  console.log('Trying to update', date);
+  const sql = `UPDATE 'weights_aa' SET 'weight' = '${ weight }' WHERE 'weights_aa'.'date' = '${date}'`;
+  console.log({ sql });
+  try {
+    connection.query(sql, (error) => {
+      if (error) {
+        response.writeHead(500, { "Content-Type": "application/json" });
+        response.write(JSON.stringify({ message: "Error: " + error }));
+        response.end();
+      } else {
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.write(JSON.stringify({ message: "Weight updated" }));
+        response.end();
+      }
+    });
+  } catch (error) {
+    console.log('Error while updating existing value', error);
+  }
+}
+
+addValues = (date, weight) => {
+  console.log('Trying to insert');
+  const sql = `INSERT INTO weights_aa (date, weight) VALUES ('${date}', ${weight})`;
+  try {
+    connection.query(sql, (error) => {
+      if (error) {
+        response.writeHead(500, { "Content-Type": "application/json" });
+        response.write(JSON.stringify({ message: "Error: " + error }));
+        response.end();
+      } else {
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.write(JSON.stringify({ message: "Weight added" }));
+        response.end();
+      }
+    });
+  } catch (error) {
+    console.log('Error while adding new value', error);
+  }
+}
 
 connection.connect((error) => {
   if (error) {
