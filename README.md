@@ -36,6 +36,8 @@ A lightweight weight tracking application for personal use.
   * Have index.html served as a default, find out a way how to use the existing back-end without port routing.
     * Might not be possible to use several ports on zone.ee server.
   * Fix data updating.  
+  * * https://date-fns.org/v3.6.0/docs/eachWeekOfInterval
+  * Radio button for toggling differente types of chart modes.
 
 * BE:
   1. Set up typescript compilation.
