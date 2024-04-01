@@ -74,7 +74,6 @@ const server = http.createServer(
         const weight = queryParams?.weight;
         const date = queryParams?.date;
         console.log({weight, date});
-        // INSERT INTO `weights_aa` (`Date`, `Weight`) VALUES ('2024-01-03', '103.3');
         let exists = false;
         try {
           connection.query(`SELECT * FROM weights_aa WHERE date = '${date}'`, (error, rows) => {
