@@ -89,9 +89,12 @@ function addWeight() {
   console.log({ date, weight });
   const addWeightUrl = API_URL + `/addWeight?date=${ date }&weight=${ weight }`;
   console.log(addWeightUrl);
-  fetch(addWeightUrl, {
-    method: "DELETE"
-  }).then(response => {
+  fetch(
+    {
+      method: "GET",
+      url: addWeightUrl
+    }
+  ).then(response => {
     if (response.ok) {
       getWeights();
       console.log('save response', response.json());
