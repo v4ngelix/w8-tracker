@@ -133,7 +133,7 @@ const server = http.createServer(
 
 updateValues = (response, date, weight) => {
   console.log('Trying to update', date);
-  const sql = `UPDATE 'weights_aa' SET 'weight' = '${ weight }' WHERE 'weights_aa'.'date' = '${date}'`;
+  const sql = `UPDATE weights_aa SET weight=${ weight } WHERE weights_aa.date=${date}`;
   console.log({ sql });
   try {
     connection.query(sql, (error) => {
