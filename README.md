@@ -35,6 +35,7 @@ A lightweight weight tracking application for personal use.
     * Have favicon change color based on the weight. (chart rising / crhart falling).
   * Have index.html served as a default, find out a way how to use the existing back-end without port routing.
     * Might not be possible to use several ports on zone.ee server.
+  * Fix data updating.  
 
 * BE:
   1. Set up typescript compilation.
