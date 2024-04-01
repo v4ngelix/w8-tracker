@@ -18,7 +18,6 @@ A lightweight weight tracking application for personal use.
   * Have a nice looking and well animated chart.
   * Use separate urls for me and her weights?
   * Finish up the form.
-  * Enable deleting of weight.
   * Enable updating weights.
   * Add a BMI chart.
   * Set up typescript compilation.
