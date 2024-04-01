@@ -101,7 +101,10 @@ function addWeight() {
 
 function deleteWeight(date) {
   const deleteWeightUrl = API_URL + `/deleteWeight/${ date }`;
-  fetch(deleteWeightUrl).then(response => {
+  fetch({
+    method: "DELETE",
+    url: deleteWeightUrl
+  }).then(response => {
     if (response.ok) {
       getWeights();
       console.log('save response', response.json());
