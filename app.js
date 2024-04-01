@@ -84,6 +84,7 @@ const server = http.createServer(
           console.log('Error in query', error);
         }
 
+        console.log({ exists })
         if (exists) {
           console.log('Trying to update', date);
           const sql = `UPDATE 'weights_aa' SET 'weight' = '${ weight }' WHERE 'weights_aa'.'date' = '${date}'`;
