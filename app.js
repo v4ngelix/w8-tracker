@@ -123,7 +123,8 @@ const server = http.createServer(
             console.log('Error while adding new value', error);
           }
         }
-      } else if (endPoint.includes("getWeights") && request.method === "GET") {
+      }
+      else if (endPoint.includes("getWeights") && request.method === "GET") {
         connection.query('SELECT * FROM weights_aa', (error, rows) => {
         if (error) {
             response.writeHead(500, { "Content-Type": "application/json" });
@@ -135,7 +136,8 @@ const server = http.createServer(
             response.end();
           }
         });
-      } else if (request.method === "DELETE") {
+      }
+      else if (endPoint.includes("deleteWeight") && request.method === "GET") {
         const parsedUrl = Url.parse(url);
         const queryParams = querystring.parse(parsedUrl.query);
         const date = queryParams?.date;
