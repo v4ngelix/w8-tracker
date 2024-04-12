@@ -4,8 +4,9 @@ const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const Url  = require('url');
+const envFile = require('dotenv').config().parsed;
 
-
+console.log(envFile);
 console.log('direct access to env', process.env);
 
 const {
@@ -13,7 +14,7 @@ const {
   USER,
   PASSWORD,
   DATABASE
-} = process.env;
+} = envFile;
 const connection = mysql.createConnection({
   host: HOST,
   user: USER,
