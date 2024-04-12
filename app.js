@@ -4,6 +4,18 @@ const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const Url  = require('url');
+
+/* TODO
+  Replace dotenv use with vanilla node.js solution when the server'
+  node version is updated from 18.20.1 to at least 20.6.0.
+
+  More about it here:
+  https://nodejs.org/dist/latest-v20.x/docs/api/cli.html#--env-fileconfig
+
+  If node is updated, start the application through pm2 like this:
+  pm2 start app.js -- --env-file=.env
+*/
+
 const envFile = require('dotenv').config().parsed;
 
 console.log(envFile);
