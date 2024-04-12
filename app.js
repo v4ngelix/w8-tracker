@@ -4,18 +4,19 @@ const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const Url  = require('url');
-const kana = require('dotenv').config();
+const envFile = require('dotenv').config().parsed;
 
-console.log('env log', {
-  kana,
-  process: process.env
-});
-
+const {
+  HOST,
+  USER,
+  PASSWORD,
+  DATABASE
+} = envFile;
 const connection = mysql.createConnection({
-  host: 'd66029.mysql.zonevs.eu',
-  user: 'd66029_w8app',
-  password: 'NoGainNoPain',
-  database: 'd66029_weight',
+  host: HOST,
+  user: USER,
+  password: PASSWORD,
+  database: DATABASE,
 });
 
 // const hostname = '127.0.0.1';
