@@ -5,7 +5,7 @@ const fs = require('fs');
 const querystring = require('querystring');
 const Url  = require('url');
 const envFile = require('dotenv').config().parsed;
-
+console.log(envFile);
 const {
   HOST,
   USER,
