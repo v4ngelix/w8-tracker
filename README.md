@@ -1,49 +1,54 @@
 # W8-Tracker
 
 ## Description:
-A lightweight weight tracking application for personal use.
+A lightweight weight tracking application for personal use. 
 
 ## Goals:
-* Make tracking personal body weight and BMI over long period of more convenient.
-  * Provide a simple interface for inputting weight - A simple website or a desktop application for daily measures.
-  * Save the data in a database for the long-term storage - *Thus the weight data would be kept even if a journal or a piece of paper is lost.*
-* Learn new technologies.
-* Set up a RESTful application from scratch.
+* Make tracking personal body weight and BMI over long period more convenient chore.
+  * Provide a simple interface for inserting, updating and deleting weights.
+  * Save the data in a database for the long-term storage.
+* Learn new technologies:
+  * Low-level full-stack application.
+  * Set up a RESTful application from scratch.
+  * Deal with all the nitty-gritty details of the application, without the help of any frameworks.
  
 ## Roadmap / TODO:
 * FE
-  1. fix an issue where on adding a weight the chart has keeps adding new data to the existing dataset.
-  * Replace chart.js with d3.js.
-  * Adding value will make the chart to add the whole dataset again.
-  * Have a nice looking and well animated chart.
-  * Use separate urls for me and her weights?
-  * Finish up the form.
-  * Enable updating weights.
-  * Add a BMI chart.
-  * Set up typescript compilation.
-  * Enable sorting table by date and weight (reuse getWEights function with sorting override?) .
-  * have rendering method separate from the data fetching method.
-  * Show up to 7 last days weight as "open".
-  * Other weights group based by week. Should be displayed in the table as collapsible rows.
-  * Chart should show the whole dataset, or maybe 7 day averages from the beginning?
-  * or maybe have it toggleable, show all or the previous 365 days.
-  * Somewhat same with the table. Table shouldn't be too long.
-  * Where does the 7 day average calculation take place? Save it to DB? or calculate on the fly in BE or FE?
+  * Fix an issue where on adding a weight the chart has keeps adding new data to the existing dataset.
+  * Chart:
+    * Replace chart.js with d3.js.
+    * Have a nice looking and well animated chart.
+    * Add a BMI chart.
+    * Highlight first days of the week?
+    * Chart should show the whole dataset, or maybe 7 day averages from the beginning?
   * Add "Estimated date for desired weight achieved" prediction.
     * Show weight trend (probably based on 7 day average).
     * Have favicon change color based on the weight. (chart rising / crhart falling).
+  * Adding value will make the chart to add the whole dataset again.
+  * Use separate urls for me and her weights?
+  * Finish up the form.
+  * Enable updating weights.
+  * Set up typescript compilation.
+  * Enable sorting table by date and weight (reuse getWEights function with sorting override?) .
+  * have rendering method separate from the data fetching method.
+  * Show up to 7 last days weight as "open" or two weeks.
+  * Other weights group based by week. Should be displayed in the table as collapsible rows.
+  * or maybe have it toggleable, show all or the previous 365 days.
+  * Somewhat same with the table. Table shouldn't be too long.
+  * Where does the 7 day average calculation take place? Save it to DB? or calculate on the fly in BE or FE?
   * Have index.html served as a default, find out a way how to use the existing back-end without port routing.
     * Might not be possible to use several ports on zone.ee server.
   * Fix data updating.  
   * * https://date-fns.org/v3.6.0/docs/eachWeekOfInterval
   * Radio button for toggling differente types of chart modes.
+  * Try out webcomponents.
+  * Save view settings to localstorage
 
 * BE:
   1. Set up typescript compilation.
-  2.Use proxying to avoid cors issues.
+  2. Use proxying to avoid cors issues.
   3. Get root path from .env file.
-  4. Remove credentials from the code, read them from an .env file.
-  5. Enable deleting weights.
+  4. Enable modular code writing, separate code to different files.
 
 * DEVOPS:
   * Try Github webhooks. (POST query after events)
