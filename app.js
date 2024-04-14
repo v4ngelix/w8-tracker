@@ -8,13 +8,13 @@ const muna = require('./test');
 
 const {
   HOST,
-  USER,
+  DBUSER,
   PASSWORD,
   DATABASE
 } = process.env;
 const connection = mysql.createConnection({
   host: HOST,
-  user: USER,
+  user: DBUSER,
   password: PASSWORD,
   database: DATABASE,
 });
