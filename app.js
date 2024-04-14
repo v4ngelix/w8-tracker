@@ -19,7 +19,7 @@ const connection = mysql.createConnection({
   database: DATABASE,
 });
 
-console.log('test value', muna.test());
+console.log(process.env);
 
 // const hostname = '127.0.0.1';
 const hostname = 'localhost';
