@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const Url  = require('url');
+const muna = require('./test');
 
 const {
   HOST,
@@ -17,6 +18,8 @@ const connection = mysql.createConnection({
   password: PASSWORD,
   database: DATABASE,
 });
+
+console.log('test value', muna.test());
 
 // const hostname = '127.0.0.1';
 const hostname = 'localhost';
