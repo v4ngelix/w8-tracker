@@ -70,7 +70,9 @@ function getWeights() {
     let index = 0;
     const updateEvent = () => setTimeout(() => {
       const newData = weightData[index];
-      chart.data.labels.push(newData.date);
+      const date = new Date(newData.date);
+      const dateString = `${date.getDate()}.${date.getMonth() + 1}.${String(date.getFullYear()).slice(2, 4)}`;
+      chart.data.labels.push(dateString);
       chart.data.datasets[0].data.push(newData.weight);
       chart.update();
       index++;
