@@ -48,7 +48,7 @@ function getWeights() {
     const tbody = document.getElementsByTagName("tbody")[0];
     tbody.innerHTML = "";
 
-    const tableData = weightData.reverse();
+    const tableData = weightData.slice().reverse();
     tableData.forEach((weight) => {
       const row = tbody.insertRow();
       row.insertCell(0).innerHTML = `<div class="user-selection__bubble" style="background-color: red"></div>`;
