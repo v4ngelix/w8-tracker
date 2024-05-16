@@ -105,6 +105,8 @@ function addWeight() {
       getWeights();
       console.log('save response', response.json());
     }
+    const graph = document.getElementById('weightTimeSeries');
+    graph.scrollIntoView({ behavior: "smooth"});
   }).catch(error => {
     console.error(error);
   })
