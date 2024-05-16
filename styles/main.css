@@ -16,7 +16,6 @@ body {
 main {
     border: 1px solid #eeeeee;
     border-radius: .5rem;
-    width: 50%;
     padding: 1.5rem;
     background-color: #fefefe;
     box-shadow:
@@ -25,6 +24,12 @@ main {
         0 12px 9px rgba(3, 7, 18, 0.05),
         0 20px 15px rgba(3, 7, 18, 0.06),
         0 32px 24px rgba(3, 7, 18, 0.08);
+}
+
+@media screen and (min-width: 1000px) {
+    main {
+        width: 50%;
+    }
 }
 
 canvas {
