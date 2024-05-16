@@ -89,7 +89,7 @@ function getWeights() {
       if (index < weightData.length) {
         updateEvent()
       }
-    }, 50);
+    }, 25);
 
     updateEvent(index);
   });
