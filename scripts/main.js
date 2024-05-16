@@ -48,7 +48,8 @@ function getWeights() {
     const tbody = document.getElementsByTagName("tbody")[0];
     tbody.innerHTML = "";
 
-    weightData.forEach((weight) => {
+    const tableData = weightData.reverse();
+    tableData.forEach((weight) => {
       const row = tbody.insertRow();
       row.insertCell(0).innerHTML = `<div class="user-selection__bubble" style="background-color: red"></div>`;
       row.insertCell(1).innerHTML = `${Number(weight.weight).toFixed(2)} kg`;
