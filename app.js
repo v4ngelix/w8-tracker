@@ -4,7 +4,6 @@ const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const Url  = require('url');
-const muna = require('./test');
 
 const {
   HOST,
