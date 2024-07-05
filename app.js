@@ -23,7 +23,7 @@ const server = http.createServer(
     request,
     response
   ) => {
-    response.setHeader('Access-Control-Allow-Origin', `https://${hostname}:${port}`);
+    response.setHeader('Access-Control-Allow-Origin', `http://${hostname}:${port}`);
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
@@ -35,9 +35,9 @@ const server = http.createServer(
       const indexPath = path.join(__dirname, 'index.html')
       fs.readFile(indexPath, (err, data) => {
         if (err) {
-          endResponse(500, 'text/plain', 'Internal Server Error')
+          endResponse(response,500, 'text/plain', 'Internal Server Error')
         } else {
-          endResponse(200, 'text/html', data);
+          endResponse(response,200, 'text/html', data);
         }
       });
     }
@@ -45,7 +45,7 @@ const server = http.createServer(
       const filePath = path.join(__dirname, ...requestPath)
       fs.readFile(filePath, (err, data) => {
         if (err) {
-          endResponse(500, 'text/plain', 'Internal Server Error');
+          endResponse(response,500, 'text/plain', 'Internal Server Error');
         } else {
           let type = 'text/html';
           const dir = requestPath[0];
@@ -55,11 +55,11 @@ const server = http.createServer(
           if (dir === 'styles') type = 'text/css';
           if (['scripts', 'node_modules'].includes(dir)) type = 'text/javascript';
 
-          endResponse(200, type, data);
+          endResponse(response,200, type, data);
         }
       });
     } else if (request.url === '/api/ping' && method === 'GET') {
-      endResponse(200, 'text/plain', 'Ping succesful');
+      endResponse(response,200, 'text/plain', 'Ping succesful');
     }
 
     else if (requestPath[0] === 'api') {
@@ -86,9 +86,9 @@ const server = http.createServer(
       else if (endPoint.includes('getWeights') && request.method === 'GET') {
         connection.query('SELECT * FROM weights_aa', (error, rows) => {
         if (error) {
-            endResponse(500, 'text/plain', `Error: ${error}`);
+            endResponse(response,500, 'text/plain', `Error: ${error}`);
           } else {
-            endResponse(200, 'application/json', JSON.stringify(rows));
+            endResponse(response,200, 'application/json', JSON.stringify(rows));
           }
         });
       }
@@ -101,16 +101,16 @@ const server = http.createServer(
         try {
           connection.query(sql, (error) => {
             if (error) {
-              endResponse(500, 'text/plain', `Error: ${error}`);
+              endResponse(response,500, 'text/plain', `Error: ${error}`);
             } else {
-              endResponse(200, 'text/plain', 'Weight deleted');
+              endResponse(response,200, 'text/plain', 'Weight deleted');
             }
           });
         } catch (error) {
           console.log('Error while deleting value', error);
         }
       } else {
-        endResponse(404, 'text/plain', 'Not found');
+        endResponse(response,404, 'text/plain', 'Not found');
       }
     }
   }
@@ -124,9 +124,9 @@ const updateValues = (response, date, weight) => {
   try {
     connection.query(sql, (error) => {
       if (error) {
-        endResponse(500, 'text/plain', `Error: ${error}`);
+        endResponse(response,500, 'text/plain', `Error: ${error}`);
       } else {
-        endResponse(200, 'text/plain', 'Weight updated');
+        endResponse(response,200, 'text/plain', 'Weight updated');
       }
     });
   } catch (error) {
@@ -140,9 +140,9 @@ const addValues = (response, date, weight) => {
   try {
     connection.query(sql, (error) => {
       if (error) {
-        endResponse(500, 'text/plain', `Error: ${error}`);
+        endResponse(response,500, 'text/plain', `Error: ${error}`);
       } else {
-        endResponse(200, 'text/plain', 'Weight added');
+        endResponse(response,200, 'text/plain', 'Weight added');
       }
     });
   } catch (error) {
@@ -151,6 +151,7 @@ const addValues = (response, date, weight) => {
 }
 
 const endResponse = (
+  response,
   statusCode,
   contentType,
   message
@@ -160,6 +161,6 @@ const endResponse = (
 }
 
 server.listen(port, hostname, () => {
-  console.log(`Server running at https://${ hostname }:${ port }/`);
+  console.log(`Server running at http://${ hostname }:${ port }/`);
 });
 
