@@ -8,7 +8,7 @@
 const weightInput = document.getElementById("weightInput");
 if (weightInput) weightInput.focus();
 
-const API_URL = "https://w8.boheemia.ee/api";
+const API_URL = `${window.location.href}api`;
 const chartHTMLReference = document.getElementById('weightTimeSeries');
 
 const chart = new Chart(chartHTMLReference, {
