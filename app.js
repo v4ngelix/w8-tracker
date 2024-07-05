@@ -107,15 +107,19 @@ const server = http.createServer(
         const queryParams = querystring.parse(parsedUrl.query);
         const date = queryParams?.date;
         console.log({date});
-        const sql = `DELETE FROM weights_aa WHERE date = '${date}'`;
+
         try {
-          connection.query(sql, (error) => {
-            if (error) {
-              endResponse(response,500, 'text/plain', `Error: ${error}`);
-            } else {
-              endResponse(response,200, 'text/plain', 'Weight deleted');
+          database.run(
+            'DELETE FROM weight_data WHERE date = ?',
+            date,
+            (error) => {
+              if (error) {
+                endResponse(response,500, 'text/plain', `Error: ${error}`);
+              } else {
+                endResponse(response,200, 'text/plain', 'Weight deleted');
+              }
             }
-          });
+          )
         } catch (error) {
           console.log('Error while deleting value', error);
         }
