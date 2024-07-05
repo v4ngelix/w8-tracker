@@ -20,8 +20,7 @@ const connection = mysql.createConnection({
 
 console.log(process.env);
 
-// const hostname = '127.0.0.1';
-const hostname = 'localhost';
+const hostname = process.env.ENVIRONMENT === 'development' ? 'localhost' : 'w8.boheemia.ee';
 const port = 3000;
 
 const server = http.createServer(
