@@ -15,17 +15,15 @@ const database = new sqlite3.Database(
   }
 );
 
-console.log(process.env);
-
-const hostname = process.env.ENVIRONMENT === 'development' ? 'localhost' : 'w8.boheemia.ee';
-const port = 3000;
+const hostname = process.env.HOSTNAME;
+const port = process.env.PORT;
 
 const server = http.createServer(
   async (
     request,
     response
   ) => {
-    response.setHeader('Access-Control-Allow-Origin', 'https://w8.boheemia.ee');
+    response.setHeader('Access-Control-Allow-Origin', `https://${hostname}:${port}`);
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
