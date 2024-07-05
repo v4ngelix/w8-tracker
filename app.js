@@ -79,14 +79,14 @@ const server = http.createServer(
               if (error) {
                 endResponse(response,500, 'text/plain', `Error: ${error}`);
               } else {
-                if (rows?.length > 0) {
+                if (rows) {
                   updateValues(response, date, weight);
                 } else {
                   addValues(response, date, weight);
                 }
               }
             }
-          });
+          );
         } catch (error) {
           console.log('Error in query', error);
         }
@@ -128,17 +128,20 @@ const server = http.createServer(
 
 const updateValues = (response, date, weight) => {
   console.log('Trying to update', date);
-  //const sql = `UPDATE weights_aa SET weight=${ weight } WHERE weights_aa.date=${date}`;
-  const sql = `UPDATE weights_aa SET weight=${ weight } WHERE date=${date}`;
-  console.log({ sql });
   try {
-    connection.query(sql, (error) => {
-      if (error) {
-        endResponse(response,500, 'text/plain', `Error: ${error}`);
-      } else {
-        endResponse(response,200, 'text/plain', 'Weight updated');
+
+    database.run(
+      'UPDATE weight_data SET weight = ? WHERE date = ?',
+      [weight, date],
+      (error) => {
+        if (error) {
+          console.log(error);
+          endResponse(response,500, 'text/plain', `Error: ${error}`);
+        } else {
+          endResponse(response,200, 'text/plain', 'Weight added');
+        }
       }
-    });
+    )
   } catch (error) {
     console.log('Error while updating existing value', error);
   }
