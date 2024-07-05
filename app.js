@@ -84,12 +84,14 @@ const server = http.createServer(
         }
       }
       else if (endPoint.includes('getWeights') && request.method === 'GET') {
-        connection.query('SELECT * FROM weights_aa', (error, rows) => {
-        if (error) {
-            endResponse(response,500, 'text/plain', `Error: ${error}`);
-          } else {
-            endResponse(response,200, 'application/json', JSON.stringify(rows));
-          }
+        database.all(
+          'SELECT * FROM weight_data',
+          (error, rows) => {
+            if (error) {
+              endResponse(response,500, 'text/plain', `Error: ${error}`);
+            } else {
+              endResponse(response,200, 'application/json', JSON.stringify(rows));
+            }
         });
       }
       else if (endPoint.includes('deleteWeight') && request.method === 'GET') {
