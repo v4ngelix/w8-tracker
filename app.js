@@ -40,11 +40,9 @@ const server = http.createServer(
       const indexPath = path.join(__dirname, 'index.html')
       fs.readFile(indexPath, (err, data) => {
         if (err) {
-          response.writeHead(500, { 'Content-Type': 'text/plain' });
-          response.end('Internal Server Error');
+          endResponse(500, 'text/plain', 'Internal Server Error')
         } else {
-          response.writeHead(200, { 'Content-Type': 'text/html' });
-          response.end(data);
+          endResponse(200, 'text/html', data);
         }
       });
     }
@@ -52,8 +50,7 @@ const server = http.createServer(
       const filePath = path.join(__dirname, ...requestPath)
       fs.readFile(filePath, (err, data) => {
         if (err) {
-          response.writeHead(500, { 'Content-Type': 'text/plain' });
-          response.end('Internal Server Error');
+          endResponse(500, 'text/plain', 'Internal Server Error');
         } else {
           let type = 'text/html';
           const dir = requestPath[0];
@@ -63,14 +60,11 @@ const server = http.createServer(
           if (dir === 'styles') type = 'text/css';
           if (['scripts', 'node_modules'].includes(dir)) type = 'text/javascript';
 
-          response.writeHead(200, { 'Content-Type': type });
-          response.end(data);
+          endResponse(200, type, data);
         }
       });
-    } else if (request.url === "/api/ping" && method === "GET") {
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.write(JSON.stringify({ message: "Ping succesful" }));
-      response.end();
+    } else if (request.url === '/api/ping' && method === 'GET') {
+      endResponse(200, 'text/plain', 'Ping succesful');
     }
 
     else if (requestPath[0] === 'api') {
@@ -97,13 +91,9 @@ const server = http.createServer(
       else if (endPoint.includes("getWeights") && request.method === "GET") {
         connection.query('SELECT * FROM weights_aa', (error, rows) => {
         if (error) {
-            response.writeHead(500, { "Content-Type": "application/json" });
-            response.write(JSON.stringify({ message: "Error: " + error }));
-            response.end();
+            endResponse(500, 'text/plain', `Error: ${error}`);
           } else {
-            response.writeHead(200, { "Content-Type": "application/json" });
-            response.write(JSON.stringify(rows));
-            response.end();
+            endResponse(200, 'application/json', JSON.stringify(rows));
           }
         });
       }
@@ -116,22 +106,16 @@ const server = http.createServer(
         try {
           connection.query(sql, (error) => {
             if (error) {
-              response.writeHead(500, { "Content-Type": "application/json" });
-              response.write(JSON.stringify({ message: "Error: " + error }));
-              response.end();
+              endResponse(500, 'text/plain', `Error: ${error}`);
             } else {
-              response.writeHead(200, { "Content-Type": "application/json" });
-              response.write(JSON.stringify({ message: "Weight deleted" }));
-              response.end();
+              endResponse(200, 'text/plain', 'Weight deleted');
             }
           });
         } catch (error) {
           console.log('Error while deleting value', error);
         }
       } else {
-        response.writeHead(404, { "Content-Type": "application/json" });
-        response.write(JSON.stringify({ message: "Not found" }));
-        response.end();
+        endResponse(404, 'text/plain', 'Not found');
       }
     }
   }
@@ -145,13 +129,9 @@ const updateValues = (response, date, weight) => {
   try {
     connection.query(sql, (error) => {
       if (error) {
-        response.writeHead(500, { "Content-Type": "application/json" });
-        response.write(JSON.stringify({ message: "Error: " + error }));
-        response.end();
+        endResponse(500, 'text/plain', `Error: ${error}`);
       } else {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.write(JSON.stringify({ message: "Weight updated" }));
-        response.end();
+        endResponse(200, 'text/plain', 'Weight updated');
       }
     });
   } catch (error) {
@@ -165,13 +145,9 @@ const addValues = (response, date, weight) => {
   try {
     connection.query(sql, (error) => {
       if (error) {
-        response.writeHead(500, { "Content-Type": "application/json" });
-        response.write(JSON.stringify({ message: "Error: " + error }));
-        response.end();
+        endResponse(500, 'text/plain', `Error: ${error}`);
       } else {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.write(JSON.stringify({ message: "Weight added" }));
-        response.end();
+        endResponse(200, 'text/plain', 'Weight added');
       }
     });
   } catch (error) {
@@ -179,13 +155,14 @@ const addValues = (response, date, weight) => {
   }
 }
 
-connection.connect((error) => {
-  if (error) {
-    console.error('Error connecting to the database: ' + error);
-    return;
-  }
-  console.log('Connected to the database');
-});
+const endResponse = (
+  statusCode,
+  contentType,
+  message
+) => {
+  response.writeHead(statusCode, { 'Content-Type': contentType });
+  response.end(message);
+}
 
 server.listen(port, hostname, () => {
   console.log(`Server running at https://${hostname}:${port}/`);
