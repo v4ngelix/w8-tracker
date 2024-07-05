@@ -5,18 +5,15 @@ const querystring = require('querystring');
 const Url  = require('url');
 const sqlite3 = require('sqlite3').verbose();
 
-const {
-  HOST,
-  DBUSER,
-  PASSWORD,
-  DATABASE
-} = process.env;
-const connection = mysql.createConnection({
-  host: HOST,
-  user: DBUSER,
-  password: PASSWORD,
-  database: DATABASE,
-});
+const database = new sqlite3.Database(
+  'weights.db',
+  (err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log('Connected to the in-memory SQlite database.');
+  }
+);
 
 console.log(process.env);
 
