@@ -72,11 +72,19 @@ const server = http.createServer(
         const weight = queryParams?.weight;
         const date = queryParams?.date;
         try {
-          connection.query(`SELECT * FROM weights_aa WHERE date = '${date}'`, (error, rows) => {
-            if (rows.length > 0) {
-              updateValues(response, date, weight);
-            } else {
-              addValues(response, date, weight);
+          database.get(
+            'SELECT * FROM weight_data WHERE date = ?',
+            date,
+            (error, rows) => {
+              if (error) {
+                endResponse(response,500, 'text/plain', `Error: ${error}`);
+              } else {
+                if (rows?.length > 0) {
+                  updateValues(response, date, weight);
+                } else {
+                  addValues(response, date, weight);
+                }
+              }
             }
           });
         } catch (error) {
@@ -138,15 +146,18 @@ const updateValues = (response, date, weight) => {
 
 const addValues = (response, date, weight) => {
   console.log('Trying to insert');
-  const sql = `INSERT INTO weights_aa (date, weight) VALUES ('${date}', ${weight})`;
   try {
-    connection.query(sql, (error) => {
-      if (error) {
-        endResponse(response,500, 'text/plain', `Error: ${error}`);
-      } else {
-        endResponse(response,200, 'text/plain', 'Weight added');
+    database.run(
+      'INSERT INTO weight_data (date, weight) VALUES (?, ?)',
+      [date, weight],
+      (error) => {
+        if (error) {
+          endResponse(response,500, 'text/plain', `Error: ${error}`);
+        } else {
+          endResponse(response,200, 'text/plain', 'Weight added');
+        }
       }
-    });
+    )
   } catch (error) {
     console.log('Error while adding new value', error);
   }
