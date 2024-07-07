@@ -39,6 +39,8 @@ function getWeights() {
   let weightData = [];
   const getWeightsUrl = API_URL + '/getWeights';
 
+  try {
+
   fetch(getWeightsUrl).then(response => {
     if (response.ok) {
       return response.json()
@@ -104,6 +106,10 @@ function getWeights() {
   }).catch(error => {
     console.error(error);
   });
+
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function addWeight() {
