@@ -9,39 +9,6 @@ if (weightInput) weightInput.focus();
 
 const API_URL = `${window.location.href}api`;
 
-const width = 640;
-const height = 400;
-const marginTop = 20;
-const marginRight = 20;
-const marginBottom = 30;
-const marginLeft = 40;
-
-const x = d3.scaleUtc()
-  .domain([new Date("2023-01-01"), new Date("2024-01-01")])
-  .range([marginLeft, width - marginRight]);
-
-// Declare the y (vertical position) scale.
-const y = d3.scaleLinear()
-  .domain([0, 100])
-  .range([height - marginBottom, marginTop]);
-
-const chart = d3.create("svg")
-  .attr("width", width)
-  .attr("height", height);
-
-chart.append("g")
-  .attr("transform", `translate(0,${height - marginBottom})`)
-  .call(d3.axisBottom(x));
-
-// Add the y-axis.
-chart.append("g")
-  .attr("transform", `translate(${marginLeft},0)`)
-  .call(d3.axisLeft(y));
-
-const chartContainer = document.getElementById('weightTimeSeriesChart');
-
-chartContainer.append(chart.node());
-
 document.getElementById("dateInput").valueAsDate = new Date();
 
 function rerenderChartAndTable() {
@@ -83,36 +50,60 @@ function getWeights() {
       );
     });
 
-    let index = 0;
-    chart.data.labels = [];
-    chart.data.datasets[0].data = [];
-    chart.update();
+    const chartContainer = document.getElementById('weightTimeSeriesChart');
 
-    const updateEvent = () => setTimeout(() => {
-      const newData = weightData[index];
+    const width = chartContainer.offsetWidth
+    const height = 400;
+    const marginTop = 20;
+    const marginRight = 20;
+    const marginBottom = 30;
+    const marginLeft = 40;
 
-      if (newData) {
-        const date = new Date(newData.date);
-        const day = date.getDate();
-        const dayPrefix = day < 10 ? "0" : "";
-        const dayString = dayPrefix + day;
-        const month = date.getMonth() + 1;
-        const monthPrefix = month < 10 ? "0" : "";
-        const monthString = monthPrefix + month;
-        const year = String(date.getFullYear()).slice(2, 4);
-        const dateString = `${dayString}.${monthString}.${year}`;
+    const x = d3.scaleUtc()
+      .domain([
+        new Date(weightData[0].date),
+        new Date(weightData[weightData.length -1].date)
+      ])
+      .range([marginLeft, width - marginRight]);
 
-        chart.data.labels.push(dateString);
-        chart.data.datasets[0].data.push(newData.weight);
-        chart.update();
-        index++;
-        if (index < weightData.length) {
-          updateEvent()
-        }
-      }
-    }, 25);
+// Declare the y (vertical position) scale.
 
-    updateEvent(index);
+    const weightValues = weightData.map((d) => d.weight);
+    const weightTarget = 70;
+    const y = d3.scaleLinear()
+      .domain([Math.min(...weightValues, weightTarget - 10), Math.max(...weightValues) + 10])
+      .range([height - marginBottom, marginTop]);
+
+    const chart = d3.create("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    chart.append("g")
+      .attr("transform", `translate(0,${height - marginBottom})`)
+      .call(d3.axisBottom(x));
+
+// Add the y-axis.
+    chart.append("g")
+      .attr("transform", `translate(${marginLeft},0)`)
+      .call(d3.axisLeft(y));
+
+    chartContainer.append(chart.node());
+
+    console.log(tableData);
+    d3.select('#weightTimeSeriesChart')
+      .select('svg')
+      .selectAll('circle')
+      .data(tableData)
+      .enter()
+      .append('circle')
+      .attr('cx', (d) => {
+        const out = x(new Date(d.date));
+        console.log(out);
+        return out;
+      })
+      .attr('cy', (d) => y(d.weight))
+      .attr('r', 1)
+      .attr('fill', 'red');
   });
 }
 
