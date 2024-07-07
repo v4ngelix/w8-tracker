@@ -43,7 +43,7 @@ function getWeights() {
     if (response.ok) {
       return response.json()
     } else {
-      throw new Error("Something went wrong");
+      throw new Error(`Something went wrong: ${response.error}`);
     }
   }).then(data => {
     weightData = data;
