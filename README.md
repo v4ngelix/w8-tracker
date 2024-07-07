@@ -25,8 +25,6 @@ A lightweight weight tracking application for personal use.
     * Have favicon change color based on the weight. (chart rising / crhart falling).
   * Adding value will make the chart to add the whole dataset again.
   * Use separate urls for me and her weights?
-  * Finish up the form.
-  * Enable updating weights.
   * Set up typescript compilation.
   * Enable sorting table by date and weight (reuse getWEights function with sorting override?) .
   * have rendering method separate from the data fetching method.
@@ -47,8 +45,7 @@ A lightweight weight tracking application for personal use.
   1. Set up typescript compilation.
   2. Use proxying to avoid cors issues.
   3. Try to have a static index.html file served as a default. And BE deal only with the API.
-  4. Get root path from .env file.
-  5. Enable modular code writing, separate code to different files.
+  4. Enable modular code writing, separate code to different files.
 
 ### Devops:
   * Enable local server usage. Building and deploying to check changes is a very slow way of developing. 
