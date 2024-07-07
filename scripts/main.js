@@ -9,7 +9,7 @@ const weightInput = document.getElementById("weightInput");
 if (weightInput) weightInput.focus();
 
 const API_URL = `${window.location.href}api`;
-const chartHTMLReference = document.getElementById('weightTimeSeries');
+const chartHTMLReference = document.getElementById('weightTimeSeriesChart');
 
 const chart = new Chart(chartHTMLReference, {
   type: 'line',
@@ -112,7 +112,7 @@ function addWeight() {
     if (response.ok) {
       getWeights();
     }
-    const graph = document.getElementById('weightTimeSeries');
+    const graph = document.getElementById('weightTimeSeriesChart');
     graph.scrollIntoView({ behavior: "smooth"});
   }).catch(error => {
     console.error(error);
