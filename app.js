@@ -23,7 +23,7 @@ const server = http.createServer(
     request,
     response
   ) => {
-    response.setHeader('Access-Control-Allow-Origin', `http://${hostname}:${port}`);
+    response.setHeader('Access-Control-Allow-Origin', `https://${hostname}:${port}`);
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
