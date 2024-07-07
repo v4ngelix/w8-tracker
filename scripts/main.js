@@ -2,32 +2,45 @@
  * TODO:
  * 1. Convert script to typescript.
  * 2. Setup compilation to javascript (with maps?).
- * 3. Replace chart.js with d3
  */
 
 const weightInput = document.getElementById("weightInput");
 if (weightInput) weightInput.focus();
 
 const API_URL = `${window.location.href}api`;
-const chartHTMLReference = document.getElementById('weightTimeSeriesChart');
 
-const chart = new Chart(chartHTMLReference, {
-  type: 'line',
-  data: {
-    labels: [],
-    datasets: [{
-      label: 'Weight',
-      data: [],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      y: {
-      }
-    }
-  }
-});
+const width = 640;
+const height = 400;
+const marginTop = 20;
+const marginRight = 20;
+const marginBottom = 30;
+const marginLeft = 40;
+
+const x = d3.scaleUtc()
+  .domain([new Date("2023-01-01"), new Date("2024-01-01")])
+  .range([marginLeft, width - marginRight]);
+
+// Declare the y (vertical position) scale.
+const y = d3.scaleLinear()
+  .domain([0, 100])
+  .range([height - marginBottom, marginTop]);
+
+const chart = d3.create("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+chart.append("g")
+  .attr("transform", `translate(0,${height - marginBottom})`)
+  .call(d3.axisBottom(x));
+
+// Add the y-axis.
+chart.append("g")
+  .attr("transform", `translate(${marginLeft},0)`)
+  .call(d3.axisLeft(y));
+
+const chartContainer = document.getElementById('weightTimeSeriesChart');
+
+chartContainer.append(chart.node());
 
 document.getElementById("dateInput").valueAsDate = new Date();
 
