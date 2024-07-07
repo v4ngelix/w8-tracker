@@ -38,7 +38,7 @@ function rerenderChartAndTable() {
 function getWeights() {
   let weightData = [];
   const getWeightsUrl = API_URL + '/getWeights';
-  console.log(getWeightsUrl);
+
   fetch(getWeightsUrl).then(response => {
     if (response.ok) {
       return response.json()
@@ -46,7 +46,6 @@ function getWeights() {
       throw new Error("Something went wrong");
     }
   }).then(data => {
-    console.log(data)
     weightData = data;
     const tbody = document.getElementsByTagName("tbody")[0];
     tbody.innerHTML = "";
@@ -107,13 +106,11 @@ function getWeights() {
 function addWeight() {
   const date = document.getElementById("dateInput").value;
   const weight = document.getElementById("weightInput").value;
-  console.log({ date, weight });
   const addWeightUrl = API_URL + `/addWeight?date=${ date }&weight=${ weight }`;
-  console.log(addWeightUrl);
+
   fetch(addWeightUrl).then(response => {
     if (response.ok) {
       getWeights();
-      console.log('save response', response.json());
     }
     const graph = document.getElementById('weightTimeSeries');
     graph.scrollIntoView({ behavior: "smooth"});
@@ -125,7 +122,7 @@ function addWeight() {
 function deleteWeight(date) {
   const dateToDelete = date.split('T')[0];
   const deleteWeightUrl = API_URL + `/deleteWeight?date=${ dateToDelete }`;
-  console.log('going to delete', dateToDelete);
+
   fetch(
     deleteWeightUrl,
     {
@@ -134,7 +131,6 @@ function deleteWeight(date) {
   ).then(response => {
     if (response.ok) {
       getWeights();
-      console.log('save response', response.json());
     }
   }).catch(error => {
     console.error(error);
