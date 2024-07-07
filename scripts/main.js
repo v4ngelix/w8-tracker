@@ -100,6 +100,8 @@ function getWeights() {
     }, 25);
 
     updateEvent(index);
+  }).catch(error => {
+    console.error(error);
   });
 }
 
