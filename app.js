@@ -1,35 +1,29 @@
 const http = require('http');
-const mysql = require('mysql');
 const path = require('path');
 const fs = require('fs');
 const querystring = require('querystring');
 const Url  = require('url');
+const sqlite3 = require('sqlite3').verbose();
 
-const {
-  HOST,
-  DBUSER,
-  PASSWORD,
-  DATABASE
-} = process.env;
-const connection = mysql.createConnection({
-  host: HOST,
-  user: DBUSER,
-  password: PASSWORD,
-  database: DATABASE,
-});
+const database = new sqlite3.Database(
+  'weights.db',
+  (err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log('Connected to the in-memory SQlite database.');
+  }
+);
 
-console.log(process.env);
-
-// const hostname = '127.0.0.1';
-const hostname = 'localhost';
-const port = 3000;
+const hostname = process.env.HOSTNAME;
+const port = process.env.PORT;
 
 const server = http.createServer(
   async (
     request,
     response
   ) => {
-    response.setHeader('Access-Control-Allow-Origin', 'https://w8.boheemia.ee');
+    response.setHeader('Access-Control-Allow-Origin', `http://${hostname}:${port}`);
     response.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
@@ -41,11 +35,9 @@ const server = http.createServer(
       const indexPath = path.join(__dirname, 'index.html')
       fs.readFile(indexPath, (err, data) => {
         if (err) {
-          response.writeHead(500, { 'Content-Type': 'text/plain' });
-          response.end('Internal Server Error');
+          endResponse(response,500, 'text/plain', 'Internal Server Error')
         } else {
-          response.writeHead(200, { 'Content-Type': 'text/html' });
-          response.end(data);
+          endResponse(response,200, 'text/html', data);
         }
       });
     }
@@ -53,8 +45,7 @@ const server = http.createServer(
       const filePath = path.join(__dirname, ...requestPath)
       fs.readFile(filePath, (err, data) => {
         if (err) {
-          response.writeHead(500, { 'Content-Type': 'text/plain' });
-          response.end('Internal Server Error');
+          endResponse(response,500, 'text/plain', 'Internal Server Error');
         } else {
           let type = 'text/html';
           const dir = requestPath[0];
@@ -64,131 +55,132 @@ const server = http.createServer(
           if (dir === 'styles') type = 'text/css';
           if (['scripts', 'node_modules'].includes(dir)) type = 'text/javascript';
 
-          response.writeHead(200, { 'Content-Type': type });
-          response.end(data);
+          endResponse(response,200, type, data);
         }
       });
-    } else if (request.url === "/api/ping" && method === "GET") {
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.write(JSON.stringify({ message: "Ping succesful" }));
-      response.end();
+    } else if (request.url === '/api/ping' && method === 'GET') {
+      endResponse(response,200, 'text/plain', 'Ping succesful');
     }
 
     else if (requestPath[0] === 'api') {
       const endPoint = requestPath?.[1] ?? '';
       console.log('It is an API request', endPoint);
 
-      if (endPoint.includes("addWeight") && request.method === "GET") {
+      if (endPoint.includes('addWeight') && request.method === 'GET') {
         const parsedUrl = Url.parse(url);
         const queryParams = querystring.parse(parsedUrl.query);
         const weight = queryParams?.weight;
         const date = queryParams?.date;
         try {
-          connection.query(`SELECT * FROM weights_aa WHERE date = '${date}'`, (error, rows) => {
-            if (rows.length > 0) {
-              updateValues(response, date, weight);
-            } else {
-              addValues(response, date, weight);
+          database.get(
+            'SELECT * FROM weight_data WHERE date = ?',
+            date,
+            (error, rows) => {
+              if (error) {
+                endResponse(response,500, 'text/plain', `Error: ${error}`);
+              } else {
+                if (rows) {
+                  updateValues(response, date, weight);
+                } else {
+                  addValues(response, date, weight);
+                }
+              }
             }
-          });
+          );
         } catch (error) {
           console.log('Error in query', error);
         }
       }
-      else if (endPoint.includes("getWeights") && request.method === "GET") {
-        connection.query('SELECT * FROM weights_aa', (error, rows) => {
-        if (error) {
-            response.writeHead(500, { "Content-Type": "application/json" });
-            response.write(JSON.stringify({ message: "Error: " + error }));
-            response.end();
-          } else {
-            response.writeHead(200, { "Content-Type": "application/json" });
-            response.write(JSON.stringify(rows));
-            response.end();
-          }
+      else if (endPoint.includes('getWeights') && request.method === 'GET') {
+        database.all(
+          'SELECT * FROM weight_data',
+          (error, rows) => {
+            if (error) {
+              endResponse(response,500, 'text/plain', `Error: ${error}`);
+            } else {
+              endResponse(response,200, 'application/json', JSON.stringify(rows));
+            }
         });
       }
-      else if (endPoint.includes("deleteWeight") && request.method === "GET") {
+      else if (endPoint.includes('deleteWeight') && request.method === 'GET') {
         const parsedUrl = Url.parse(url);
         const queryParams = querystring.parse(parsedUrl.query);
         const date = queryParams?.date;
         console.log({date});
-        const sql = `DELETE FROM weights_aa WHERE date = '${date}'`;
+
         try {
-          connection.query(sql, (error) => {
-            if (error) {
-              response.writeHead(500, { "Content-Type": "application/json" });
-              response.write(JSON.stringify({ message: "Error: " + error }));
-              response.end();
-            } else {
-              response.writeHead(200, { "Content-Type": "application/json" });
-              response.write(JSON.stringify({ message: "Weight deleted" }));
-              response.end();
+          database.run(
+            'DELETE FROM weight_data WHERE date = ?',
+            date,
+            (error) => {
+              if (error) {
+                endResponse(response,500, 'text/plain', `Error: ${error}`);
+              } else {
+                endResponse(response,200, 'text/plain', 'Weight deleted');
+              }
             }
-          });
+          )
         } catch (error) {
           console.log('Error while deleting value', error);
         }
       } else {
-        response.writeHead(404, { "Content-Type": "application/json" });
-        response.write(JSON.stringify({ message: "Not found" }));
-        response.end();
+        endResponse(response,404, 'text/plain', 'Not found');
       }
     }
   }
 );
 
-updateValues = (response, date, weight) => {
+const updateValues = (response, date, weight) => {
   console.log('Trying to update', date);
-  //const sql = `UPDATE weights_aa SET weight=${ weight } WHERE weights_aa.date=${date}`;
-  const sql = `UPDATE weights_aa SET weight=${ weight } WHERE date=${date}`;
-  console.log({ sql });
   try {
-    connection.query(sql, (error) => {
-      if (error) {
-        response.writeHead(500, { "Content-Type": "application/json" });
-        response.write(JSON.stringify({ message: "Error: " + error }));
-        response.end();
-      } else {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.write(JSON.stringify({ message: "Weight updated" }));
-        response.end();
+
+    database.run(
+      'UPDATE weight_data SET weight = ? WHERE date = ?',
+      [weight, date],
+      (error) => {
+        if (error) {
+          console.log(error);
+          endResponse(response,500, 'text/plain', `Error: ${error}`);
+        } else {
+          endResponse(response,200, 'text/plain', 'Weight added');
+        }
       }
-    });
+    )
   } catch (error) {
     console.log('Error while updating existing value', error);
   }
 }
 
-addValues = (response, date, weight) => {
+const addValues = (response, date, weight) => {
   console.log('Trying to insert');
-  const sql = `INSERT INTO weights_aa (date, weight) VALUES ('${date}', ${weight})`;
   try {
-    connection.query(sql, (error) => {
-      if (error) {
-        response.writeHead(500, { "Content-Type": "application/json" });
-        response.write(JSON.stringify({ message: "Error: " + error }));
-        response.end();
-      } else {
-        response.writeHead(200, { "Content-Type": "application/json" });
-        response.write(JSON.stringify({ message: "Weight added" }));
-        response.end();
+    database.run(
+      'INSERT INTO weight_data (date, weight) VALUES (?, ?)',
+      [date, weight],
+      (error) => {
+        if (error) {
+          endResponse(response,500, 'text/plain', `Error: ${error}`);
+        } else {
+          endResponse(response,200, 'text/plain', 'Weight added');
+        }
       }
-    });
+    )
   } catch (error) {
     console.log('Error while adding new value', error);
   }
 }
 
-connection.connect((error) => {
-  if (error) {
-    console.error('Error connecting to the database: ' + error);
-    return;
-  }
-  console.log('Connected to the database');
-});
+const endResponse = (
+  response,
+  statusCode,
+  contentType,
+  message
+) => {
+  response.writeHead(statusCode, { 'Content-Type': contentType });
+  response.end(message);
+}
 
 server.listen(port, hostname, () => {
-  console.log(`Server running at https://${hostname}:${port}/`);
+  console.log(`Server running at http://${ hostname }:${ port }/`);
 });
 

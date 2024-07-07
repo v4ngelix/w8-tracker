@@ -8,7 +8,7 @@
 const weightInput = document.getElementById("weightInput");
 if (weightInput) weightInput.focus();
 
-const API_URL = "https://w8.boheemia.ee/api";
+const API_URL = `${window.location.href}api`;
 const chartHTMLReference = document.getElementById('weightTimeSeries');
 
 const chart = new Chart(chartHTMLReference, {
@@ -38,7 +38,7 @@ function rerenderChartAndTable() {
 function getWeights() {
   let weightData = [];
   const getWeightsUrl = API_URL + '/getWeights';
-  console.log(getWeightsUrl);
+
   fetch(getWeightsUrl).then(response => {
     if (response.ok) {
       return response.json()
@@ -46,7 +46,6 @@ function getWeights() {
       throw new Error("Something went wrong");
     }
   }).then(data => {
-    console.log(data)
     weightData = data;
     const tbody = document.getElementsByTagName("tbody")[0];
     tbody.innerHTML = "";
@@ -79,22 +78,24 @@ function getWeights() {
     const updateEvent = () => setTimeout(() => {
       const newData = weightData[index];
 
-      const date = new Date(newData.date);
-      const day = date.getDate();
-      const dayPrefix = day < 10 ? "0" : "";
-      const dayString = dayPrefix + day;
-      const month = date.getMonth() + 1;
-      const monthPrefix = month < 10 ? "0" : "";
-      const monthString = monthPrefix + month;
-      const year = String(date.getFullYear()).slice(2, 4);
-      const dateString = `${dayString}.${monthString}.${year}`;
+      if (newData) {
+        const date = new Date(newData.date);
+        const day = date.getDate();
+        const dayPrefix = day < 10 ? "0" : "";
+        const dayString = dayPrefix + day;
+        const month = date.getMonth() + 1;
+        const monthPrefix = month < 10 ? "0" : "";
+        const monthString = monthPrefix + month;
+        const year = String(date.getFullYear()).slice(2, 4);
+        const dateString = `${dayString}.${monthString}.${year}`;
 
-      chart.data.labels.push(dateString);
-      chart.data.datasets[0].data.push(newData.weight);
-      chart.update();
-      index++;
-      if (index < weightData.length) {
-        updateEvent()
+        chart.data.labels.push(dateString);
+        chart.data.datasets[0].data.push(newData.weight);
+        chart.update();
+        index++;
+        if (index < weightData.length) {
+          updateEvent()
+        }
       }
     }, 25);
 
@@ -105,13 +106,11 @@ function getWeights() {
 function addWeight() {
   const date = document.getElementById("dateInput").value;
   const weight = document.getElementById("weightInput").value;
-  console.log({ date, weight });
   const addWeightUrl = API_URL + `/addWeight?date=${ date }&weight=${ weight }`;
-  console.log(addWeightUrl);
+
   fetch(addWeightUrl).then(response => {
     if (response.ok) {
       getWeights();
-      console.log('save response', response.json());
     }
     const graph = document.getElementById('weightTimeSeries');
     graph.scrollIntoView({ behavior: "smooth"});
@@ -123,7 +122,7 @@ function addWeight() {
 function deleteWeight(date) {
   const dateToDelete = date.split('T')[0];
   const deleteWeightUrl = API_URL + `/deleteWeight?date=${ dateToDelete }`;
-  console.log('going to delete', dateToDelete);
+
   fetch(
     deleteWeightUrl,
     {
@@ -132,7 +131,6 @@ function deleteWeight(date) {
   ).then(response => {
     if (response.ok) {
       getWeights();
-      console.log('save response', response.json());
     }
   }).catch(error => {
     console.error(error);
