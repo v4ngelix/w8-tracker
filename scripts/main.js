@@ -7,7 +7,7 @@
 const weightInput = document.getElementById("weightInput");
 if (weightInput) weightInput.focus();
 
-const API_URL = `${window.location.href.split('/')[2]}api`;
+const API_URL = `${window.location.href}api`;
 
 document.getElementById("dateInput").valueAsDate = new Date();
 
