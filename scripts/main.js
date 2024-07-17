@@ -15,6 +15,7 @@ let weightData = [];
 let sortDirection = 'desc';
 let sortColumn = 'date';
 
+/** Handler for the table header sorting event */
 function handleTableSort(column) {
   sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
   sortColumn = column;
@@ -29,6 +30,7 @@ function handleTableSort(column) {
   updateTable();
 }
 
+/** Sort weightData according to current sortDirection and sortColumn values */
 function sortWeightData() {
   weightData = weightData.slice().sort((a, b) => {
     if (sortColumn === 'weight') {
@@ -43,7 +45,7 @@ function sortWeightData() {
   });
 }
 
-/** Dumb method for re-drawing the table */
+/** Dumb method for re-drawing the weights table */
 function updateTable() {
   console.log('updateTable called')
   const tbody = document.getElementsByTagName("tbody")[0];
