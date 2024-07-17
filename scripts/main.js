@@ -72,7 +72,7 @@ function updateTable() {
 function getChartData() {
   return weightData
     .slice()
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }
 
 function getWeights() {
