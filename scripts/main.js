@@ -11,12 +11,57 @@ const API_URL = `${window.location.href}api`;
 
 document.getElementById("dateInput").valueAsDate = new Date();
 
-function rerenderChartAndTable() {
-  // TODO: Have an separate method for updating view.
+let weightData = [];
+let sortDirection = 'desc';
+let sortColumn = 'date';
+function sortTable(column, direction ) {
+  sortDirection = direction ?? sortDirection === 'asc' ? 'desc' : 'asc';
+  sortColumn = column;
+  const sortingIcon = document.getElementById(`sort-by-${column}-icon`);
+  const iconToClear = document.getElementById(`sort-by-${column === 'weight' ? 'date' : 'weight'}-icon`);
+  sortingIcon.innerHTML = sortDirection === 'asc' ? '▲' : '▼';
+  iconToClear.innerHTML = '&nbsp;';
+
+  weightData = weightData.slice().sort((a, b) => {
+    if (sortColumn === 'weight') {
+      return sortDirection === 'asc'
+        ? a.weight - b.weight
+        : b.weight - a.weight;
+    } else {
+      return sortDirection === 'asc'
+        ? new Date(a.date).getTime() - new Date(b.date).getTime()
+        : new Date(b.date).getTime() - new Date(a.date).getTime();
+    }
+  });
+
+  updateTable();
 }
 
-function getWeights() {
-  let weightData = [];
+function updateTable() {
+  console.log('updateTable called')
+  const tbody = document.getElementsByTagName("tbody")[0];
+  tbody.innerHTML = "";
+
+  weightData.forEach((weight) => {
+    const row = tbody.insertRow();
+    row.insertCell(0).innerHTML = `${Number(weight.weight).toFixed(2)} kg`;
+
+    const date = new Date(weight.date);
+    const day = date.getDate();
+    const dayPrefix = day < 10 ? "0" : "";
+    const dayString = dayPrefix + day;
+    const month = date.getMonth() + 1;
+    const monthPrefix = month < 10 ? "0" : "";
+    const monthString = monthPrefix + month;
+    const year = String(date.getFullYear()).slice(2, 4);
+    row.insertCell(1).innerHTML = `${dayString}.${monthString}.${year}`;
+    row.insertCell(2).innerHTML = (
+      `<button onclick="deleteWeight('${weight.date}')">Delete</button>`
+    );
+  });
+}
+
+function updateChart() {
   const getWeightsUrl = API_URL + '/getWeights';
 
   fetch(getWeightsUrl).then(response => {
@@ -27,28 +72,40 @@ function getWeights() {
     }
   }).then(data => {
     weightData = data;
-    const tbody = document.getElementsByTagName("tbody")[0];
-    tbody.innerHTML = "";
-
-    const tableData = weightData.slice().reverse();
-    tableData.forEach((weight) => {
-      const row = tbody.insertRow();
-      row.insertCell(0).innerHTML = `<div class="user-selection__bubble" style="background-color: red"></div>`;
-      row.insertCell(1).innerHTML = `${Number(weight.weight).toFixed(2)} kg`;
-
-      const date = new Date(weight.date);
-      const day = date.getDate();
-      const dayPrefix = day < 10 ? "0" : "";
-      const dayString = dayPrefix + day;
-      const month = date.getMonth() + 1;
-      const monthPrefix = month < 10 ? "0" : "";
-      const monthString = monthPrefix + month;
-      const year = String(date.getFullYear()).slice(2, 4);
-      row.insertCell(2).innerHTML = `${dayString}.${monthString}.${year}`;
-      row.insertCell(3).innerHTML = (
-        `<button onclick="deleteWeight('${weight.date}')">Delete</button>`
-      );
+    const chartData = weightData.slice().sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime()
     });
+    d3.select('#weightTimeSeriesChart')
+      .select('svg')
+      .selectAll('circle')
+      .data(chartData)
+      .enter()
+      .append('circle')
+      .attr('cx', (d) => {
+        const out = x(new Date(d.date));
+        console.log(out);
+        return out;
+      })
+      .attr('cy', (d) => y(d.weight))
+      .attr('r', 1)
+      .attr('fill', 'red')
+      .exit()
+      .remove();
+  });
+}
+
+function getWeights() {
+  const getWeightsUrl = API_URL + '/getWeights';
+
+  fetch(getWeightsUrl).then(response => {
+    if (response.ok) {
+      return response.json()
+    } else {
+      throw new Error(`Something went wrong: ${response.error}`);
+    }
+  }).then(data => {
+    weightData = data;
+    sortTable('date', 'desc');
 
     const chartContainer = document.getElementById('weightTimeSeriesChart');
 
@@ -89,11 +146,14 @@ function getWeights() {
 
     chartContainer.append(chart.node());
 
-    console.log(tableData);
+    console.log(weightData);
+    const chartData = weightData.slice().sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime()
+    });
     d3.select('#weightTimeSeriesChart')
       .select('svg')
       .selectAll('circle')
-      .data(tableData)
+      .data(chartData)
       .enter()
       .append('circle')
       .attr('cx', (d) => {
@@ -114,7 +174,7 @@ function addWeight() {
 
   fetch(addWeightUrl).then(response => {
     if (response.ok) {
-      getWeights();
+      updateChart();
     }
     const graph = document.getElementById('weightTimeSeriesChart');
     graph.scrollIntoView({ behavior: "smooth"});
@@ -134,7 +194,7 @@ function deleteWeight(date) {
     }
   ).then(response => {
     if (response.ok) {
-      getWeights();
+      updateChart();
     }
   }).catch(error => {
     console.error(error);
