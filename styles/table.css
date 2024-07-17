@@ -10,27 +10,37 @@ table {
 }
 
 th {
+    width: 20%;
     padding: 0;
+    &:hover {
+        background: none;
+    }
+}
 
+.sortable-column-header {
+    width: 40%;
     div {
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 100%;
         padding: 0 1rem;
-
     }
-    div:hover {
-        background: lightgray;
+    &:hover {
+        background-color: #eee;
+        cursor: pointer;
     }
 }
 
+#sort-by-weight-icon,
+#sort-by-date-icon {
+    width: 1rem;
+}
 th,
 tbody tr {
     transition: all 250ms ease-in-out;
 }
 
-th:hover,
 tbody tr:hover {
     background-color: #eee;
 }
