@@ -90,6 +90,7 @@ function getWeights() {
     updateTable();
 
     const chartContainer = document.getElementById('weightTimeSeriesChart');
+    chartContainer.innerHTML = '';
 
     const width = chartContainer.offsetWidth
     const height = 400;
