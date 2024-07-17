@@ -64,7 +64,7 @@
       <table>
         <thead>
           <tr>
-            <th class="sortable-column-header" onclick="sortTable('weight')">
+            <th class="sortable-column-header" onclick="handleTableSort('weight')">
               <div>
                 <img
                   src="/assets/weight-hanging-solid.svg"
@@ -76,7 +76,7 @@
               </div>
             </th>
 
-            <th class="sortable-column-header" onclick="sortTable('date')">
+            <th class="sortable-column-header" onclick="handleTableSort('date')">
               <div>
                 <img
                   src="/assets/calendar-check-regular.svg"
@@ -85,7 +85,7 @@
                 <span>
                   Date
                 </span>
-                <span id="sort-by-date-icon"></span>
+                <span id="sort-by-date-icon">▼</span>
               </div>
             </th>
             <th></th>
