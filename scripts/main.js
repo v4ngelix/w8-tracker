@@ -157,6 +157,7 @@ function addWeight() {
 
   fetch(addWeightUrl).then(response => {
     if (response.ok) {
+      // TODO: Instead of fetching and redrawing everything, just add the new row.
       getWeights();
     }
     const graph = document.getElementById('weightTimeSeriesChart');
@@ -175,6 +176,7 @@ function deleteWeight(date) {
     {} // TODO: use method: "DELETE"
   ).then(response => {
     if (response.ok) {
+      // TODO: Instead of fetching and redrawing everything, just remove the deleted row.
       getWeights();
     }
   }).catch(error => {
