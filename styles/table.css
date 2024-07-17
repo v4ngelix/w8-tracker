@@ -9,10 +9,20 @@ table {
     background-color: #fff;
 }
 
-th div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+th {
+    padding: 0;
+
+    div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 1rem;
+
+    }
+    div:hover {
+        background: lightgray;
+    }
 }
 
 th,
