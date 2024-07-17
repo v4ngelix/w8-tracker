@@ -51,9 +51,21 @@ function updateTable() {
   const tbody = document.getElementsByTagName("tbody")[0];
   tbody.innerHTML = "";
 
-  weightData.forEach((weight) => {
+  weightData.forEach((weight, index) => {
     const row = tbody.insertRow();
-    row.insertCell(0).innerHTML = `${Number(weight.weight).toFixed(2)} kg`;
+    const weightValue = Number(weight.weight).toFixed(2);
+    row.insertCell(0).innerHTML = `${weightValue} kg`;
+
+    const difference = index !== weightData.length - 1
+      ? (weightValue - Number(weightData[index + 1].weight).toFixed(2)).toFixed(2)
+      : '-'
+    const isBigger = difference > 0;
+    row.insertCell(1).innerHTML = `${isBigger ? '+' : ''}${difference} kg`;
+    if (difference !== '0.00') {
+      row.cells[1].style.color = difference > 0 ? 'red' : 'green';
+    } else {
+      row.cells[1].style.color = 'orange';
+    }
 
     const date = new Date(weight.date);
     const day = date.getDate();
@@ -63,8 +75,9 @@ function updateTable() {
     const monthPrefix = month < 10 ? "0" : "";
     const monthString = monthPrefix + month;
     const year = String(date.getFullYear()).slice(2, 4);
-    row.insertCell(1).innerHTML = `${dayString}.${monthString}.${year}`;
-    row.insertCell(2).innerHTML = (
+    row.insertCell(2).innerHTML = `${dayString}.${monthString}.${year}`;
+
+    row.insertCell(3).innerHTML = (
       `<button onclick="deleteWeight('${weight.date}')">Delete</button>`
     );
   });
