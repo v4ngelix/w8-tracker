@@ -14,14 +14,22 @@ document.getElementById("dateInput").valueAsDate = new Date();
 let weightData = [];
 let sortDirection = 'desc';
 let sortColumn = 'date';
-function sortTable(column, direction ) {
-  sortDirection = direction ?? sortDirection === 'asc' ? 'desc' : 'asc';
+
+function handleTableSort(column) {
+  sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
   sortColumn = column;
+
   const sortingIcon = document.getElementById(`sort-by-${column}-icon`);
   const iconToClear = document.getElementById(`sort-by-${column === 'weight' ? 'date' : 'weight'}-icon`);
+
   sortingIcon.innerHTML = sortDirection === 'asc' ? '▲' : '▼';
   iconToClear.innerHTML = '&nbsp;';
 
+  sortWeightData();
+  updateTable();
+}
+
+function sortWeightData() {
   weightData = weightData.slice().sort((a, b) => {
     if (sortColumn === 'weight') {
       return sortDirection === 'asc'
@@ -33,8 +41,6 @@ function sortTable(column, direction ) {
         : new Date(b.date).getTime() - new Date(a.date).getTime();
     }
   });
-
-  updateTable();
 }
 
 /** Dumb method for re-drawing the table */
@@ -80,7 +86,8 @@ function getWeights() {
     }
   }).then(data => {
     weightData = data;
-    sortTable('date', 'desc');
+    sortWeightData();
+    updateTable();
 
     const chartContainer = document.getElementById('weightTimeSeriesChart');
 
