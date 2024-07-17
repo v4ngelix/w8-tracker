@@ -116,10 +116,14 @@ function getWeights() {
     const marginBottom = 30;
     const marginLeft = 40;
 
+    const chartData = weightData.slice().sort((a, b) => {
+      return new Date(a.date).getTime() - new Date(b.date).getTime()
+    });
+
     const x = d3.scaleUtc()
       .domain([
-        new Date(weightData[0].date),
-        new Date(weightData[weightData.length -1].date)
+        new Date(chartData[0].date),
+        new Date(chartData[chartData.length -1].date)
       ])
       .range([marginLeft, width - marginRight]);
 
@@ -127,6 +131,7 @@ function getWeights() {
 
     const weightValues = weightData.map((d) => d.weight);
     const weightTarget = 70;
+
     const y = d3.scaleLinear()
       .domain([Math.min(...weightValues, weightTarget - 10), Math.max(...weightValues) + 10])
       .range([height - marginBottom, marginTop]);
@@ -139,17 +144,14 @@ function getWeights() {
       .attr("transform", `translate(0,${height - marginBottom})`)
       .call(d3.axisBottom(x));
 
-// Add the y-axis.
     chart.append("g")
-      .attr("transform", `translate(${marginLeft},0)`)
+      .attr("transform", `translate(${marginLeft}, 0)`)
       .call(d3.axisLeft(y));
 
     chartContainer.append(chart.node());
 
-    console.log(weightData);
-    const chartData = weightData.slice().sort((a, b) => {
-      return new Date(b.date).getTime() - new Date(a.date).getTime()
-    });
+    console.log({ weightData, chartData });
+
     d3.select('#weightTimeSeriesChart')
       .select('svg')
       .selectAll('circle')
