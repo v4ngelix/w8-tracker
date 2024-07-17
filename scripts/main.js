@@ -37,6 +37,7 @@ function sortTable(column, direction ) {
   updateTable();
 }
 
+/** Dumb method for re-drawing the table */
 function updateTable() {
   console.log('updateTable called')
   const tbody = document.getElementsByTagName("tbody")[0];
@@ -61,37 +62,11 @@ function updateTable() {
   });
 }
 
-function updateChart() {
-  const getWeightsUrl = API_URL + '/getWeights';
-
-  fetch(getWeightsUrl).then(response => {
-    if (response.ok) {
-      return response.json()
-    } else {
-      throw new Error(`Something went wrong: ${response.error}`);
-    }
-  }).then(data => {
-    weightData = data;
-    const chartData = weightData.slice().sort((a, b) => {
-      return new Date(b.date).getTime() - new Date(a.date).getTime()
-    });
-    d3.select('#weightTimeSeriesChart')
-      .select('svg')
-      .selectAll('circle')
-      .data(chartData)
-      .enter()
-      .append('circle')
-      .attr('cx', (d) => {
-        const out = x(new Date(d.date));
-        console.log(out);
-        return out;
-      })
-      .attr('cy', (d) => y(d.weight))
-      .attr('r', 1)
-      .attr('fill', 'red')
-      .exit()
-      .remove();
-  });
+/** Helper method for getting the data in the correct order for the chart - always sorted date descending */
+function getChartData() {
+  return weightData
+    .slice()
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 function getWeights() {
@@ -116,9 +91,7 @@ function getWeights() {
     const marginBottom = 30;
     const marginLeft = 40;
 
-    const chartData = weightData.slice().sort((a, b) => {
-      return new Date(a.date).getTime() - new Date(b.date).getTime()
-    });
+    const chartData = getChartData();
 
     const x = d3.scaleUtc()
       .domain([
@@ -126,8 +99,6 @@ function getWeights() {
         new Date(chartData[chartData.length -1].date)
       ])
       .range([marginLeft, width - marginRight]);
-
-// Declare the y (vertical position) scale.
 
     const weightValues = weightData.map((d) => d.weight);
     const weightTarget = 70;
@@ -172,7 +143,7 @@ function addWeight() {
 
   fetch(addWeightUrl).then(response => {
     if (response.ok) {
-      updateChart();
+      getWeights();
     }
     const graph = document.getElementById('weightTimeSeriesChart');
     graph.scrollIntoView({ behavior: "smooth"});
@@ -190,7 +161,7 @@ function deleteWeight(date) {
     {} // TODO: use method: "DELETE"
   ).then(response => {
     if (response.ok) {
-      updateChart();
+      getWeights();
     }
   }).catch(error => {
     console.error(error);
