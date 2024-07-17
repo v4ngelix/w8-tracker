@@ -156,11 +156,7 @@ function getWeights() {
       .data(chartData)
       .enter()
       .append('circle')
-      .attr('cx', (d) => {
-        const out = x(new Date(d.date));
-        console.log(out);
-        return out;
-      })
+      .attr('cx', (d) => x(new Date(d.date)))
       .attr('cy', (d) => y(d.weight))
       .attr('r', 1)
       .attr('fill', 'red');
