@@ -115,7 +115,7 @@ function getWeights() {
       .range([marginLeft, width - marginRight]);
 
     const weightValues = weightData.map((d) => d.weight);
-    const weightTarget = 70;
+    const weightTarget = 95;
 
     const y = d3.scaleLinear()
       .domain([Math.min(...weightValues, weightTarget - 10), Math.max(...weightValues) + 10])
