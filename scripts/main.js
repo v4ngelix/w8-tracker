@@ -187,9 +187,7 @@ function deleteWeight(date) {
 
   fetch(
     deleteWeightUrl,
-    {
-      // method: "DELETE"
-    }
+    {} // TODO: use method: "DELETE"
   ).then(response => {
     if (response.ok) {
       updateChart();
