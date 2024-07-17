@@ -12,13 +12,13 @@ const API_URL = `${window.location.href}api`;
 document.getElementById("dateInput").valueAsDate = new Date();
 
 let weightData = [];
-let sortDirection = 'desc';
 let sortColumn = 'date';
+let sortDirection = 'desc';
 
 /** Handler for the table header sorting event */
 function handleTableSort(column) {
-  sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
   sortColumn = column;
+  sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
 
   const sortingIcon = document.getElementById(`sort-by-${column}-icon`);
   const iconToClear = document.getElementById(`sort-by-${column === 'weight' ? 'date' : 'weight'}-icon`);
