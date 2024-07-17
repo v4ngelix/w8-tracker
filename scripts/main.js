@@ -88,7 +88,11 @@ function getWeights() {
     weightData = data;
     sortWeightData();
     updateTable();
-
+    /*
+     * TODO: The following code should take into account that a chart might already be in place.
+     * this method should also work as an update method.
+     * Afterwards initializing and updating should be separated
+     */
     const chartContainer = document.getElementById('weightTimeSeriesChart');
     chartContainer.innerHTML = '';
 
