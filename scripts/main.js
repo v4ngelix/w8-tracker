@@ -103,6 +103,16 @@ function getWeights() {
     weightData = data;
     sortWeightData();
     updateTable();
+let oldMainWidth;
+window.addEventListener('resize', () => {
+  const newMainWidth = document.getElementsByTagName('main')[0].offsetWidth;
+  console.log('resize event');
+  if (oldMainWidth !== newMainWidth) {
+    oldMainWidth = newMainWidth;
+    console.log('drawing');
+    drawChart();
+  }
+}, true);
     /*
      * TODO: The following code should take into account that a chart might already be in place.
      * this method should also work as an update method.
