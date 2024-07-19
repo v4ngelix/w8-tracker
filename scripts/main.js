@@ -27,7 +27,7 @@ function handleTableSort(column) {
   iconToClear.innerHTML = '&nbsp;';
 
   sortWeightData();
-  updateTable();
+  drawTable();
 }
 
 /** Sort weightData according to current sortDirection and sortColumn values */
@@ -46,7 +46,7 @@ function sortWeightData() {
 }
 
 /** Dumb method for re-drawing the weights table */
-function updateTable() {
+function drawTable() {
   console.log('updateTable called')
   const tbody = document.getElementsByTagName("tbody")[0];
   tbody.innerHTML = "";
@@ -102,7 +102,11 @@ function getWeights() {
   }).then(data => {
     weightData = data;
     sortWeightData();
-    updateTable();
+    drawTable();
+    drawChart();
+  });
+}
+
 let oldMainWidth;
 window.addEventListener('resize', () => {
   const newMainWidth = document.getElementsByTagName('main')[0].offsetWidth;
@@ -113,6 +117,8 @@ window.addEventListener('resize', () => {
     drawChart();
   }
 }, true);
+
+function drawChart() {
     /*
      * TODO: The following code should take into account that a chart might already be in place.
      * this method should also work as an update method.
@@ -170,7 +176,6 @@ window.addEventListener('resize', () => {
       .attr('cy', (d) => y(d.weight))
       .attr('r', 1)
       .attr('fill', 'red');
-  });
 }
 
 function addWeight() {
