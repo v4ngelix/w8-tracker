@@ -147,7 +147,7 @@ function drawChart() {
     const weightTarget = 95;
 
     const y = d3.scaleLinear()
-      .domain([Math.min(...weightValues, weightTarget - 10), Math.max(...weightValues) + 10])
+      .domain([Math.min(...weightValues, weightTarget - 5), Math.max(...weightValues) + 1])
       .range([height - marginBottom, marginTop]);
 
     const chart = d3.create("svg")
