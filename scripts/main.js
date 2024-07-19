@@ -177,9 +177,7 @@ function addWeight() {
     }
     const graph = document.getElementById('weightTimeSeriesChart');
     graph.scrollIntoView({ behavior: "smooth"});
-  }).catch(error => {
-    console.error(error);
-  })
+  }).catch(error => console.error(error));
 }
 
 function deleteWeight(date) {
@@ -196,9 +194,7 @@ function deleteWeight(date) {
       drawTable();
       drawChart();
     }
-  }).catch(error => {
-    console.error(error);
-  })
+  }).catch(error => console.error(error));
 }
 
 getWeights();
