@@ -4,12 +4,12 @@
  * 2. Setup compilation to javascript (with maps?).
  */
 
-const weightInput = document.getElementById("weightInput");
+const weightInput = document.getElementById('weightInput');
 if (weightInput) weightInput.focus();
 
 const API_URL = `${window.location.href}api`;
 
-document.getElementById("dateInput").valueAsDate = new Date();
+document.getElementById('dateInput').valueAsDate = new Date();
 
 let weightData = [];
 let sortColumn = 'date';
@@ -48,8 +48,8 @@ function sortWeightData() {
 /** Dumb method for re-drawing the weights table */
 function drawTable() {
   console.log('updateTable called')
-  const tbody = document.getElementsByTagName("tbody")[0];
-  tbody.innerHTML = "";
+  const tbody = document.getElementsByTagName('tbody')[0];
+  tbody.innerHTML = '';
 
   weightData.forEach((weight, index) => {
     const row = tbody.insertRow();
@@ -69,10 +69,10 @@ function drawTable() {
 
     const date = new Date(weight.date);
     const day = date.getDate();
-    const dayPrefix = day < 10 ? "0" : "";
+    const dayPrefix = day < 10 ? '0' : '';
     const dayString = dayPrefix + day;
     const month = date.getMonth() + 1;
-    const monthPrefix = month < 10 ? "0" : "";
+    const monthPrefix = month < 10 ? '0' : '';
     const monthString = monthPrefix + month;
     const year = String(date.getFullYear()).slice(2, 4);
     row.insertCell(2).innerHTML = `${dayString}.${monthString}.${year}`;
@@ -179,8 +179,8 @@ function drawChart() {
 }
 
 function addWeight() {
-  const date = document.getElementById("dateInput").value;
-  const weight = document.getElementById("weightInput").value;
+  const date = document.getElementById('dateInput').value;
+  const weight = document.getElementById('weightInput').value;
   const addWeightUrl = API_URL + `/addWeight?date=${ date }&weight=${ weight }`;
 
   fetch(addWeightUrl).then(response => {
@@ -191,7 +191,7 @@ function addWeight() {
       drawChart();
     }
     const graph = document.getElementById('weightTimeSeriesChart');
-    graph.scrollIntoView({ behavior: "smooth"});
+    graph.scrollIntoView({behavior: 'smooth'});
   }).catch(error => console.error(error));
 }
 
