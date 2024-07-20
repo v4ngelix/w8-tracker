@@ -138,7 +138,8 @@ function drawChart() {
         new Date(chartData[0].date),
         new Date(chartData[chartData.length -1].date)
       ])
-      .range([marginLeft, width - marginRight]);
+  const x = d3.scaleUtc()
+    .domain(d3.extent(chartData, (d) => new Date(d.date)))
 
     const weightValues = weightData.map((d) => d.weight);
     const weightTarget = 95;
