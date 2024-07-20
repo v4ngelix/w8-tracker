@@ -118,6 +118,13 @@ window.addEventListener('resize', () => {
   }
 }, true);
 
+const CHART_HEIGHT = 400;
+const CHART_MARGIN_TOP = 20;
+const CHART_MARGIN_RIGHT = 20;
+const CHART_MARGIN_BOTTOM = 30;
+const CHART_MARGIN_LEFT = 40;
+
+/** Method for drawing and re-drawing the chart. */
 function drawChart() {
     /*
      * TODO: The following code should take into account that a chart might already be in place.
@@ -128,11 +135,6 @@ function drawChart() {
     chartContainer.innerHTML = '';
 
     const width = chartContainer.offsetWidth
-    const height = 400;
-    const marginTop = 20;
-    const marginRight = 20;
-    const marginBottom = 30;
-    const marginLeft = 40;
 
     const chartData = getChartData();
 
