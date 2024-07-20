@@ -136,8 +136,8 @@ function drawChart() {
     .domain(d3.extent(chartData, (d) => new Date(d.date)))
     .range([CHART_MARGIN_LEFT, width - CHART_MARGIN_RIGHT]);
 
-    const weightValues = weightData.map((d) => d.weight);
-    const weightTarget = 95;
+  const weightValues = weightData.map((d) => d.weight);
+  const weightTarget = 95;
 
   const y = d3.scaleLinear()
     .domain([Math.min(...weightValues, weightTarget - 5), Math.max(...weightValues) + 1])
