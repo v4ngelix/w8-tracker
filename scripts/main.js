@@ -126,13 +126,8 @@ const CHART_MARGIN_LEFT = 40;
 
 /** Method for drawing and re-drawing the chart. */
 function drawChart() {
-    /*
-     * TODO: The following code should take into account that a chart might already be in place.
-     * this method should also work as an update method.
-     * Afterwards initializing and updating should be separated
-     */
-    const chartContainer = document.getElementById('weightTimeSeriesChart');
-    chartContainer.innerHTML = '';
+  const chartContainer = document.getElementById('weightTimeSeriesChart');
+  chartContainer.innerHTML = '';
 
     const width = chartContainer.offsetWidth
 
