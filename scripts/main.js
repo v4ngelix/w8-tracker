@@ -90,7 +90,7 @@ function getChartData() {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 }
 
-function getWeights() {
+function initializePage() {
   const getWeightsUrl = API_URL + '/getWeights';
 
   fetch(getWeightsUrl).then(response => {
@@ -212,4 +212,4 @@ function deleteWeight(date) {
   }).catch(error => console.error(error));
 }
 
-getWeights();
+initializePage();
