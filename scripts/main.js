@@ -129,9 +129,8 @@ function drawChart() {
   const chartContainer = document.getElementById('weightTimeSeriesChart');
   chartContainer.innerHTML = '';
 
-    const width = chartContainer.offsetWidth
-
-    const chartData = getChartData();
+  const width = chartContainer.offsetWidth
+  const chartData = getChartData();
 
   const x = d3.scaleUtc()
     .domain(d3.extent(chartData, (d) => new Date(d.date)))
