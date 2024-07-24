@@ -178,7 +178,12 @@ function addWeight() {
 
   fetch(addWeightUrl).then(response => {
     if (response.ok) {
-      weightData.push({ date, weight });
+      const presentDataIndex = weightData.findIndex(data => data.date === date);
+      if (presentDataIndex !== -1) {
+        weightData[presentDataIndex].weight = weight;
+      } else {
+        weightData.push({ date, weight });
+      }
       sortWeightData();
       drawTable();
       drawChart();
