@@ -1,9 +1,3 @@
-/**
- * TODO:
- * 1. Convert script to typescript.
- * 2. Setup compilation to javascript (with maps?).
- */
-
 const weightInput = document.getElementById('weightInput');
 if (weightInput) weightInput.focus();
 
