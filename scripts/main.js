@@ -2,7 +2,6 @@ const weightInput = document.getElementById('weightInput');
 if (weightInput) weightInput.focus();
 
 const API_URL = `${window.location.href}api`;
-
 document.getElementById('dateInput').valueAsDate = new Date();
 
 let weightData = [];
@@ -137,32 +136,66 @@ function drawChart() {
     .domain([Math.min(...weightValues, weightTarget - 5), Math.max(...weightValues) + 1])
     .range([CHART_HEIGHT - CHART_MARGIN_BOTTOM, CHART_MARGIN_TOP]);
 
-    const chart = d3.create("svg")
-      .attr("width", width)
-      .attr("height", height);
-
-    chart.append("g")
-      .attr("transform", `translate(0,${height - marginBottom})`)
-      .call(d3.axisBottom(x));
-
-    chart.append("g")
-      .attr("transform", `translate(${marginLeft}, 0)`)
-      .call(d3.axisLeft(y));
-
+  let chart = d3.select('#chart');
+  if (chart.empty()) {
+    chart = d3
+      .create('svg', 'chart')
+      .attr('width', width)
+      .attr('height', CHART_HEIGHT);
     chartContainer.append(chart.node());
 
-    console.log({ weightData, chartData });
+    chart
+      .append('g', 'chart-x-axis')
+      .attr('transform', `translate(0,${ CHART_HEIGHT - CHART_MARGIN_BOTTOM })`)
+      .call(d3.axisBottom(x));
 
-    d3.select('#weightTimeSeriesChart')
-      .select('svg')
-      .selectAll('circle')
-      .data(chartData)
-      .enter()
-      .append('circle')
-      .attr('cx', (d) => x(new Date(d.date)))
-      .attr('cy', (d) => y(d.weight))
-      .attr('r', 1)
-      .attr('fill', 'red');
+    chart
+      .append('g', 'chart-y-axis')
+      .attr('transform', `translate(${ CHART_MARGIN_LEFT }, 0)`)
+      .call(d3.axisLeft(y));
+
+  }
+  /** To update */
+  else {
+    console.log('going to update');
+
+    chart
+      .attr('width', width)
+
+    chart
+      .select('g#chart-x-axis')
+      .call(d3.axisBottom(x));
+
+    chart
+      .select('g#chart-y-axis')
+      .call(d3.axisLeft(y));
+  }
+
+  const lineMaker = d3
+    .line()
+    .x((d) => x(new Date(d.date)))
+    .y((d) => y(d.weight));
+
+  chart
+    .selectAll('circle')
+    .data(chartData)
+    .enter()
+    //.exit()
+    .append('circle')
+    .attr('cx', (d) => x(new Date(d.date)))
+    .attr('cy', (d) => y(d.weight))
+    .attr('r', 1)
+    .attr('fill', 'red')
+    .transition().duration(1000)
+
+
+  // Tooltip on hover, mis weight ja date.>
+  /*
+  chart
+    .append('path')
+    .attr('stroke', 'black')
+    .attr('d', lineMaker(chartData));
+  */
 }
 
 function addWeight() {
