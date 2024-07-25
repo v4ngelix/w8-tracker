@@ -9,18 +9,38 @@ table {
     background-color: #fff;
 }
 
-th div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+th {
+    width: 10%;
+    padding: 0;
+    &:hover {
+        background: none;
+    }
 }
 
+.sortable-column-header {
+    width: 30%;
+    div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 1rem;
+    }
+    &:hover {
+        background-color: #eee;
+        cursor: pointer;
+    }
+}
+
+#sort-by-weight-icon,
+#sort-by-date-icon {
+    width: 1rem;
+}
 th,
 tbody tr {
     transition: all 250ms ease-in-out;
 }
 
-th:hover,
 tbody tr:hover {
     background-color: #eee;
 }

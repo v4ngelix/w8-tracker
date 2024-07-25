@@ -7,7 +7,7 @@
   </head>
 
   <body>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 
     <main>
       <header>
@@ -21,7 +21,7 @@
         <h2>Track it, then hack it</h2>
       </header>
 
-      <form>
+      <div style="display: flex">
         <div class="form__element">
           <label for="weightInput">Weight:</label>
           <input
@@ -57,33 +57,46 @@
             Submit weight
           </button>
         </div>
-      </form>
+      </div>
 
-      <canvas id="weightTimeSeries"></canvas>
+      <div id="weightTimeSeriesChart"></div>
 
       <table>
         <thead>
           <tr>
-            <th>
-              <div>
-                <img
-                  src="/assets/user-solid.svg"
-                  alt="User icon"
-                >
-              </div>
-            </th>
-            <th>
+            <th class="sortable-column-header" onclick="handleTableSort('weight')">
               <div>
                 <img
                   src="/assets/weight-hanging-solid.svg"
                   alt="Weight icon">
+                <span>
+                  Weight
+                </span>
+                <span id="sort-by-weight-icon"></span>
               </div>
             </th>
-            <th>
+            <!-- Not actually sortable yet -->
+            <th class="sortable-column-header" onclick="handleTableSort('difference')">
+              <div>
+                <img
+                  src="/assets/weight-hanging-solid.svg"
+                  alt="Weight icon">
+                <span>
+                  Difference from previous
+                </span>
+                <span id="sort-by-difference-icon"></span>
+              </div>
+            </th>
+            <th class="sortable-column-header" onclick="handleTableSort('date')">
               <div>
                 <img
                   src="/assets/calendar-check-regular.svg"
-                  alt="Date icon">
+                  alt="Date icon"
+                >
+                <span>
+                  Date
+                </span>
+                <span id="sort-by-date-icon">▼</span>
               </div>
             </th>
             <th></th>

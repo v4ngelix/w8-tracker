@@ -92,15 +92,19 @@ const server = http.createServer(
         }
       }
       else if (endPoint.includes('getWeights') && request.method === 'GET') {
-        database.all(
-          'SELECT * FROM weight_data',
-          (error, rows) => {
-            if (error) {
-              endResponse(response,500, 'text/plain', `Error: ${error}`);
-            } else {
-              endResponse(response,200, 'application/json', JSON.stringify(rows));
-            }
-        });
+        try {
+          database.all(
+            'SELECT * FROM weight_data',
+            (error, rows) => {
+              if (error) {
+                endResponse(response,500, 'text/plain', `Error: ${error}`);
+              } else {
+                endResponse(response,200, 'application/json', JSON.stringify(rows));
+              }
+          });
+        } catch (error) {
+          console.log('Error while getting values', error);
+        }
       }
       else if (endPoint.includes('deleteWeight') && request.method === 'GET') {
         const parsedUrl = Url.parse(url);
@@ -133,7 +137,6 @@ const server = http.createServer(
 const updateValues = (response, date, weight) => {
   console.log('Trying to update', date);
   try {
-
     database.run(
       'UPDATE weight_data SET weight = ? WHERE date = ?',
       [weight, date],

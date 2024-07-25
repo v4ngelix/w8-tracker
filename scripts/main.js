@@ -1,131 +1,223 @@
-/**
- * TODO:
- * 1. Convert script to typescript.
- * 2. Setup compilation to javascript (with maps?).
- * 3. Replace chart.js with d3
- */
-
-const weightInput = document.getElementById("weightInput");
+const weightInput = document.getElementById('weightInput');
 if (weightInput) weightInput.focus();
 
 const API_URL = `${window.location.href}api`;
-const chartHTMLReference = document.getElementById('weightTimeSeries');
+document.getElementById('dateInput').valueAsDate = new Date();
 
-const chart = new Chart(chartHTMLReference, {
-  type: 'line',
-  data: {
-    labels: [],
-    datasets: [{
-      label: 'Weight',
-      data: [],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      y: {
-      }
-    }
-  }
-});
+let weightData = [];
+let sortColumn = 'date';
+let sortDirection = 'desc';
 
-document.getElementById("dateInput").valueAsDate = new Date();
+/** Handler for the table header sorting event */
+function handleTableSort(column) {
+  sortColumn = column;
+  sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
 
-function rerenderChartAndTable() {
-  // TODO: Have an separate method for updating view.
+  const sortingIcon = document.getElementById(`sort-by-${column}-icon`);
+  const iconToClear = document.getElementById(`sort-by-${column === 'weight' ? 'date' : 'weight'}-icon`);
+
+  sortingIcon.innerHTML = sortDirection === 'asc' ? '▲' : '▼';
+  iconToClear.innerHTML = '&nbsp;';
+
+  sortWeightData();
+  drawTable();
 }
 
-function getWeights() {
-  let weightData = [];
-  const getWeightsUrl = API_URL + '/getWeights';
+/** Sort weightData according to current sortDirection and sortColumn values */
+function sortWeightData() {
+  weightData = weightData.slice().sort((a, b) => {
+    if (sortColumn === 'weight') {
+      return sortDirection === 'asc'
+        ? a.weight - b.weight
+        : b.weight - a.weight;
+    } else {
+      return sortDirection === 'asc'
+        ? new Date(a.date).getTime() - new Date(b.date).getTime()
+        : new Date(b.date).getTime() - new Date(a.date).getTime();
+    }
+  });
+}
 
-  try {
+/** Dumb method for re-drawing the weights table */
+function drawTable() {
+  console.log('updateTable called')
+  const tbody = document.getElementsByTagName('tbody')[0];
+  tbody.innerHTML = '';
+
+  weightData.forEach((weight, index) => {
+    const row = tbody.insertRow();
+    const weightValue = Number(weight.weight).toFixed(2);
+    row.insertCell(0).innerHTML = `${weightValue} kg`;
+
+    const difference = index !== weightData.length - 1
+      ? (weightValue - Number(weightData[index + 1].weight).toFixed(2)).toFixed(2)
+      : '-'
+    const isBigger = difference > 0;
+    row.insertCell(1).innerHTML = `${isBigger ? '+' : ''}${difference} kg`;
+    if (difference !== '0.00') {
+      row.cells[1].style.color = difference > 0 ? 'red' : 'green';
+    } else {
+      row.cells[1].style.color = 'orange';
+    }
+
+    const date = new Date(weight.date);
+    const day = date.getDate();
+    const dayPrefix = day < 10 ? '0' : '';
+    const dayString = dayPrefix + day;
+    const month = date.getMonth() + 1;
+    const monthPrefix = month < 10 ? '0' : '';
+    const monthString = monthPrefix + month;
+    const year = String(date.getFullYear()).slice(2, 4);
+    row.insertCell(2).innerHTML = `${dayString}.${monthString}.${year}`;
+
+    row.insertCell(3).innerHTML = (
+      `<button onclick="deleteWeight('${weight.date}')">Delete</button>`
+    );
+  });
+}
+
+/** Helper method for getting the data in the correct order for the chart - always sorted date descending */
+function getChartData() {
+  return weightData
+    .slice()
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+}
+
+function initializePage() {
+  const getWeightsUrl = API_URL + '/getWeights';
 
   fetch(getWeightsUrl).then(response => {
     if (response.ok) {
       return response.json()
     } else {
-      console.log(response)
-      throw new Error("Something went wrong");
+      throw new Error(`Something went wrong: ${response.error}`);
     }
   }).then(data => {
     weightData = data;
-    const tbody = document.getElementsByTagName("tbody")[0];
-    tbody.innerHTML = "";
-
-    const tableData = weightData.slice().reverse();
-    tableData.forEach((weight) => {
-      const row = tbody.insertRow();
-      row.insertCell(0).innerHTML = `<div class="user-selection__bubble" style="background-color: red"></div>`;
-      row.insertCell(1).innerHTML = `${Number(weight.weight).toFixed(2)} kg`;
-
-      const date = new Date(weight.date);
-      const day = date.getDate();
-      const dayPrefix = day < 10 ? "0" : "";
-      const dayString = dayPrefix + day;
-      const month = date.getMonth() + 1;
-      const monthPrefix = month < 10 ? "0" : "";
-      const monthString = monthPrefix + month;
-      const year = String(date.getFullYear()).slice(2, 4);
-      row.insertCell(2).innerHTML = `${dayString}.${monthString}.${year}`;
-      row.insertCell(3).innerHTML = (
-        `<button onclick="deleteWeight('${weight.date}')">Delete</button>`
-      );
-    });
-
-    let index = 0;
-    chart.data.labels = [];
-    chart.data.datasets[0].data = [];
-    chart.update();
-
-    const updateEvent = () => setTimeout(() => {
-      const newData = weightData[index];
-
-      if (newData) {
-        const date = new Date(newData.date);
-        const day = date.getDate();
-        const dayPrefix = day < 10 ? "0" : "";
-        const dayString = dayPrefix + day;
-        const month = date.getMonth() + 1;
-        const monthPrefix = month < 10 ? "0" : "";
-        const monthString = monthPrefix + month;
-        const year = String(date.getFullYear()).slice(2, 4);
-        const dateString = `${dayString}.${monthString}.${year}`;
-
-        chart.data.labels.push(dateString);
-        chart.data.datasets[0].data.push(newData.weight);
-        chart.update();
-        index++;
-        if (index < weightData.length) {
-          updateEvent()
-        }
-      }
-    }, 25);
-
-    updateEvent(index);
-  }).catch(error => {
-    console.error(error);
+    sortWeightData();
+    drawTable();
+    drawChart();
   });
+}
 
-  } catch (e) {
-    console.log(e);
+let oldMainWidth;
+window.addEventListener('resize', () => {
+  const newMainWidth = document.getElementsByTagName('main')[0].offsetWidth;
+  console.log('resize event');
+  if (oldMainWidth !== newMainWidth) {
+    oldMainWidth = newMainWidth;
+    console.log('drawing');
+    drawChart();
   }
+}, true);
+
+const CHART_HEIGHT = 400;
+const CHART_MARGIN_TOP = 20;
+const CHART_MARGIN_RIGHT = 20;
+const CHART_MARGIN_BOTTOM = 30;
+const CHART_MARGIN_LEFT = 40;
+
+/** Method for drawing and re-drawing the chart. */
+function drawChart() {
+  const chartContainer = document.getElementById('weightTimeSeriesChart');
+  chartContainer.innerHTML = '';
+
+  const width = chartContainer.offsetWidth
+  const chartData = getChartData();
+
+  const x = d3.scaleUtc()
+    .domain(d3.extent(chartData, (d) => new Date(d.date)))
+    .range([CHART_MARGIN_LEFT, width - CHART_MARGIN_RIGHT]);
+
+  const weightValues = weightData.map((d) => d.weight);
+  const weightTarget = 95;
+
+  const y = d3.scaleLinear()
+    .domain([Math.min(...weightValues, weightTarget - 5), Math.max(...weightValues) + 1])
+    .range([CHART_HEIGHT - CHART_MARGIN_BOTTOM, CHART_MARGIN_TOP]);
+
+  let chart = d3.select('#chart');
+  if (chart.empty()) {
+    chart = d3
+      .create('svg', 'chart')
+      .attr('width', width)
+      .attr('height', CHART_HEIGHT);
+    chartContainer.append(chart.node());
+
+    chart
+      .append('g', 'chart-x-axis')
+      .attr('transform', `translate(0,${ CHART_HEIGHT - CHART_MARGIN_BOTTOM })`)
+      .call(d3.axisBottom(x));
+
+    chart
+      .append('g', 'chart-y-axis')
+      .attr('transform', `translate(${ CHART_MARGIN_LEFT }, 0)`)
+      .call(d3.axisLeft(y));
+
+  }
+  /** To update */
+  else {
+    console.log('going to update');
+
+    chart
+      .attr('width', width)
+
+    chart
+      .select('g#chart-x-axis')
+      .call(d3.axisBottom(x));
+
+    chart
+      .select('g#chart-y-axis')
+      .call(d3.axisLeft(y));
+  }
+
+  const lineMaker = d3
+    .line()
+    .x((d) => x(new Date(d.date)))
+    .y((d) => y(d.weight));
+
+  chart
+    .selectAll('circle')
+    .data(chartData)
+    .enter()
+    //.exit()
+    .append('circle')
+    .attr('cx', (d) => x(new Date(d.date)))
+    .attr('cy', (d) => y(d.weight))
+    .attr('r', 1)
+    .attr('fill', 'red')
+    .transition().duration(1000)
+
+
+  // Tooltip on hover, mis weight ja date.>
+  /*
+  chart
+    .append('path')
+    .attr('stroke', 'black')
+    .attr('d', lineMaker(chartData));
+  */
 }
 
 function addWeight() {
-  const date = document.getElementById("dateInput").value;
-  const weight = document.getElementById("weightInput").value;
+  const date = document.getElementById('dateInput').value;
+  const weight = document.getElementById('weightInput').value;
   const addWeightUrl = API_URL + `/addWeight?date=${ date }&weight=${ weight }`;
 
   fetch(addWeightUrl).then(response => {
     if (response.ok) {
-      getWeights();
+      const presentDataIndex = weightData.findIndex(data => data.date === date);
+      if (presentDataIndex !== -1) {
+        weightData[presentDataIndex].weight = weight;
+      } else {
+        weightData.push({ date, weight });
+      }
+      sortWeightData();
+      drawTable();
+      drawChart();
     }
-    const graph = document.getElementById('weightTimeSeries');
-    graph.scrollIntoView({ behavior: "smooth"});
-  }).catch(error => {
-    console.error(error);
-  })
+    const graph = document.getElementById('weightTimeSeriesChart');
+    graph.scrollIntoView({behavior: 'smooth'});
+  }).catch(error => console.error(error));
 }
 
 function deleteWeight(date) {
@@ -134,16 +226,15 @@ function deleteWeight(date) {
 
   fetch(
     deleteWeightUrl,
-    {
-      // method: "DELETE"
-    }
+    {} // TODO: use method: "DELETE"
   ).then(response => {
     if (response.ok) {
-      getWeights();
+      weightData = weightData.filter(weight => weight.date !== dateToDelete);
+      sortWeightData();
+      drawTable();
+      drawChart();
     }
-  }).catch(error => {
-    console.error(error);
-  })
+  }).catch(error => console.error(error));
 }
 
-getWeights();
+initializePage();
