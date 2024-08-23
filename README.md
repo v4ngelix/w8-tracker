@@ -19,7 +19,6 @@ Suckless weight tracking application for personal use.
     * Make imports from node_modules work, d3 intellisense doesn't work with cdn. 
     * Have a nice looking and well animated chart.
     * Add colored BMI line sectors.
-    * Highlight first days of the week?
     * Tooltip on hover
     * Chart should show the whole dataset, or maybe 7 day averages from the beginning?
   * Add "Estimated date for desired weight achieved" prediction.
@@ -44,7 +43,6 @@ Suckless weight tracking application for personal use.
     * line
     * BMIs
     * Goal
-  * Try out webcomponents.
   * Enable modules for better code readability (Typescript probably solves this)
 
 ### Back-end:
@@ -62,4 +60,3 @@ Suckless weight tracking application for personal use.
 ## Roadmap:
   1. Rewrite everything is Typescript.
   2. Figure out how to compile and build everything for deployment.
-  3. Switch charting libraries. 
