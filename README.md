@@ -43,6 +43,7 @@ Suckless weight tracking application for personal use.
     * BMIs
     * Goal
   * Enable modules for better code readability (Typescript probably solves this)
+  * Add authentication and user token savign to local storage, to make the project publicly demoable, while ensuring data integrity.
 
 ### Back-end:
   1. Set up typescript compilation.
