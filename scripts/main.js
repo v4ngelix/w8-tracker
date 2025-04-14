@@ -8,6 +8,17 @@ let weightData = [];
 let sortColumn = 'date';
 let sortDirection = 'desc';
 
+function updateFavicon() {
+  const favicon = document.getElementById('favicon');
+  if (favicon) {
+    const lastWeight = Number(weightData[0].weight);
+    const secondLastWeight = Number(weightData[1].weight);
+    const isIncreasing = lastWeight >secondLastWeight;
+  
+    favicon.href = isIncreasing ? '/assets/chart-increasing.svg' : '/assets/chart-decreasing.svg';
+  };
+}
+
 /** Handler for the table header sorting event */
 function handleTableSort(column) {
   sortColumn = column;
@@ -196,6 +207,8 @@ function drawChart() {
     .attr('stroke', 'black')
     .attr('d', lineMaker(chartData));
   */
+
+    updateFavicon();
 }
 
 function addWeight() {
