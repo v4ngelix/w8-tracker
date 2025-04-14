@@ -54,7 +54,12 @@ function drawTable() {
   const tbody = document.getElementsByTagName('tbody')[0];
   tbody.innerHTML = '';
 
-  weightData.forEach((weight, index) => {
+  const days = [ 'P', 'E', 'T', 'K', 'N', 'R', 'L' ];
+
+  const limit = 7;
+  let index = 0;
+  while (index < limit) {
+    const weight = weightData[index];
     const row = tbody.insertRow();
     const weightValue = Number(weight.weight).toFixed(2);
     row.insertCell(0).innerHTML = `${weightValue} kg`;
@@ -78,12 +83,14 @@ function drawTable() {
     const monthPrefix = month < 10 ? '0' : '';
     const monthString = monthPrefix + month;
     const year = String(date.getFullYear()).slice(2, 4);
-    row.insertCell(2).innerHTML = `${dayString}.${monthString}.${year}`;
+    const weekday = days[date.getUTCDay()];
 
+    row.insertCell(2).innerHTML = `${weekday} ${dayString}.${monthString}.${year}`;
     row.insertCell(3).innerHTML = (
       `<button onclick="deleteWeight('${weight.date}')">Delete</button>`
     );
-  });
+    index++;
+  }
 }
 
 /** Helper method for getting the data in the correct order for the chart - always sorted date descending */
