@@ -179,7 +179,18 @@ function drawChart() {
   const lineMaker = d3
     .line()
     .x((d) => x(new Date(d.date)))
-    .y((d) => y(d.weight));
+    .y((d) => y(d.weight))
+    .curve(d3.curveBumpX);
+
+  // Create or update the line
+  chart
+    .selectAll('path.weight-line')
+    .data([chartData])
+    .join('path')
+    .attr('fill', 'none')
+    .attr('stroke', 'gray')
+    .attr('stroke-width', 1)
+    .attr('d', lineMaker);
 
   chart
     .selectAll('circle')
