@@ -194,15 +194,6 @@ function drawChart() {
     .attr('fill', 'red')
     .transition().duration(1000)
 
-
-  // Tooltip on hover, mis weight ja date.>
-  /*
-  chart
-    .append('path')
-    .attr('stroke', 'black')
-    .attr('d', lineMaker(chartData));
-  */
-
     updateFavicon();
 }
 
