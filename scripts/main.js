@@ -51,7 +51,6 @@ function sortWeightData() {
 
 /** Dumb method for re-drawing the weights table */
 function drawTable() {
-  console.log('updateTable called')
   const tbody = document.getElementsByTagName('tbody')[0];
   tbody.innerHTML = '';
 
@@ -114,10 +113,8 @@ function initializePage() {
 let oldMainWidth;
 window.addEventListener('resize', () => {
   const newMainWidth = document.getElementsByTagName('main')[0].offsetWidth;
-  console.log('resize event');
   if (oldMainWidth !== newMainWidth) {
     oldMainWidth = newMainWidth;
-    console.log('drawing');
     drawChart();
   }
 }, true);
@@ -168,8 +165,6 @@ function drawChart() {
   }
   /** To update */
   else {
-    console.log('going to update');
-
     chart
       .attr('width', width)
 
