@@ -87,7 +87,15 @@ function drawTable() {
 
     row.insertCell(2).innerHTML = `${weekday} ${dayString}.${monthString}.${year}`;
     row.insertCell(3).innerHTML = (
-      `<button onclick="deleteWeight('${weight.date}')">Delete</button>`
+      `<button
+        onclick="deleteWeight('${weight.date}')"
+        class="delete-weight-button">
+          <img
+            src="/assets/trash.svg"
+            alt="Delete icon"
+          >
+          Delete
+        </button>`
     );
     index++;
   }
