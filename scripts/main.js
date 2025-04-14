@@ -161,7 +161,6 @@ function drawChart() {
       .append('g', 'chart-y-axis')
       .attr('transform', `translate(${ CHART_MARGIN_LEFT }, 0)`)
       .call(d3.axisLeft(y));
-
   }
   /** To update */
   else {
