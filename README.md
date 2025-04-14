@@ -46,7 +46,7 @@ Suckless weight tracking application for personal use.
   * Add authentication and user token savign to local storage, to make the project publicly demoable, while ensuring data integrity.
 
 ### Back-end:
-  1. Set up typescript compilation.
+  1. Set up typescript compilation. Mayber use "--experimental-strip-types" flag.Gg
   2. Use proxying to avoid cors issues.
   3. Try to have a static index.html file served as a default. And BE deal only with the API.
   4. Enable modular code writing, separate code to different files.
