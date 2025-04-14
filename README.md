@@ -23,7 +23,6 @@ Suckless weight tracking application for personal use.
     * Chart should show the whole dataset, or maybe 7 day averages from the beginning?
   * Add "Estimated date for desired weight achieved" prediction.
     * Show weight trend (probably based on 7 day average).
-    * Have favicon change color based on the weight. (chart rising / crhart falling).
   * Set up typescript compilation.
   * Table - Show up to 7 last days weight as "open" or two weeks.
     * Separate megatable page for the whole dataset?
