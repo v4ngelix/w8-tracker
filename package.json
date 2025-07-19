@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node --env-file=./configurations/.env application.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "backup": "git add weights.db && git commit -m \"Update weights.db\" && git push"
   },
   "author": "",
   "license": "ISC",
