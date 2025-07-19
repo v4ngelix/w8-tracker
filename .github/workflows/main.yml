@@ -23,4 +23,10 @@ jobs:
 
       - name: Create file for PoC
         run: |
-          ssh virt65914@boheemia.ee "cd domeenid/www.boheemia.ee/w8/ && npm run backup && pm2 delete application && pm2 start application.js --node-args=\"--env-file=./configurations/.env\" --watch"
+          ssh virt65914@boheemia.ee "\
+            cd domeenid/www.boheemia.ee/w8/ && \
+            echo 'In directory:' && pwd && \
+            ls && \
+            npm run backup && \
+            pm2 delete application || true && \
+            pm2 start application.js --node-args='--env-file=./configurations/.env' --watch"
