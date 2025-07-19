@@ -51,12 +51,15 @@ Suckless weight tracking application for personal use.
   3. Try to have a static index.html file served as a default. And BE deal only with the API.
   4. Enable modular code writing, separate code to different files.
 
-### Devops:
-  * Find a way for continuous deployment with zone.ee server and github repository:
-    * Try Github webhooks/actions. (POST query after events)
-    * Set up a CI/CD pipeline with github actions. Would really need an automated way of updating the server.
-    * Product build should have a separate subrepo or if possible through Github actions, just upload the production build to the server.
-
 ## Roadmap:
   1. Rewrite everything is Typescript.
   2. Figure out how to compile and build everything for deployment.
+
+### From notes (07.07.25)
+diff sorting ajab keblast.
+submit nupp stiilimata.
+submit inputid eri kõrgustega.
+võimalus lisada periodiseeringuid?
+a la 2024 Portugal.
+a la 2025 Provance.
+inputidel pole mingit valideerimist, tee mis tahad
