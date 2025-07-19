@@ -23,6 +23,4 @@ jobs:
 
       - name: Create file for PoC
         run: |
-          ssh virt65914@boheemia.ee
-          cd domeenid/www.boheemia.ee/w8/
-          touch kana.muna
+          ssh virt65914@boheemia.ee "cd domeenid/www.boheemia.ee/w8/ && touch kana.muna"
