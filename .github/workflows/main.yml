@@ -1,0 +1,26 @@
+name: Deploy to Website
+
+on:
+  push:
+      branches:
+        - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+  
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H boheemia.ee >> ~/.ssh/known_hosts
+
+      - name: Create file for PoC
+        run: |
+          ssh virt65914@boheemia.ee "cd domeenid/www.boheemia.ee/w8/ && npm run backup && git pull && pm2 delete application && pm2 start application.js --node-args="--env-file=./configurations/.env" --watch"
