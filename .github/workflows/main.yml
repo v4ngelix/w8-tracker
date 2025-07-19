@@ -28,5 +28,5 @@ jobs:
             echo 'In directory:' && pwd && \
             ls && \
             npm run backup && \
-            pm2 delete application || true && \
+            pm2 delete application && \
             pm2 start application.js --node-args='--env-file=./configurations/.env' --watch"
