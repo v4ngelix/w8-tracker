@@ -63,3 +63,13 @@ võimalus lisada periodiseeringuid?
 a la 2024 Portugal.
 a la 2025 Provance.
 inputidel pole mingit valideerimist, tee mis tahad
+andlesticks for averages.
+[  ] Ts stuff lõpuni
+[  ] Chart toggle, past 6/12 months or all time, with datapoints currently being monthly averages.
+[  ] Chart data update.
+[  ] Interpolated average line
+[  ] Subrepo for sqlite
+
+
+vb hoopis nii, et weights on eraldi repo ja kui master push siis tehakse ajutises arvutis build ja buildi stuff kopeeritakse serverisse.
+peaks muidugi katsetama, et kas oleks võimalik teise domeeni pealt backi serveerida, või siis sama domeeni alampathi pealt seda teha.
