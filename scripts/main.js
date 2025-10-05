@@ -202,10 +202,19 @@ function drawChart() {
       .attr('transform', `translate(${ CHART_MARGIN_LEFT }, 0)`)
       .call(d3.axisLeft(yWeight));
 
+    const ticksBMI = yBWI
+      .ticks()
+      .filter(Number.isInteger);
+
     chart
       .append('g', 'chart-y-axis-B')
       .attr('transform', `translate(${ width - CHART_MARGIN_RIGHT }, 0)`)
-      .call(d3.axisRight(yBWI))
+      .call(
+        d3
+          .axisRight(yBWI)
+          .tickValues(ticksBMI)
+          .tickFormat(d3.format('d'))
+      )
   }
 
   /** To update */
