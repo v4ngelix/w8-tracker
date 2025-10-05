@@ -8,6 +8,9 @@ let weightData = [];
 let sortColumn = 'date';
 let sortDirection = 'desc';
 
+/** TODO: In meters. Should later be read from the database user table. */
+const userHeight = 1.73;
+
 function updateFavicon() {
   const favicon = document.getElementById('favicon');
   if (favicon) {
