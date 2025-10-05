@@ -148,7 +148,7 @@ const CHART_HEIGHT = 400;
 const CHART_MARGIN_TOP = 20;
 const CHART_MARGIN_RIGHT = 20;
 const CHART_MARGIN_BOTTOM = 30;
-const CHART_MARGIN_LEFT = 40;
+const CHART_MARGIN_LEFT = 30;
 
 /** Method for drawing and re-drawing the chart. */
 function drawChart() {
