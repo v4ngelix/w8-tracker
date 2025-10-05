@@ -16,7 +16,7 @@ function updateFavicon() {
     const isIncreasing = lastWeight >secondLastWeight;
 
     favicon.href = isIncreasing ? '/assets/chart-increasing.svg' : '/assets/chart-decreasing.svg';
-  };
+  }
 }
 
 /** Handler for the table header sorting event */
