@@ -125,9 +125,14 @@ function initializePage() {
   });
 
   document
-      .getElementsByClassName('header__retro-logo-effect')[0]
-      .classList
-      .add('header__retro-logo-effect--active')
+    .getElementsByClassName('header__retro-logo-effect')[0]
+    .classList
+    .add('header__retro-logo-effect--active')
+
+  document
+    .getElementsByClassName('header__subtitle')[0]
+    .classList
+    .add('header__subtitle--active')
 }
 
 let oldMainWidth;
