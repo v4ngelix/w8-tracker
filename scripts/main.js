@@ -149,7 +149,7 @@ window.addEventListener('resize', () => {
 
 const CHART_HEIGHT = 400;
 const CHART_MARGIN_TOP = 20;
-const CHART_MARGIN_RIGHT = 20;
+const CHART_MARGIN_RIGHT = 25;
 const CHART_MARGIN_BOTTOM = 30;
 const CHART_MARGIN_LEFT = 30;
 
@@ -161,15 +161,27 @@ function drawChart() {
   const width = chartContainer.offsetWidth
   const chartData = getChartData();
 
-  const x = d3.scaleUtc()
+  const xAxis = d3.scaleUtc()
     .domain(d3.extent(chartData, (d) => new Date(d.date)))
     .range([CHART_MARGIN_LEFT, width - CHART_MARGIN_RIGHT]);
 
   const weightValues = weightData.map((d) => d.weight);
   const weightTarget = 95;
 
-  const y = d3.scaleLinear()
+  const yWeight = d3.scaleLinear()
     .domain([Math.min(...weightValues, weightTarget - 5), Math.max(...weightValues) + 1])
+    .range([CHART_HEIGHT - CHART_MARGIN_BOTTOM, CHART_MARGIN_TOP]);
+
+  const getBWI = (weight) => (
+    Math.round(weight / Math.pow(userHeight, 2))
+  );
+
+  const BWIValues = weightValues.map((weight) => {
+    return getBWI(weight);
+  });
+
+  const yBWI = d3.scaleLinear()
+    .domain([Math.min(...BWIValues), Math.max(...BWIValues)])
     .range([CHART_HEIGHT - CHART_MARGIN_BOTTOM, CHART_MARGIN_TOP]);
 
   let chart = d3.select('#chart');
@@ -183,12 +195,17 @@ function drawChart() {
     chart
       .append('g', 'chart-x-axis')
       .attr('transform', `translate(0,${ CHART_HEIGHT - CHART_MARGIN_BOTTOM })`)
-      .call(d3.axisBottom(x));
+      .call(d3.axisBottom(xAxis));
 
     chart
       .append('g', 'chart-y-axis')
       .attr('transform', `translate(${ CHART_MARGIN_LEFT }, 0)`)
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(yWeight));
+
+    chart
+      .append('g', 'chart-y-axis-B')
+      .attr('transform', `translate(${ width - CHART_MARGIN_RIGHT }, 0)`)
+      .call(d3.axisRight(yBWI))
   }
 
   /** To update */
@@ -198,17 +215,21 @@ function drawChart() {
 
     chart
       .select('g#chart-x-axis')
-      .call(d3.axisBottom(x));
+      .call(d3.axisBottom(xAxis));
 
     chart
       .select('g#chart-y-axis')
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(yWeight));
+
+    chart
+      .select('g#chart-y-axis-B')
+      .call(d3.axisRight(yBWI));
   }
 
   const lineMaker = d3
     .line()
-    .x((d) => x(new Date(d.date)))
-    .y((d) => y(d.weight))
+    .x((d) => xAxis(new Date(d.date)))
+    .y((d) => yWeight(d.weight))
     .curve(d3.curveBumpX);
 
   // Create or update the line
@@ -221,14 +242,32 @@ function drawChart() {
     .attr('stroke-width', 1)
     .attr('d', lineMaker);
 
+  /*
+  const lineMakerB = d3
+    .line()
+    .x((d) => xAxis(new Date(d.date)))
+    .y((d) => yBWI(getBWI(d.weight)))
+    //.curve(d3.curveBumpX);
+
+  // Create or update the line
+  chart
+    .selectAll('path.bwi-line')
+    .data([chartData])
+    .join('path')
+    .attr('fill', 'none')
+    .attr('stroke', 'red')
+    .attr('stroke-width', 2)
+    .attr('d', lineMakerB);
+   */
+
   chart
     .selectAll('circle')
     .data(chartData)
     .enter()
     //.exit()
     .append('circle')
-    .attr('cx', (d) => x(new Date(d.date)))
-    .attr('cy', (d) => y(d.weight))
+    .attr('cx', (d) => xAxis(new Date(d.date)))
+    .attr('cy', (d) => yWeight(d.weight))
     .attr('r', 1)
     .attr('fill', 'red')
     .transition().duration(1000)
