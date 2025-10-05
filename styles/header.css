@@ -15,7 +15,7 @@ header {
     margin: 0;
     font-size: 3rem;
     font-weight: 700;
-    transition: all 1s ease-out;
+    transition: all 1s cubic-bezier(.2, 1, .4, 1);
   }
 }
 
