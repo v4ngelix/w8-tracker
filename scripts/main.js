@@ -168,20 +168,25 @@ function drawChart() {
   const weightValues = weightData.map((d) => d.weight);
   const weightTarget = 95;
 
+  const weightDomain = [Math.min(...weightValues, weightTarget - 5), Math.max(...weightValues) + 1];
+
   const yWeight = d3.scaleLinear()
-    .domain([Math.min(...weightValues, weightTarget - 5), Math.max(...weightValues) + 1])
+    .domain(weightDomain)
     .range([CHART_HEIGHT - CHART_MARGIN_BOTTOM, CHART_MARGIN_TOP]);
 
+  /** TODO: Maybe BMI is only used for coloring of the weight line. The second axis doesn't give any useful inforamtion. */
+  /** TODO: Maybe color the backgrounds with BMI legend. */
   const getBWI = (weight) => (
-    Math.round(weight / Math.pow(userHeight, 2))
+    weight / Math.pow(userHeight, 2)
   );
 
   const BWIValues = weightValues.map((weight) => {
     return getBWI(weight);
   });
 
-  const yBWI = d3.scaleLinear()
-    .domain([Math.min(...BWIValues), Math.max(...BWIValues)])
+  const yBMI = d3
+    .scaleLinear()
+    .domain([ getBWI(weightDomain[0]), getBWI(weightDomain[1]) ])
     .range([CHART_HEIGHT - CHART_MARGIN_BOTTOM, CHART_MARGIN_TOP]);
 
   let chart = d3.select('#chart');
@@ -198,20 +203,20 @@ function drawChart() {
       .call(d3.axisBottom(xAxis));
 
     chart
-      .append('g', 'chart-y-axis')
+      .append('g', 'chart-y-axis-weight')
       .attr('transform', `translate(${ CHART_MARGIN_LEFT }, 0)`)
       .call(d3.axisLeft(yWeight));
 
-    const ticksBMI = yBWI
+    const ticksBMI = yBMI
       .ticks()
       .filter(Number.isInteger);
 
     chart
-      .append('g', 'chart-y-axis-B')
+      .append('g', 'chart-y-axis-bmi')
       .attr('transform', `translate(${ width - CHART_MARGIN_RIGHT }, 0)`)
       .call(
         d3
-          .axisRight(yBWI)
+          .axisRight(yBMI)
           .tickValues(ticksBMI)
           .tickFormat(d3.format('d'))
       )
@@ -227,12 +232,12 @@ function drawChart() {
       .call(d3.axisBottom(xAxis));
 
     chart
-      .select('g#chart-y-axis')
+      .select('g#chart-y-axis-weight')
       .call(d3.axisLeft(yWeight));
 
     chart
-      .select('g#chart-y-axis-B')
-      .call(d3.axisRight(yBWI));
+      .select('g#chart-y-axis-bmi')
+      .call(d3.axisRight(yBMI));
   }
 
   const lineMaker = d3
@@ -241,7 +246,7 @@ function drawChart() {
     .y((d) => yWeight(d.weight))
     .curve(d3.curveBumpX);
 
-  // Create or update the line
+  /** TODO: Create or update the line */
   chart
     .selectAll('path.weight-line')
     .data([chartData])
@@ -250,24 +255,6 @@ function drawChart() {
     .attr('stroke', 'lightgray')
     .attr('stroke-width', 1)
     .attr('d', lineMaker);
-
-  /*
-  const lineMakerB = d3
-    .line()
-    .x((d) => xAxis(new Date(d.date)))
-    .y((d) => yBWI(getBWI(d.weight)))
-    //.curve(d3.curveBumpX);
-
-  // Create or update the line
-  chart
-    .selectAll('path.bwi-line')
-    .data([chartData])
-    .join('path')
-    .attr('fill', 'none')
-    .attr('stroke', 'red')
-    .attr('stroke-width', 2)
-    .attr('d', lineMakerB);
-   */
 
   chart
     .selectAll('circle')
