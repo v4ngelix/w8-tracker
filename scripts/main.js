@@ -14,7 +14,7 @@ function updateFavicon() {
     const lastWeight = Number(weightData[0].weight);
     const secondLastWeight = Number(weightData[1].weight);
     const isIncreasing = lastWeight >secondLastWeight;
-  
+
     favicon.href = isIncreasing ? '/assets/chart-increasing.svg' : '/assets/chart-decreasing.svg';
   };
 }
@@ -123,6 +123,11 @@ function initializePage() {
     drawTable();
     drawChart();
   });
+
+  document
+      .getElementsByClassName('header__retro-logo-effect')[0]
+      .classList
+      .add('header__retro-logo-effect--active')
 }
 
 let oldMainWidth;
