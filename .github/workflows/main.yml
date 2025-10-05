@@ -27,6 +27,7 @@ jobs:
             cd domeenid/www.boheemia.ee/w8/ && \
             echo 'In directory:' && pwd && \
             ls && \
-            npm run backup && \
+            npm run backup || true && \
             pm2 delete application || true && \
+            pm2 save --force && \
             pm2 start application.js --node-args='--env-file=./configurations/.env' --watch"
