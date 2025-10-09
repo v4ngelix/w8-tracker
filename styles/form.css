@@ -18,4 +18,22 @@
     font-weight: 300;
     font-size: .75rem;
   }
+
+  input:focus {
+    outline: 1px solid #0010ff;
+    border: 1px solid #0010ff;
+    color: #0010ff;
+  }
+
+  input[type="number"] {
+    padding-left: .4rem;
+  }
+
+  input[type="date"]:hover {
+    cursor: text;
+  }
+
+  button:hover {
+    cursor: pointer;
+  }
 }
