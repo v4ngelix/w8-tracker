@@ -276,21 +276,23 @@ function addWeight() {
   const weight = document.getElementById('weightInput').value;
   const addWeightUrl = API_URL + `/addWeight?date=${ date }&weight=${ weight }`;
 
-  fetch(addWeightUrl).then(response => {
-    if (response.ok) {
-      const presentDataIndex = weightData.findIndex(data => data.date === date);
-      if (presentDataIndex !== -1) {
-        weightData[presentDataIndex].weight = weight;
-      } else {
-        weightData.push({ date, weight });
+  if (weight && date) {
+    fetch(addWeightUrl).then(response => {
+      if (response.ok) {
+        const presentDataIndex = weightData.findIndex(data => data.date === date);
+        if (presentDataIndex !== -1) {
+          weightData[presentDataIndex].weight = weight;
+        } else {
+          weightData.push({ date, weight });
+        }
+        sortWeightData();
+        drawTable();
+        drawChart();
       }
-      sortWeightData();
-      drawTable();
-      drawChart();
-    }
-    const graph = document.getElementById('weightTimeSeriesChart');
-    graph.scrollIntoView({behavior: 'smooth'});
-  }).catch(error => console.error(error));
+      const graph = document.getElementById('weightTimeSeriesChart');
+      graph.scrollIntoView({behavior: 'smooth'});
+    }).catch(error => console.error(error));
+  }
 }
 
 function deleteWeight(date) {
