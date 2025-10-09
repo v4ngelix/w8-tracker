@@ -20,9 +20,9 @@
   }
 
   input:focus {
-    outline: 1px solid #0010ff;
-    border: 1px solid #0010ff;
-    color: #0010ff;
+    outline: 1px solid #525FE1;
+    border: 1px solid #525FE1;
+    color: #525FE1;
   }
 
   input[type="number"] {
