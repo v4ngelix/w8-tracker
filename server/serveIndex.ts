@@ -1,19 +1,17 @@
 import { readFile } from "node:fs";
-import { join } from "node:path";
 import type { ServerResponse } from "node:http";
-import ErrnoException = NodeJS.ErrnoException;
 
-import endResponse from "./endResponse";
+import endResponse from "./endResponse.ts";
+import { join, dirname } from "node:path";
 
 function serveIndex(
   response: ServerResponse
 ): void {
-  const indexPath: string = join(__dirname, 'index.html');
-
+  try {
   readFile(
-    indexPath,
+    './index.html',
     (
-      err: ErrnoException,
+      err,
       data: NonSharedBuffer
     ): void => {
       if (err) {
@@ -23,6 +21,10 @@ function serveIndex(
       }
     }
   );
+  } catch (e) {
+    console.error(e.toString());
+  }
+
 }
 
 export default serveIndex;

@@ -1,5 +1,5 @@
 import type { ServerResponse } from "node:http";
-import type { ValidContentType } from "./types";
+import type { ValidContentType } from "./types.ts";
 
 /** An utility method for ending response. */
 function endResponse(

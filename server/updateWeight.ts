@@ -1,6 +1,6 @@
 import type { ServerResponse } from "node:http";
 import type { DatabaseSync, StatementResultingChanges } from 'node:sqlite';
-import endResponse from "./endResponse";
+import endResponse from "./endResponse.ts";
 
 /** Updates the weight value of an existing date row. */
 function updateWeight(
@@ -15,7 +15,7 @@ function updateWeight(
     const statement: StatementResultingChanges = (
       database
         .prepare('UPDATE weight_data SET weight = ? WHERE date = ?')
-        .run(date, weight)
+        .run(weight, date)
     );
 
     if (statement?.changes > 0) {

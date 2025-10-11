@@ -277,7 +277,10 @@ function addWeight() {
   const addWeightUrl = API_URL + `/addWeight?date=${ date }&weight=${ weight }`;
 
   if (weight && date) {
-    fetch(addWeightUrl).then(response => {
+    fetch(
+      addWeightUrl,
+      {} // TODO: use method: "POST"
+    ).then(response => {
       if (response.ok) {
         const presentDataIndex = weightData.findIndex(data => data.date === date);
         if (presentDataIndex !== -1) {

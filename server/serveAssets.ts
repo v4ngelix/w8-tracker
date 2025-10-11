@@ -1,22 +1,21 @@
-import { join } from "node:path";
-import { readFile } from "node:fs";
-import type { ServerResponse } from "node:http";
-import ErrnoException = NodeJS.ErrnoException;
+import { join } from 'node:path';
+import { readFile } from 'node:fs';
+import type { ServerResponse } from 'node:http';
 
-import endResponse from "./endResponse";
-import type { ValidContentType } from "./types";
+import endResponse from './endResponse.ts';
+import type { ValidContentType } from "./types.ts";
 
 // TODO: maybe statically served index and assets works better.
 function serveAssets(
   requestPath: string[],
   response: ServerResponse
 ): void {
-  const filePath: string = join(__dirname, ...requestPath);
+  const filePath: string = join('./', ...requestPath);
 
   readFile(
     filePath,
     (
-      err: ErrnoException,
+      err,
       data: NonSharedBuffer
     ): void => {
       if (err) {

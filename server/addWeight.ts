@@ -1,6 +1,6 @@
 import type { ServerResponse } from "node:http";
 import type { DatabaseSync, StatementResultingChanges } from "node:sqlite";
-import endResponse from "./endResponse";
+import endResponse from "./endResponse.ts";
 
 /** Adds a new date and weight row. */
 function addWeight(

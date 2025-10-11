@@ -5,16 +5,16 @@ import { parse } from 'node:querystring';
 import { DatabaseSync, type StatementResultingChanges } from 'node:sqlite';
 import type { SQLOutputValue } from 'node:sqlite';
 
-import endResponse from './endResponse';
+import endResponse from './endResponse.ts';
 
 // Types:
 import type { Server } from 'http';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import serveAssets from './serveAssets';
-import serveIndex from './serveIndex';
-import updateWeight from './updateWeight';
-import addWeight from "./addWeight";
+import serveAssets from './serveAssets.ts';
+import serveIndex from './serveIndex.ts';
+import updateWeight from './updateWeight.ts';
+import addWeight from "./addWeight.ts";
 
 const databaseName: string | undefined = process.env?.DATABASE;
 const hostname: string | undefined = process.env?.HOSTNAME;
@@ -55,7 +55,7 @@ const server: Server = createServer(
       const endPoint: string = requestPath?.[1] ?? '';
       console.log('It is an API request', endPoint);
 
-      if (endPoint.includes('addWeight') && request.method === 'POST') {
+      if (endPoint.includes('addWeight') && request.method === 'GET') {
         // Validate inputs!
 
         // Update deprecated method usage
@@ -107,7 +107,7 @@ const server: Server = createServer(
         }
       }
       // use DELETE?
-      else if (endPoint.includes('deleteWeight') && request.method === 'DELETE') {
+      else if (endPoint.includes('deleteWeight') && request.method === 'GET') {
         const parsedUrl = parseUrl(url);
         const queryParams = parse(parsedUrl.query);
         const date = queryParams?.date;
