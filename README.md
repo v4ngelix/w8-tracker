@@ -46,30 +46,49 @@ Suckless weight tracking application for personal use.
   * Add authentication and user token savign to local storage, to make the project publicly demoable, while ensuring data integrity.
 
 ### Back-end:
-  1. Set up typescript compilation. Mayber use "--experimental-strip-types" flag.Gg
-  2. Use proxying to avoid cors issues.
-  3. Try to have a static index.html file served as a default. And BE deal only with the API.
-  4. Enable modular code writing, separate code to different files.
-
-## Roadmap:
-  1. Rewrite everything is Typescript.
-  2. Figure out how to compile and build everything for deployment.
+  * Use proxying to avoid cors issues.
+  * Try to have a static index.html file served as a default. And BE deal only with the API.
+  * Enable modular code writing, separate code to different files.
+  * Valdiate inputs from the backend  
 
 ### From notes (07.07.25)
 diff sorting ajab keblast.
-submit nupp stiilimata.
-submit inputid eri kõrgustega.
 võimalus lisada periodiseeringuid?
 a la 2024 Portugal.
 a la 2025 Provance.
 inputidel pole mingit valideerimist, tee mis tahad
 andlesticks for averages.
-[  ] Ts stuff lõpuni
 [  ] Chart toggle, past 6/12 months or all time, with datapoints currently being monthly averages.
 [  ] Chart data update.
 [  ] Interpolated average line
 [  ] Subrepo for sqlite
 
+Browser vs code, self hosted?
+W8 local storage secret, othetwise demo
+Subrepo for buil, automstic version change vbaded on commit messsge ir patch, minor, msjor. Jenkins? Build ftom current mastet. Git flow?
+[  ] 1yer 1mont 5yr etc view toggle
+[  ] When roadmap is done, analysis like document to readme
+[  ] A la clicks add, favicon changes, overwrites etc
+[  ] Longrerm charts based on monthly averages. All data / njmber of datapoinr
+[  ] On init load key from local storage
+[  ] If no key, create temp in app memory?
+[  ] Separate url for ligin. Dunno if w8 boh.ee/login local stor file cab be read from root
+[  ] Shine effect every other minute?
+[  ] Mony, 6monyh, yr, alll
+w8 show and define periods.
+* return to tartu
+* return to tartu vol2
+hydration' load stuff amd confs eyc vith workers
+confeti when new low score
+flames if new high score 
 
+* Is it safe to listen to port:80?
+* Would be good to have a static index.html served, even if the backend isn't working.
+* Maybe if back is down or no secret is in local storage, works in demo mode and uses example data.
+
+* Monorepo or separate BE from FE?
+* Maybe only separate data from the main repo?
+* Unify data column values
+* Validation of inputs on the backend side.
 vb hoopis nii, et weights on eraldi repo ja kui master push siis tehakse ajutises arvutis build ja buildi stuff kopeeritakse serverisse.
 peaks muidugi katsetama, et kas oleks võimalik teise domeeni pealt backi serveerida, või siis sama domeeni alampathi pealt seda teha.
