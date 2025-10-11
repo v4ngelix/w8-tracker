@@ -1,7 +1,7 @@
 {
   "name": "w8-tracker-be",
   "version": "1.0.0",
-  "description": "",
+  "description": "BE for the W8 application",
   "main": "app.js",
   "scripts": {
     "start": "node --env-file=./configurations/.env application.js",
@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "d3": "^7.9.0",
     "sqlite3": "^5.1.7"
   },
   "devDependencies": {
