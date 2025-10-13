@@ -31,4 +31,5 @@ jobs:
             npm i || true && \
             pm2 delete application || true && \
             pm2 save --force && \
-            pm2 start ./server/application.ts --node-args='--experimental-strip-types --experimental-sqlite --env-file=./configurations/.env' --watch"
+            
+            pm2 start ./server/application.ts --interpreter=node --node-args='--experimental-strip-types --experimental-sqlite --env-file=./configurations/.env' --watch"
