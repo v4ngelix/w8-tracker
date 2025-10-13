@@ -31,4 +31,4 @@ jobs:
             npm i || true && \
             pm2 delete application || true && \
             pm2 save --force && \
-            pm2 start server/application.ts --node-args='--env-file=./configurations/.env' --watch"
+            pm2 start ./server/application.ts --node-args='--env-file=./configurations/.env' --watch"
