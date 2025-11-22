@@ -36,7 +36,7 @@ Suckless weight tracking application for personal use.
   * Have index.html served as a default, find out a way how to use the existing back-end without port routing.
     * Might not be possible to use several ports on zone.ee server.
   * * https://date-fns.org/v3.6.0/docs/eachWeekOfInterval
-  * Settings button for toggling differente types of chart modes.
+  * Settings button for toggling different types of chart modes.
     * Save changes to local storage
     * whether showing datapoints or averages
     * line
@@ -73,13 +73,12 @@ Subrepo for buil, automstic version change vbaded on commit messsge ir patch, mi
 [  ] On init load key from local storage
 [  ] If no key, create temp in app memory?
 [  ] Separate url for ligin. Dunno if w8 boh.ee/login local stor file cab be read from root
-[  ] Shine effect every other minute?
 [  ] Mony, 6monyh, yr, alll
 w8 show and define periods.
 * return to tartu
 * return to tartu vol2
 hydration' load stuff amd confs eyc vith workers
-confeti when new low score
+confetti when new low score
 flames if new high score 
 
 * Is it safe to listen to port:80?
