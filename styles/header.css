@@ -6,9 +6,9 @@ header {
 
 .header__retro-logo-effect {
   position: relative;
-  height: 48px;
+  height: 3rem;
   width: 100%;
-  border-bottom: 1px solid black;
+  border-bottom: 0.0625rem solid black;
 
   h1 {
     position: absolute;
@@ -21,7 +21,7 @@ header {
   }
 
   h1:nth-of-type(6) {
-    left: 70px;
+    left: 4rem;
     z-index: 6;
     opacity: 0;
     transition: all 1.5s cubic-bezier(.2, 1, .4, 1);
@@ -52,24 +52,24 @@ header {
 
   h1:nth-of-type(2) {
     color: #FFA41B;
-    left: 6px;
+    left: .375rem;
     z-index: 2;
   }
 
   h1:nth-of-type(3) {
     color: #F86F03;
-    left: 12px;
+    left: .75rem;
     z-index: 3;
   }
 
   h1:nth-of-type(4) {
     color: #525FE1;
-    left: 18px;
+    left: 1rem;
     z-index: 4;
   }
 
   h1:nth-of-type(5) {
-    left: 24px;
+    left: 1.25rem;
     z-index: 5;
   }
 

@@ -8,10 +8,17 @@
 
 html {
     height: 100%;
+    font-size: 16px;
     font-family: sans-serif;
     color: #222222;
     * {
         box-sizing: border-box;
+    }
+}
+
+@media (any-hover: none) {
+    html {
+        font-size: 24px;
     }
 }
 
@@ -35,7 +42,7 @@ body {
     margin: .25rem;
     width: calc(100% - .5rem);
     height: calc(100% - .5rem);
-    border: 1px solid red;
+    border: 0.0625rem solid red;
     border-radius: .5rem;
     padding: .125rem .5rem;
     color: red;
@@ -43,7 +50,7 @@ body {
 }
 
 main {
-    border: 1px solid #eeeeee;
+    border: 0.0625rem solid #eeeeee;
     border-radius: .5rem;
     padding: 1.5rem;
     width: 100%;
