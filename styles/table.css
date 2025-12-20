@@ -10,14 +10,6 @@ table {
 }
 
 th {
-    width: 10%;
-    padding: 0;
-    &:hover {
-        background: none;
-    }
-}
-
-.sortable-column-header {
     width: 30%;
     div {
         display: flex;
@@ -26,16 +18,26 @@ th {
         width: 100%;
         padding: 0 1rem;
     }
+    padding: 0;
     &:hover {
-        background-color: #eee;
-        cursor: pointer;
+        background: none;
     }
+}
+
+th:last-of-type {
+    width: 10%;
+}
+
+.sortable-column-header:hover {
+    background-color: #eee;
+    cursor: pointer;
 }
 
 #sort-by-weight-icon,
 #sort-by-date-icon {
     width: 1rem;
 }
+
 th,
 tbody tr {
     transition: all 250ms ease-in-out;
