@@ -24,7 +24,7 @@ function addWeight(
       endResponse(response,500, 'text/plain', `Weight not added`);
     }
   } catch (error) {
-    console.log('Error while addinh value', error);
+    console.log('Error while adding value', error);
   }
 }
 
