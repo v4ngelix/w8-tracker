@@ -1,9 +1,9 @@
 ---
-name: Custom issue template
+name: New issue
 about: Describe this issue template's purpose here.
 title: ''
 labels: ''
-assignees: ''
+assignees: v4ngelix
 
 ---
 
