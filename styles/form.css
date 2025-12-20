@@ -1,6 +1,7 @@
 .w8__add-weight__controls {
   display: grid;
   grid-template-columns: 90px 135px 105px;
+  grid-column-gap: .25rem;
 
   label {
     margin-bottom: .25rem;
@@ -35,5 +36,18 @@
 
   button:hover {
     cursor: pointer;
+  }
+}
+
+@media (any-hover: none) {
+  .w8__add-weight__controls {
+    grid-template-columns: 35% 35% 20%;
+    grid-column-gap: .5rem;
+
+    input,
+    button {
+      height: 2rem;
+      border: 2.5px solid black;
+    }
   }
 }
