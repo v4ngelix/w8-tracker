@@ -18,7 +18,7 @@ html {
 
 @media (any-hover: none) {
     html {
-        font-size: 24px;
+        font-size: 32px;
     }
 }
 
@@ -42,7 +42,7 @@ body {
     margin: .25rem;
     width: calc(100% - .5rem);
     height: calc(100% - .5rem);
-    border: 0.0625rem solid red;
+    border: .0625rem solid red;
     border-radius: .5rem;
     padding: .125rem .5rem;
     color: red;
