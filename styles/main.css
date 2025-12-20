@@ -2,6 +2,10 @@
 @import "table.css";
 @import "form.css";
 
+:root {
+    --primary-color: #525FE1;
+}
+
 html {
     height: 100%;
     font-family: sans-serif;
