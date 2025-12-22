@@ -21,7 +21,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H boheemia.ee >> ~/.ssh/known_hosts
 
-      - name: Create file for PoC
+      - name: Update apllication and restart
         run: |
           ssh virt65914@boheemia.ee "\
             cd domeenid/www.boheemia.ee/w8/ && \
@@ -31,5 +31,6 @@ jobs:
             nvm use || true && \
             npm i || true && \
             pm2 delete application || true && \
+            pm2 delete w8-tracker || true && \
             pm2 save --force && \
-            pm2 start ./server/application.ts --interpreter=node --node-args='--env-file=./configurations/.env' --watch"
+            pm2 start ./server/application.ts --interpreter=node --node-args='--env-file=./configurations/.env' --watch --name=w8-tracker"
