@@ -30,7 +30,6 @@ jobs:
             npm run backup || true && \
             nvm use || true && \
             npm i || true && \
-            pm2 delete application || true && \
             pm2 delete w8-tracker || true && \
             pm2 save --force && \
             pm2 start ./server/application.ts --interpreter=node --node-args='--env-file=./configurations/.env' --watch --name=w8-tracker"
