@@ -2,3 +2,5 @@
 .run/
 node_modules/
 configurations/.env
+/w8-tracker-restful/.env
+/w8-tracker-ui/dist
