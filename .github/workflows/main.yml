@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-  
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,13 +21,16 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H boheemia.ee >> ~/.ssh/known_hosts
 
-      - name: Update apllication and restart
+      - name: Update application and restart
         run: |
           ssh virt65914@boheemia.ee "\
             cd domeenid/www.boheemia.ee/w8/ && \
             echo 'In directory:' && pwd && \
             ls && \
-            npm run backup || true && \
+            if [ -f package.json ]; then \
+              echo 'Running backup...' && \
+              npm run backup || echo 'Backup failed, continuing anyway'; \
+            fi \
             nvm use || true && \
             npm i || true && \
             pm2 delete w8-tracker || true && \
