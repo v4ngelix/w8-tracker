@@ -30,8 +30,8 @@ jobs:
             if [ -f package.json ]; then \
               echo 'Running backup...' && \
               npm run backup || echo 'Backup failed, continuing anyway'; \
+              nvm use || true && \
             fi \
-            nvm use || true && \
             npm i || true && \
             pm2 delete w8-tracker || true && \
             pm2 save --force && \
