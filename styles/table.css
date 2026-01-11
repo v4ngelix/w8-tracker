@@ -18,6 +18,7 @@ table {
 }
 
 th {
+    font-weight: 500;
     width: 30%;
     div {
         display: flex;
@@ -61,6 +62,10 @@ td {
     border-bottom: 1px solid #000;
     padding: .25rem .75rem;
     font-size: .875rem;
+}
+
+td {
+    font-weight: 400;
 }
 
 td:nth-child(2) {
