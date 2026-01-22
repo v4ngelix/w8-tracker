@@ -1,7 +1,12 @@
-.w8__add-weight__controls {
+.w8__add-weight__controls-container {
   display: grid;
   grid-template-columns: 5.625rem 8.4375rem 6.5625rem;
   grid-column-gap: .25rem;
+}
+
+.w8__add-weight__control {
+  display: flex;
+  flex-direction: column;
 
   label {
     margin-bottom: .25rem;
@@ -48,17 +53,30 @@
   button:hover {
     cursor: pointer;
   }
+
+  &:last-of-type {
+    justify-content: flex-end;
+  }
 }
 
 @media (any-hover: none) {
-  .w8__add-weight__controls {
-    grid-template-columns: 35% 35% 30%;
+  .w8__add-weight__controls-container {
+    grid-template-columns: 50% 50%;
+
     margin-bottom: .75rem;
 
-    input,
-    button {
-      border-width: .1250rem;
-      height: 2rem;
+    .w8__add-weight__control {
+      margin-bottom: .75rem;
+
+      input,
+      button {
+        border-width: .1250rem;
+        height: 2rem;
+      }
+
+      &:last-of-type {
+        grid-column-end: span 2;
+      }
     }
   }
 }

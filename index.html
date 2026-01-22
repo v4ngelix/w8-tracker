@@ -26,34 +26,39 @@
         <h2 class="header__subtitle">Track it, then hack it</h2>
       </header>
 
-      <div class="w8__add-weight__controls">
-        <label for="weightInput">Weight:</label>
-        <label for="dateInput" style="grid-column: span 2">Date:</label>
-        <input
-          required
-          type="number"
-          name="weight"
-          id="weightInput"
-          placeholder="Weight"
-          min="50"
-          max="110"
-          step="0.01"
-        >
-        <input
-          required
-          type="date"
-          name="date"
-          id="dateInput"
-          placeholder="Date"
-        >
-
-        <!-- If adding is fixed, could try the traditional way of submitting via "onsubmit=/endpoint" -->
-        <button
-          type="button"
-          onclick="addWeight()"
-        >
-          Submit weight
-        </button>
+      <div class="w8__add-weight__controls-container">
+        <div class="w8__add-weight__control">
+          <label for="weightInput">Weight:</label>
+          <input
+            required
+            type="number"
+            name="weight"
+            id="weightInput"
+            placeholder="Weight"
+            min="50"
+            max="110"
+            step="0.01"
+          >
+        </div>
+        <div class="w8__add-weight__control">
+          <label for="dateInput" style="grid-column: span 2">Date:</label>
+          <input
+            required
+            type="date"
+            name="date"
+            id="dateInput"
+            placeholder="Date"
+          >
+        </div>
+        <div class="w8__add-weight__control">
+          <!-- If adding is fixed, could try the traditional way of submitting via "onsubmit=/endpoint" -->
+          <button
+            type="button"
+            onclick="addWeight()"
+          >
+            Submit weight
+          </button>
+        </div>
       </div>
 
       <div id="weightTimeSeriesChart"></div>
