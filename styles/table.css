@@ -25,7 +25,6 @@ th {
         justify-content: space-between;
         align-items: center;
         width: 100%;
-        padding: 0 1rem;
     }
     padding: 0;
     &:hover {
@@ -79,6 +78,17 @@ td:nth-child(3) {
 th:nth-child(4),
 td:nth-child(4) {
     border-right: none;
+}
+
+.w8__table__column-label {
+    padding: 0 .25rem;
+}
+
+.w8__table__column-icon,
+#sort-by-weight-icon,
+#sort-by-difference-icon,
+#sort-by-date-icon {
+    padding: 0 0 .25rem;
 }
 
 .delete-weight-button {
