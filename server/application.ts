@@ -15,8 +15,10 @@ import serveAssets from './serveAssets.ts';
 import serveIndex from './serveIndex.ts';
 import updateWeight from './updateWeight.ts';
 import addWeight from "./addWeight.ts";
-import setLocalStorageKey from "./setLocalStorageKey.ts";
 import setApplicationKey from "./setApplicationKey.ts";
+
+/** Value to match */
+const applicationKey = "KordElasÜksKauboi";
 
 const databaseName: string | undefined = process.env?.DATABASE;
 const hostname: string | undefined = process.env?.HOSTNAME;
@@ -45,6 +47,11 @@ const server: Server = createServer(
       serveIndex(response);
     } else if (requestPath[0] === 'setKey' && method === 'GET') {
       setApplicationKey(url, response);
+    } else if (requestPath[0] === 'validateKey' && method === 'GET') {
+      const cookies = parse((request.headers.cookie ?? '').replace(/;\s*/g, '&'));
+      const w8Key = decodeURIComponent(Array.isArray(cookies['w8-key']) ? cookies['w8-key'][0] : cookies['w8-key'] ?? '');
+      const isValid = w8Key === applicationKey;
+      endResponse(response, 200, 'application/json', JSON.stringify({ valid: isValid }));
     } else if (
       ['assets', 'styles', 'scripts', 'favicon.ico'].includes(requestPath[0])
       && method === 'GET'

@@ -112,6 +112,15 @@ function getChartData() {
 }
 
 function initializePage() {
+  fetch('/validateKey')
+    .then(response => response.json())
+    .then(data => {
+      const demoFrame = document.querySelector('.demo-mode-frame');
+      if (demoFrame) {
+        demoFrame.style.display = data.valid ? 'none' : '';
+      }
+    });
+
   const getWeightsUrl = API_URL + '/getWeights';
 
   fetch(getWeightsUrl).then(response => {
