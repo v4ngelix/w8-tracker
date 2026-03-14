@@ -16,6 +16,7 @@ import serveIndex from './serveIndex.ts';
 import updateWeight from './updateWeight.ts';
 import addWeight from "./addWeight.ts";
 import setLocalStorageKey from "./setLocalStorageKey.ts";
+import setApplicationKey from "./setApplicationKey.ts";
 
 const databaseName: string | undefined = process.env?.DATABASE;
 const hostname: string | undefined = process.env?.HOSTNAME;
@@ -43,7 +44,7 @@ const server: Server = createServer(
     if (request.url === '/' && method === 'GET') {
       serveIndex(response);
     } else if (requestPath[0] === 'setKey' && method === 'GET') {
-      setLocalStorageKey(url, response);
+      setApplicationKey(url, response);
     } else if (
       ['assets', 'styles', 'scripts', 'favicon.ico'].includes(requestPath[0])
       && method === 'GET'
