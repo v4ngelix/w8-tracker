@@ -66,6 +66,10 @@ const server: Server = createServer(
       const endPoint: string = requestPath?.[1] ?? '';
       console.log('It is an API request', endPoint);
 
+      const cookies = parse((request.headers.cookie ?? '').replace(/;\s*/g, '&'));
+      const w8Key = decodeURIComponent(Array.isArray(cookies['w8-key']) ? cookies['w8-key'][0] : cookies['w8-key'] ?? '');
+      const isAuthorized = w8Key === applicationKey;
+
       if (endPoint.includes('addWeight') && request.method === 'GET') {
         // Validate inputs!
 
@@ -78,7 +82,9 @@ const server: Server = createServer(
         const dateB: string | string[] = Array.isArray(date) ? date[0] : date;
 
         if (!weight || !date) {
-          endResponse(response,500, 'text/plain', 'Invalid input(s)');
+          endResponse(response, 500, 'text/plain', 'Invalid input(s)');
+        } else if (!isAuthorized) {
+          endResponse(response, 200, 'text/plain', 'Weight added');
         } else {
 
           console.log({
@@ -101,7 +107,7 @@ const server: Server = createServer(
               addWeight(response, database, dateB, weightB);
             }
           } catch (error) {
-            endResponse(response,500, 'text/plain', `Error: ${error}`);
+            endResponse(response, 500, 'text/plain', `Error: ${error}`);
           }
         }
       } else if (endPoint.includes('getWeights') && request.method === 'GET') {
@@ -118,27 +124,29 @@ const server: Server = createServer(
       }
       // use DELETE?
       else if (endPoint.includes('deleteWeight') && request.method === 'GET') {
-        const parsedUrl = parseUrl(url);
-        const queryParams = parse(parsedUrl.query);
-        const date = queryParams?.date;
-        const dateB: string | string[] = Array.isArray(date) ? date[0] : date;
+        if (!isAuthorized) {
+          endResponse(response, 200, 'text/plain', 'Weight deleted');
+        } else {
+          const parsedUrl = parseUrl(url);
+          const queryParams = parse(parsedUrl.query);
+          const date = queryParams?.date;
+          const dateB: string | string[] = Array.isArray(date) ? date[0] : date;
 
-        console.log({ date, dateB });
-
-        try {
-          const statement: StatementResultingChanges = (
-            database
-              .prepare('DELETE FROM weight_data WHERE date = ?')
-              .run(dateB)
+          try {
+            const statement: StatementResultingChanges = (
+              database
+                .prepare('DELETE FROM weight_data WHERE date = ?')
+                .run(dateB)
           );
 
-          if (statement?.changes > 0) {
-            endResponse(response,200, 'text/plain', 'Weight deleted');
-          } else {
-            endResponse(response,500, 'text/plain', `Weight not deleted`);
+            if (statement?.changes > 0) {
+              endResponse(response,200, 'text/plain', 'Weight deleted');
+            } else {
+              endResponse(response,500, 'text/plain', `Weight not deleted`);
+            }
+          } catch (error) {
+            console.log('Error while deleting value', error);
           }
-        } catch (error) {
-          console.log('Error while deleting value', error);
         }
       } else {
         endResponse(response,404, 'text/plain', 'Not found');
