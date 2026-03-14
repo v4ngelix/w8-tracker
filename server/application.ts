@@ -80,7 +80,6 @@ const server: Server = createServer(
             dateType: typeof date
           });
 
-
           try {
             const existingWeight: Record<string, SQLOutputValue> | undefined = (
               database
