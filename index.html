@@ -92,7 +92,7 @@
 
             <div class="w8__settings__row">
               <div class="w8__settings__label-group">
-                <span class="w8__settings__label">History range</span>
+                <label class="w8__settings__label" for="settingHistoryRange">History range</label>
                 <span class="w8__settings__hint">How much past data to chart</span>
               </div>
               <select id="settingHistoryRange" onchange="updateSetting('historyRange', this.value)">
@@ -106,7 +106,7 @@
 
             <div class="w8__settings__row">
               <div class="w8__settings__label-group">
-                <span class="w8__settings__label">Weight axis</span>
+                <label class="w8__settings__label" for="settingYAxisMode">Weight axis</label>
                 <span class="w8__settings__hint">Vertical scale of the chart</span>
               </div>
               <select id="settingYAxisMode" onchange="updateSetting('yAxisMode', this.value)">
@@ -117,7 +117,7 @@
 
             <div class="w8__settings__row w8__settings__row--sub" id="settingTargetRow">
               <div class="w8__settings__label-group">
-                <span class="w8__settings__label">Target weight</span>
+                <label class="w8__settings__label" for="settingTargetWeight">Target weight</label>
                 <span class="w8__settings__hint">Kept in view on the axis (kg)</span>
               </div>
               <input
