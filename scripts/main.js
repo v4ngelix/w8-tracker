@@ -321,7 +321,7 @@ function drawChart() {
     .data([chartData])
     .join('path')
     .attr('fill', 'none')
-    .attr('stroke', 'lightgray')
+    .attr('stroke', 'gray')
     .attr('stroke-width', 1)
     .attr('d', lineMaker);
 
