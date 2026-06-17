@@ -162,6 +162,13 @@ const CHART_MARGIN_RIGHT = 25;
 const CHART_MARGIN_BOTTOM = 30;
 const CHART_MARGIN_LEFT = 30;
 
+const BMI_CATEGORIES = [
+  { name: 'Underweight',    min: -Infinity, max: 18.5,     color: '#4a90d9' },
+  { name: 'Healthy Weight', min: 18.5,      max: 25.0,     color: '#5cb85c' },
+  { name: 'Overweight',     min: 25.0,      max: 30.0,     color: '#f0d43a' },
+  { name: 'Obese',          min: 30.0,      max: Infinity, color: '#f0883e' },
+];
+
 /** Method for drawing and re-drawing the chart. */
 function drawChart() {
   const chartContainer = document.getElementById('weightTimeSeriesChart');
@@ -184,7 +191,6 @@ function drawChart() {
     .range([CHART_HEIGHT - CHART_MARGIN_BOTTOM, CHART_MARGIN_TOP]);
 
   /** TODO: Maybe BMI is only used for coloring of the weight line. The second axis doesn't give any useful inforamtion. */
-  /** TODO: Maybe color the backgrounds with BMI legend. */
   const getBWI = (weight) => (
     weight / Math.pow(userHeight, 2)
   );
@@ -248,6 +254,30 @@ function drawChart() {
       .select('g#chart-y-axis-bmi')
       .call(d3.axisRight(yBMI));
   }
+
+  /** Colored BMI category bands behind the chart, clamped to the visible area. */
+  const bandTop = CHART_MARGIN_TOP;
+  const bandBottom = CHART_HEIGHT - CHART_MARGIN_BOTTOM;
+  const bandX = CHART_MARGIN_LEFT;
+  const bandWidth = Math.max(0, width - CHART_MARGIN_RIGHT - CHART_MARGIN_LEFT);
+  const clampY = (px) => Math.max(bandTop, Math.min(bandBottom, px));
+
+  chart
+    .selectAll('rect.bmi-band')
+    .data(BMI_CATEGORIES)
+    .join('rect')
+    .lower()
+    .attr('class', 'bmi-band')
+    .attr('x', bandX)
+    .attr('width', bandWidth)
+    .attr('y', (d) => clampY(d.max === Infinity ? bandTop : yBMI(d.max)))
+    .attr('height', (d) => {
+      const yHi = clampY(d.max === Infinity ? bandTop : yBMI(d.max));
+      const yLo = clampY(d.min === -Infinity ? bandBottom : yBMI(d.min));
+      return Math.max(0, yLo - yHi);
+    })
+    .attr('fill', (d) => d.color)
+    .attr('fill-opacity', 0.25);
 
   const lineMaker = d3
     .line()
