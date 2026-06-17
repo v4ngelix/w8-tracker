@@ -162,11 +162,11 @@ const CHART_MARGIN_RIGHT = 25;
 const CHART_MARGIN_BOTTOM = 30;
 const CHART_MARGIN_LEFT = 30;
 
-const BMI_CATEGORIES = [
-  { name: 'Underweight',    min: -Infinity, max: 18.5,     color: '#4a90d9' },
-  { name: 'Healthy Weight', min: 18.5,      max: 25.0,     color: '#5cb85c' },
-  { name: 'Overweight',     min: 25.0,      max: 30.0,     color: '#f0d43a' },
-  { name: 'Obese',          min: 30.0,      max: Infinity, color: '#f0883e' },
+const BMI_GRADIENT_STOPS = [
+  { name: 'Underweight',    bmi: 17.0, color: '#4a90d9' }, // blue
+  { name: 'Healthy Weight', bmi: 21.7, color: '#5cb85c' }, // green
+  { name: 'Overweight',     bmi: 27.5, color: '#f0d43a' }, // yellow
+  { name: 'Obese',          bmi: 33.0, color: '#f0883e' }, // orange
 ];
 
 /** Method for drawing and re-drawing the chart. */
@@ -255,29 +255,59 @@ function drawChart() {
       .call(d3.axisRight(yBMI));
   }
 
-  /** Colored BMI category bands behind the chart, clamped to the visible area. */
   const bandTop = CHART_MARGIN_TOP;
   const bandBottom = CHART_HEIGHT - CHART_MARGIN_BOTTOM;
   const bandX = CHART_MARGIN_LEFT;
   const bandWidth = Math.max(0, width - CHART_MARGIN_RIGHT - CHART_MARGIN_LEFT);
-  const clampY = (px) => Math.max(bandTop, Math.min(bandBottom, px));
+  const bandSpan = bandBottom - bandTop;
+
+  const anchorBmis = BMI_GRADIENT_STOPS.map((d) => d.bmi);
+  const yGradTop = yBMI(Math.max(...anchorBmis));
+  const yGradBottom = yBMI(Math.min(...anchorBmis));
+  const gradPixelSpan = yGradBottom - yGradTop;
+
+  let defs = chart.select('defs');
+  if (defs.empty()) {
+    defs = chart.append('defs');
+  }
+
+  let gradient = defs.select('#bmi-gradient');
+  if (gradient.empty()) {
+    gradient = defs
+      .append('linearGradient')
+      .attr('id', 'bmi-gradient')
+      .attr('gradientUnits', 'userSpaceOnUse')
+      .attr('spreadMethod', 'pad')
+      .attr('x1', 0)
+      .attr('x2', 0);
+  }
+  gradient
+    .attr('y1', yGradTop)
+    .attr('y2', yGradBottom);
+
+  const gradientStops = BMI_GRADIENT_STOPS
+    .map((d) => ({ color: d.color, offset: (yBMI(d.bmi) - yGradTop) / gradPixelSpan }))
+    .sort((a, b) => a.offset - b.offset);
+
+  gradient
+    .selectAll('stop')
+    .data(gradientStops)
+    .join('stop')
+    .attr('offset', (d) => d.offset)
+    .attr('stop-color', (d) => d.color);
 
   chart
-    .selectAll('rect.bmi-band')
-    .data(BMI_CATEGORIES)
+    .selectAll('rect.bmi-background')
+    .data([null])
     .join('rect')
     .lower()
-    .attr('class', 'bmi-band')
+    .attr('class', 'bmi-background')
     .attr('x', bandX)
+    .attr('y', bandTop)
     .attr('width', bandWidth)
-    .attr('y', (d) => clampY(d.max === Infinity ? bandTop : yBMI(d.max)))
-    .attr('height', (d) => {
-      const yHi = clampY(d.max === Infinity ? bandTop : yBMI(d.max));
-      const yLo = clampY(d.min === -Infinity ? bandBottom : yBMI(d.min));
-      return Math.max(0, yLo - yHi);
-    })
-    .attr('fill', (d) => d.color)
-    .attr('fill-opacity', 0.25);
+    .attr('height', bandSpan)
+    .attr('fill', 'url(#bmi-gradient)')
+    .attr('fill-opacity', 0.3);
 
   const lineMaker = d3
     .line()
