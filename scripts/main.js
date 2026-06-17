@@ -317,6 +317,11 @@ function drawChart() {
       .call(d3.axisBottom(xAxis));
 
     chart
+      .append('g', 'chart-top-border')
+      .attr('transform', `translate(0,${ CHART_MARGIN_TOP })`)
+      .call(d3.axisTop(xAxis).tickValues([]).tickSize(0));
+
+    chart
       .append('g', 'chart-y-axis-weight')
       .attr('transform', `translate(${ CHART_MARGIN_LEFT }, 0)`)
       .call(d3.axisLeft(yWeight));
@@ -344,6 +349,10 @@ function drawChart() {
     chart
       .select('g#chart-x-axis')
       .call(d3.axisBottom(xAxis));
+
+    chart
+      .select('g#chart-top-border')
+      .call(d3.axisTop(xAxis).tickValues([]).tickSize(0));
 
     chart
       .select('g#chart-y-axis-weight')
