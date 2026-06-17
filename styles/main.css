@@ -74,6 +74,34 @@ main {
     }
 }
 
+.w8__chart {
+    position: relative;
+}
+
+#weightTimeSeriesChart circle {
+    cursor: pointer;
+    transition: r 0.1s ease-out;
+}
+
+.w8__chart__tooltip {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    transform: translate(-50%, -100%);
+    padding: .25rem .5rem;
+    border-radius: .25rem;
+    background-color: rgba(34, 34, 34, 0.92);
+    color: #fefefe;
+    font-size: .75rem;
+    line-height: 1.4;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(3, 7, 18, 0.25);
+}
+
+.w8__chart__tooltip__weight {
+    font-weight: 700;
+}
+
 canvas {
     margin-bottom: 1.5rem;
     border-radius: .25rem;

@@ -241,6 +241,17 @@ const CHART_MARGIN_RIGHT = 25;
 const CHART_MARGIN_BOTTOM = 30;
 const CHART_MARGIN_LEFT = 30;
 
+const POINT_RADIUS = 2;
+const POINT_RADIUS_HOVER = 4;
+
+function formatTooltipDate(date) {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = String(d.getFullYear()).slice(2, 4);
+  return `${day}.${month}.${year}`;
+}
+
 const BMI_GRADIENT_STOPS = [
   { name: 'Underweight',    bmi: 17.0, color: '#4a90d9' }, // blue
   { name: 'Healthy Weight', bmi: 21.7, color: '#5cb85c' }, // green
@@ -413,6 +424,9 @@ function drawChart() {
     .attr('stroke-width', 1)
     .attr('d', lineMaker);
 
+  const tooltip = document.getElementById('chartTooltip');
+  const hideTooltip = () => { tooltip.hidden = true; };
+
   chart
     .selectAll('circle')
     .data(chartData)
@@ -421,11 +435,25 @@ function drawChart() {
     .append('circle')
     .attr('cx', (d) => xAxis(new Date(d.date)))
     .attr('cy', (d) => yWeight(d.weight))
-    .attr('r', 1)
+    .attr('r', POINT_RADIUS)
     .attr('fill', 'red')
-    .transition().duration(1000)
+    .on('mouseenter', function (event, d) {
+      d3.select(this).attr('r', POINT_RADIUS_HOVER);
+      tooltip.innerHTML = (
+        `<span class="w8__chart__tooltip__weight">${ Number(d.weight).toFixed(2) } kg</span>`
+        + ` - ${ formatTooltipDate(d.date) }`
+      );
+      tooltip.hidden = false;
+      tooltip.style.left = `${ xAxis(new Date(d.date)) }px`;
+      tooltip.style.top = `${ yWeight(d.weight) - POINT_RADIUS_HOVER }px`;
+    })
+    .on('mouseleave', function () {
+      d3.select(this).attr('r', POINT_RADIUS);
+      hideTooltip();
+    });
 
-    updateFavicon();
+  hideTooltip();
+  updateFavicon();
 }
 
 function addWeight() {
