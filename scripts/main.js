@@ -8,7 +8,84 @@ let weightData = [];
 let sortColumn = 'date';
 let sortDirection = 'desc';
 
-/** TODO: In meters. Should later be read from the database user table. */
+const SETTINGS_STORAGE_KEY = 'w8-settings';
+
+const DEFAULT_SETTINGS = {
+  bmiBackground: true,
+  historyRange: 'all',
+  yAxisMode: 'auto',
+  targetWeight: 95,
+};
+
+const HISTORY_RANGE_MONTHS = {
+  'all': null,
+  '5y': 60,
+  '1y': 12,
+  '6m': 6,
+  '3m': 3,
+};
+
+let settings = loadSettings();
+
+function loadSettings() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(SETTINGS_STORAGE_KEY)) || {};
+    return { ...DEFAULT_SETTINGS, ...stored };
+  } catch {
+    return { ...DEFAULT_SETTINGS };
+  }
+}
+
+function applySettingsToControls() {
+  document.getElementById('settingBmiBackground').checked = settings.bmiBackground;
+  document.getElementById('settingHistoryRange').value = settings.historyRange;
+  document.getElementById('settingYAxisMode').value = settings.yAxisMode;
+  document.getElementById('settingTargetWeight').value = settings.targetWeight;
+  document.getElementById('settingTargetRow').hidden = settings.yAxisMode !== 'custom';
+}
+
+function updateSetting(key, value) {
+  settings[key] = value;
+  localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+
+  if (key === 'yAxisMode') {
+    document.getElementById('settingTargetRow').hidden = value !== 'custom';
+  }
+
+  drawChart();
+}
+
+function toggleSettings() {
+  const panel = document.getElementById('settingsPanel');
+  const toggle = document.querySelector('.w8__settings__toggle');
+  const willOpen = panel.hidden;
+
+  panel.hidden = !willOpen;
+  toggle.setAttribute('aria-expanded', String(willOpen));
+}
+
+document.addEventListener('click', (event) => {
+  const settingsRoot = document.querySelector('.w8__settings');
+  const panel = document.getElementById('settingsPanel');
+  if (!panel || panel.hidden) return;
+  if (!settingsRoot.contains(event.target)) toggleSettings();
+});
+
+document.addEventListener('keydown', (event) => {
+  const panel = document.getElementById('settingsPanel');
+  if (event.key === 'Escape' && panel && !panel.hidden) toggleSettings();
+});
+
+function getRangedChartData() {
+  const data = getChartData();
+  const months = HISTORY_RANGE_MONTHS[settings.historyRange];
+  if (!months) return data;
+
+  const cutoff = new Date();
+  cutoff.setMonth(cutoff.getMonth() - months);
+  return data.filter((d) => new Date(d.date) >= cutoff);
+}
+
 const userHeight = 1.73;
 
 function updateFavicon() {
@@ -112,6 +189,8 @@ function getChartData() {
 }
 
 function initializePage() {
+  applySettingsToControls();
+
   fetch('/validateKey')
     .then(response => response.json())
     .then(data => {
@@ -175,16 +254,25 @@ function drawChart() {
   chartContainer.innerHTML = '';
 
   const width = chartContainer.offsetWidth
-  const chartData = getChartData();
+  const chartData = getRangedChartData();
+
+  if (chartData.length === 0) {
+    chartContainer.innerHTML = '<p style="text-align: center; color: #999999;">- No data in range -</p>';
+    return;
+  }
 
   const xAxis = d3.scaleUtc()
     .domain(d3.extent(chartData, (d) => new Date(d.date)))
     .range([CHART_MARGIN_LEFT, width - CHART_MARGIN_RIGHT]);
 
-  const weightValues = weightData.map((d) => d.weight);
-  const weightTarget = 95;
+  const weightValues = chartData.map((d) => d.weight);
+  const weightTarget = Number(settings.targetWeight);
+  const useTarget = settings.yAxisMode === 'custom';
 
-  const weightDomain = [Math.min(...weightValues, weightTarget - 5), Math.max(...weightValues) + 1];
+  const lowCandidates = useTarget ? [...weightValues, weightTarget - 5] : weightValues;
+  const highCandidates = useTarget ? [...weightValues, weightTarget] : weightValues;
+
+  const weightDomain = [Math.min(...lowCandidates), Math.max(...highCandidates) + 1];
 
   const yWeight = d3.scaleLinear()
     .domain(weightDomain)
@@ -298,7 +386,7 @@ function drawChart() {
 
   chart
     .selectAll('rect.bmi-background')
-    .data([null])
+    .data(settings.bmiBackground ? [null] : [])
     .join('rect')
     .lower()
     .attr('class', 'bmi-background')

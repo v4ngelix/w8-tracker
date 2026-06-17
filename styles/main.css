@@ -1,6 +1,7 @@
 @import "header.css";
 @import "table.css";
 @import "form.css";
+@import "settings.css";
 
 :root {
     --primary-color: #4653df;

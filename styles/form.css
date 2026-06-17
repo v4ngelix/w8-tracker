@@ -1,10 +1,17 @@
-.w8__add-weight__controls-container {
+.w8__controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.w8__controls__add-record {
   display: grid;
   grid-template-columns: 5.625rem 8.4375rem 6.5625rem;
   grid-column-gap: .25rem;
 }
 
-.w8__add-weight__control {
+.w8__add-record__weight,
+.w8__add-record__date,
+.w8__add-record__submit {
   display: flex;
   flex-direction: column;
 
@@ -59,13 +66,18 @@
   }
 }
 
-@media (any-hover: none) {
-  .w8__add-weight__controls-container {
-    grid-template-columns: 50% 50%;
+.w8__add-record__submit {
+  margin-bottom: .25rem;
+}
 
+@media (any-hover: none) {
+  .w8__controls__add-record {
+    grid-template-columns: 50% 50%;
     margin-bottom: .75rem;
 
-    .w8__add-weight__control {
+    .w8__add-record__weight,
+    .w8__add-record__date,
+    .w8__add-record__submit {
       margin-bottom: .75rem;
 
       input,
