@@ -1,0 +1,8 @@
+:root {
+  font-size: 16px;
+  --primary-color: #4653df;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
