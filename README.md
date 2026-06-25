@@ -30,4 +30,6 @@ TODO:
 - [ ] Kasuta sesa 80 või 433 porti. Lihtsalt kui api on maas serveeritakse by default index html? Veidi teine struktuur
 - [ ] Vb eraldada w8 old ja new, et vana jääks ülesse aga uut saaks ka arendada.
 
-- [ ] Check/Update Github Issues  
+- [ ] Check/Update Github Issues
+- [ ] Load fonts, then render the page.
+- [ ] W8 axis can only show täisarv
