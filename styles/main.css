@@ -113,11 +113,11 @@ canvas {
     background-color: #fff;
 }
 
-img {
-    width: 1rem;
-    height: 1rem;
-}
-
 .w8__table {
     overflow-x: auto;
+
+    img {
+        width: 1rem;
+        height: 1rem;
+    }
 }
