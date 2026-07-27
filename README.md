@@ -33,3 +33,4 @@ TODO:
 - [ ] Check/Update Github Issues
 - [ ] Load fonts, then render the page.
 - [ ] W8 axis can only show täisarv
+- [ ] Use fieldset for nice looking inputs. Also refactor adding form, it's currently quite difficult to maintain.
