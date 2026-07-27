@@ -224,6 +224,21 @@ function initializePage() {
     .getElementsByClassName('w8__header__subtitle')[0]
     .classList
     .add('w8__header__subtitle--active')
+
+  initializeSubtitleCollapse();
+}
+
+function initializeSubtitleCollapse() {
+  const scrollContainer = document.getElementsByTagName('main')[0];
+  const subtitle = document.getElementsByClassName('w8__header__subtitle')[0];
+
+  scrollContainer.addEventListener('scroll', () => {
+    subtitle.classList.add('w8__header__subtitle--scroll-aware');
+    subtitle.classList.toggle(
+      'w8__header__subtitle--collapsed',
+      scrollContainer.scrollTop > 16
+    );
+  }, {passive: true});
 }
 
 let oldMainWidth;

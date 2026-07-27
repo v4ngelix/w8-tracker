@@ -1,11 +1,10 @@
-/** TODO: Maybe do it in reverse: instead of adding, remove an animation class? */
 header {
   top: 0;
   position: sticky;
   margin-bottom: 0.75rem;
   padding: var(--main-content-padding) var(--main-content-padding) 0;
   background-color: #fff;
-  box-shadow: 0 0 10px 10px #fff;
+  box-shadow: 0 0 10px #fff;
   z-index: 1;
 
   .w8__header__top-row {
@@ -42,6 +41,8 @@ header {
   margin-top: 0;
   margin-bottom: 0;
   width: 100%;
+  height: 0;
+  line-height: 1.75rem;
   transition: all 1.5s cubic-bezier(.2, 1, .4, 1);
   transition-delay: .5s;
   overflow-y: hidden;
@@ -50,7 +51,20 @@ header {
 
 .w8__header__subtitle--active {
   margin-bottom: .25rem;
+  height: 1.75rem;
   opacity: 1;
+}
+
+/** Collapses the subtitle once the page is scrolled - faster than the intro transition. */
+.w8__header__subtitle--scroll-aware {
+  transition: all .3s cubic-bezier(.2, 1, .4, 1);
+  transition-delay: 0s;
+}
+
+.w8__header__subtitle--collapsed {
+  margin-bottom: 0;
+  height: 0;
+  opacity: 0;
 }
 
 .w8__header__retro-logo-effect--active {
