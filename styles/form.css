@@ -1,22 +1,25 @@
-.w8__controls {
+.w8__add-record {
   display: flex;
-  justify-content: space-between;
-}
-
-.w8__controls__add-record {
-  display: grid;
-  grid-template-columns: 5.625rem 8.4375rem 6.5625rem;
-  grid-column-gap: .25rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0 1.5rem;
 }
 
 .w8__add-record__weight,
 .w8__add-record__date,
 .w8__add-record__submit {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  width: 100%;
+  height: 1.5rem;
 
   label {
-    margin-bottom: .25rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0 .25rem 0 .5rem;
+    width: 5rem;
     font-weight: 500;
     font-size: .75rem;
   }
@@ -34,10 +37,12 @@
 
   input {
     border-color: black;
+    width: 100%;
   }
 
   button {
     border-color: #4653DFFF;
+    width: 100%;
     font-weight: 600;
     background-color: var(--primary-color);
     color: white;
@@ -60,35 +65,47 @@
   button:hover {
     cursor: pointer;
   }
-
-  &:last-of-type {
-    justify-content: flex-end;
-  }
 }
 
 .w8__add-record__submit {
+  justify-content: flex-end;
   margin-bottom: .25rem;
+
+  button {
+    margin-left: 5rem;
+    width: 100%;
+  }
 }
 
-@media (any-hover: none) {
-  .w8__controls__add-record {
-    grid-template-columns: 50% 50%;
+@media (min-width: 1000px) {
+  .w8__add-record {
+    flex-wrap: nowrap;
     margin-bottom: .75rem;
 
     .w8__add-record__weight,
     .w8__add-record__date,
     .w8__add-record__submit {
+      flex-direction: column;
       margin-bottom: .75rem;
+      max-width: 15rem;
+      height: unset;
+
+      label {
+        align-items: center;
+        justify-content: flex-start;
+        margin: 0 0 .25rem 0;
+        width: 100%;
+      }
 
       input,
       button {
         border-width: .1250rem;
         height: 2rem;
       }
+    }
 
-      &:last-of-type {
-        grid-column-end: span 2;
-      }
+    .w8__add-record__submit {
+      align-items: flex-end;
     }
   }
 }
