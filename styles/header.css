@@ -41,30 +41,29 @@ header {
   margin-top: 0;
   margin-bottom: 0;
   width: 100%;
-  height: 0;
+  height: 1.75rem;
   line-height: 1.75rem;
   transition: all 1.5s cubic-bezier(.2, 1, .4, 1);
   transition-delay: .5s;
   overflow-y: hidden;
   opacity: 0;
-}
 
-.w8__header__subtitle--active {
-  margin-bottom: .25rem;
-  height: 1.75rem;
-  opacity: 1;
-}
+  &.w8__header__subtitle--active {
+    margin-bottom: .25rem;
+    height: 1.75rem;
+    opacity: 1;
+  }
 
-/** Collapses the subtitle once the page is scrolled - faster than the intro transition. */
-.w8__header__subtitle--scroll-aware {
-  transition: all .3s cubic-bezier(.2, 1, .4, 1);
-  transition-delay: 0s;
-}
+  &.w8__header__subtitle--scroll-aware {
+    transition: all .3s cubic-bezier(.2, 1, .4, 1);
+    transition-delay: 0s;
+  }
 
-.w8__header__subtitle--collapsed {
-  margin-bottom: 0;
-  height: 0;
-  opacity: 0;
+  &.w8__header__subtitle--collapsed {
+    margin-bottom: 0;
+    height: 0;
+    opacity: 0;
+  }
 }
 
 .w8__header__retro-logo-effect--active {
