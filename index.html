@@ -20,15 +20,98 @@
     </div>
     <main>
       <header>
-        <div class="header__retro-logo-effect">
-          <h1>W</h1>
-          <h1>W</h1>
-          <h1>W</h1>
-          <h1>W</h1>
-          <h1>W</h1>
-          <h1>8-Tracker</h1>
+        <div class="w8__header__top-row">
+          <div class="w8__header__retro-logo-effect">
+            <h1>W</h1>
+            <h1>W</h1>
+            <h1>W</h1>
+            <h1>W</h1>
+            <h1>W</h1>
+            <h1>8-Tracker</h1>
+          </div>
+          <div class="w8__settings">
+            <button
+              type="button"
+              class="w8__settings__toggle"
+              aria-label="Settings"
+              aria-haspopup="true"
+              aria-expanded="false"
+              onclick="toggleSettings()"
+            >
+              <svg
+                viewBox="0 0 512 512"
+                width="18"
+                height="18"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-width="40"
+                  fill="transparent"
+                  d="M495 327l-36-21a206 206 0 0 0 0-92l36-21a13 13 0 0 0 6-15 263 263 0 0 0-58-100 13 13 0 0 0-16-3l-36 21a201 201 0 0 0-80-46V21a13 13 0 0 0-10-13 266 266 0 0 0-116 0 13 13 0 0 0-10 13v42a201 201 0 0 0-80 46L65 75a13 13 0 0 0-16 3 263 263 0 0 0-58 100 13 13 0 0 0 6 15l36 21a206 206 0 0 0 0 92l-36 21a13 13 0 0 0-6 15 263 263 0 0 0 58 100 13 13 0 0 0 16 3l36-21a201 201 0 0 0 80 46v42a13 13 0 0 0 10 13 266 266 0 0 0 116 0 13 13 0 0 0 10-13v-42a201 201 0 0 0 80-46l36 21a13 13 0 0 0 16-3 263 263 0 0 0 58-100 13 13 0 0 0-6-15zM256 336a80 80 0 1 1 0-160 80 80 0 0 1 0 160z"
+                />
+              </svg>
+            </button>
+
+            <div class="w8__settings__panel" id="settingsPanel" role="dialog" aria-label="Settings" hidden>
+              <h3 class="w8__settings__title">Settings</h3>
+
+              <div class="w8__settings__row">
+                <div class="w8__settings__label-group">
+                  <span class="w8__settings__label">BMI color zones</span>
+                  <span class="w8__settings__hint">Color the chart background by BMI band</span>
+                </div>
+                <label class="w8__settings__switch">
+                  <input type="checkbox" id="settingBmiBackground" onchange="updateSetting('bmiBackground', this.checked)">
+                  <span class="w8__settings__slider"></span>
+                </label>
+              </div>
+
+              <div class="w8__settings__row">
+                <div class="w8__settings__label-group">
+                  <label class="w8__settings__label" for="settingHistoryRange">History range</label>
+                  <span class="w8__settings__hint">How much past data to chart</span>
+                </div>
+                <select id="settingHistoryRange" onchange="updateSetting('historyRange', this.value)">
+                  <option value="all">All time</option>
+                  <option value="5y">Last 5 years</option>
+                  <option value="1y">Last year</option>
+                  <option value="6m">Last 6 months</option>
+                  <option value="3m">Last 3 months</option>
+                </select>
+              </div>
+
+              <div class="w8__settings__row">
+                <div class="w8__settings__label-group">
+                  <label class="w8__settings__label" for="settingYAxisMode">Weight axis</label>
+                  <span class="w8__settings__hint">Vertical scale of the chart</span>
+                </div>
+                <select id="settingYAxisMode" onchange="updateSetting('yAxisMode', this.value)">
+                  <option value="auto">Fit to data</option>
+                  <option value="custom">Custom</option>
+                </select>
+              </div>
+
+              <div class="w8__settings__row w8__settings__row--sub" id="settingTargetRow">
+                <div class="w8__settings__label-group">
+                  <label class="w8__settings__label" for="settingTargetWeight">Target weight</label>
+                  <span class="w8__settings__hint">Kept in view on the axis (kg)</span>
+                </div>
+                <input
+                  type="number"
+                  id="settingTargetWeight"
+                  min="30"
+                  max="200"
+                  step="0.5"
+                  onchange="updateSetting('targetWeight', Number(this.value))"
+                >
+              </div>
+            </div>
+          </div>
         </div>
-        <h2 class="header__subtitle">Track it, then hack it</h2>
+
+        <h2 class="w8__header__subtitle">Track it, then hack it</h2>
       </header>
 
       <div class="w8__controls">
@@ -64,76 +147,6 @@
             >
               Submit weight
             </button>
-          </div>
-        </div>
-
-        <div class="w8__settings">
-          <button
-            type="button"
-            class="w8__settings__toggle"
-            aria-label="Settings"
-            aria-haspopup="true"
-            aria-expanded="false"
-            onclick="toggleSettings()"
-          >
-            <svg viewBox="0 0 512 512" width="16" height="16" aria-hidden="true" focusable="false">
-              <path fill="currentColor" d="M495 327l-36-21a206 206 0 0 0 0-92l36-21a13 13 0 0 0 6-15 263 263 0 0 0-58-100 13 13 0 0 0-16-3l-36 21a201 201 0 0 0-80-46V21a13 13 0 0 0-10-13 266 266 0 0 0-116 0 13 13 0 0 0-10 13v42a201 201 0 0 0-80 46L65 75a13 13 0 0 0-16 3 263 263 0 0 0-58 100 13 13 0 0 0 6 15l36 21a206 206 0 0 0 0 92l-36 21a13 13 0 0 0-6 15 263 263 0 0 0 58 100 13 13 0 0 0 16 3l36-21a201 201 0 0 0 80 46v42a13 13 0 0 0 10 13 266 266 0 0 0 116 0 13 13 0 0 0 10-13v-42a201 201 0 0 0 80-46l36 21a13 13 0 0 0 16-3 263 263 0 0 0 58-100 13 13 0 0 0-6-15zM256 336a80 80 0 1 1 0-160 80 80 0 0 1 0 160z"/>
-            </svg>
-          </button>
-
-          <div class="w8__settings__panel" id="settingsPanel" role="dialog" aria-label="Settings" hidden>
-            <h3 class="w8__settings__title">Settings</h3>
-
-            <div class="w8__settings__row">
-              <div class="w8__settings__label-group">
-                <span class="w8__settings__label">BMI color zones</span>
-                <span class="w8__settings__hint">Color the chart background by BMI band</span>
-              </div>
-              <label class="w8__settings__switch">
-                <input type="checkbox" id="settingBmiBackground" onchange="updateSetting('bmiBackground', this.checked)">
-                <span class="w8__settings__slider"></span>
-              </label>
-            </div>
-
-            <div class="w8__settings__row">
-              <div class="w8__settings__label-group">
-                <label class="w8__settings__label" for="settingHistoryRange">History range</label>
-                <span class="w8__settings__hint">How much past data to chart</span>
-              </div>
-              <select id="settingHistoryRange" onchange="updateSetting('historyRange', this.value)">
-                <option value="all">All time</option>
-                <option value="5y">Last 5 years</option>
-                <option value="1y">Last year</option>
-                <option value="6m">Last 6 months</option>
-                <option value="3m">Last 3 months</option>
-              </select>
-            </div>
-
-            <div class="w8__settings__row">
-              <div class="w8__settings__label-group">
-                <label class="w8__settings__label" for="settingYAxisMode">Weight axis</label>
-                <span class="w8__settings__hint">Vertical scale of the chart</span>
-              </div>
-              <select id="settingYAxisMode" onchange="updateSetting('yAxisMode', this.value)">
-                <option value="auto">Fit to data</option>
-                <option value="custom">Custom</option>
-              </select>
-            </div>
-
-            <div class="w8__settings__row w8__settings__row--sub" id="settingTargetRow">
-              <div class="w8__settings__label-group">
-                <label class="w8__settings__label" for="settingTargetWeight">Target weight</label>
-                <span class="w8__settings__hint">Kept in view on the axis (kg)</span>
-              </div>
-              <input
-                type="number"
-                id="settingTargetWeight"
-                min="30"
-                max="200"
-                step="0.5"
-                onchange="updateSetting('targetWeight', Number(this.value))"
-              >
-            </div>
           </div>
         </div>
       </div>

@@ -2,26 +2,26 @@
   position: relative;
   display: flex;
   justify-content: flex-end;
-  margin-top: calc(15px + .25rem);
+  align-items: center;
+  border-bottom: .0625rem solid black;
 }
 
 .w8__settings__toggle {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   border: .0625rem solid #dddddd;
   border-radius: .25rem;
-  padding: .25rem;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 2rem;
+  height: 2rem;
   background-color: #fefefe;
   color: #555555;
-}
 
-.w8__settings__toggle:hover {
-  cursor: pointer;
-  color: var(--primary-color);
-  border-color: var(--primary-color);
+  &:hover {
+    cursor: pointer;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
 }
 
 .w8__settings__toggle svg {
@@ -29,7 +29,7 @@
 }
 
 .w8__settings__toggle[aria-expanded="true"] svg {
-  transform: rotate(60deg);
+  transform: rotate(90deg);
   color: var(--primary-color);
 }
 

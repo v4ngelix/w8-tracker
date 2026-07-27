@@ -216,14 +216,14 @@ function initializePage() {
   });
 
   document
-    .getElementsByClassName('header__retro-logo-effect')[0]
+    .getElementsByClassName('w8__header__retro-logo-effect')[0]
     .classList
-    .add('header__retro-logo-effect--active')
+    .add('w8__header__retro-logo-effect--active')
 
   document
-    .getElementsByClassName('header__subtitle')[0]
+    .getElementsByClassName('w8__header__subtitle')[0]
     .classList
-    .add('header__subtitle--active')
+    .add('w8__header__subtitle--active')
 }
 
 let oldMainWidth;
