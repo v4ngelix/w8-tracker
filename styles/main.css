@@ -43,6 +43,7 @@ body {
     padding: .125rem .5rem;
     color: red;
     pointer-events: none;
+    z-index: 1;
 }
 
 .w8__demo-mode__label {
