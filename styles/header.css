@@ -3,7 +3,7 @@ header {
   top: 0;
   position: sticky;
   margin-bottom: 0.75rem;
-  padding: 1.5rem 1.5rem 0;
+  padding: var(--main-content-padding) var(--main-content-padding) 0;
   background-color: #fff;
   box-shadow: 0 0 10px 10px #fff;
   z-index: 1;

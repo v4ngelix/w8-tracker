@@ -1,7 +1,19 @@
 :root {
   font-size: 16px;
   --primary-color: #4653df;
+
+  --main-content-padding: .5rem;
+
+  @media (min-width: 600px) {
+    --main-content-padding: 1rem;
+  }
+
+  @media (min-width: 1000px) {
+    --main-content-padding: 1.5rem;
+  }
 }
+
+
 
 *, *:before, *:after {
   box-sizing: border-box;
