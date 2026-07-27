@@ -139,65 +139,67 @@
         <div id="chartTooltip" class="w8__chart__tooltip" role="tooltip" hidden></div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th
-              class="sortable-column-header"
-              onclick="handleTableSort('weight')"
-            >
-              <div>
-                <div class="w8__table__column-label">
-                  <img
-                    src="/assets/weight-hanging-solid.svg"
-                    alt="Weight icon"
-                    class="w8__table__column-icon"
-                  >
-                  Weight
+      <div class="w8__table">
+        <table>
+          <thead>
+            <tr>
+              <th
+                class="sortable-column-header"
+                onclick="handleTableSort('weight')"
+              >
+                <div>
+                  <div class="w8__table__column-label">
+                    <img
+                      src="/assets/weight-hanging-solid.svg"
+                      alt="Weight icon"
+                      class="w8__table__column-icon"
+                    >
+                    Weight
+                  </div>
+                  <div id="sort-by-weight-icon"></div>
                 </div>
-                <div id="sort-by-weight-icon"></div>
-              </div>
-            </th>
-            <th>
-              <div>
-                <div class="w8__table__column-label">
-                  <img
-                    src="/assets/change.svg"
-                    alt="Weight icon"
-                    class="w8__table__column-icon"
-                  >
-                  Change
+              </th>
+              <th>
+                <div>
+                  <div class="w8__table__column-label">
+                    <img
+                      src="/assets/change.svg"
+                      alt="Weight icon"
+                      class="w8__table__column-icon"
+                    >
+                    Change
+                  </div>
+                  <div id="sort-by-difference-icon"></div>
                 </div>
-                <div id="sort-by-difference-icon"></div>
-              </div>
-            </th>
-            <th
-              class="sortable-column-header"
-              onclick="handleTableSort('date')"
-            >
-              <div>
-                <div class="w8__table__column-label">
-                  <img
-                    src="/assets/calendar-check-regular.svg"
-                    alt="Date icon"
-                    class="w8__table__column-icon"
-                  >
-                  Date
+              </th>
+              <th
+                class="sortable-column-header"
+                onclick="handleTableSort('date')"
+              >
+                <div>
+                  <div class="w8__table__column-label">
+                    <img
+                      src="/assets/calendar-check-regular.svg"
+                      alt="Date icon"
+                      class="w8__table__column-icon"
+                    >
+                    Date
+                  </div>
+                  <span id="sort-by-date-icon">▼</span>
                 </div>
-                <span id="sort-by-date-icon">▼</span>
-              </div>
-            </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td colspan="4" style="text-align: center">
-              - No data -
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="4" style="text-align: center">
+                - No data -
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </main>
     <script src="/scripts/main.js"></script>
   </body>
