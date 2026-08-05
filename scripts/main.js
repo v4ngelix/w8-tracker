@@ -194,7 +194,7 @@ function initializePage() {
   fetch('/validateKey')
     .then(response => response.json())
     .then(data => {
-      const demoFrame = document.querySelector('.demo-mode-frame');
+      const demoFrame = document.querySelector('.w8__demo-mode__frame');
       if (demoFrame) {
         demoFrame.style.display = data.valid ? 'none' : '';
       }
