@@ -62,7 +62,6 @@ body {
 main {
     position: relative;
     border: 0.0625rem solid #eeeeee;
-    border-radius: .5rem;
     width: 100%;
     max-width: 1000px;
     background-color: #fefefe;
@@ -77,6 +76,7 @@ main {
 
     @media (min-width: 1000px) {
         margin: 1rem;
+        border-radius: .5rem;
     }
 }
 
