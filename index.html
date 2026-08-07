@@ -121,29 +121,29 @@
       </header>
 
       <div class="w8__add-record">
-        <div class="w8__add-record__weight">
-          <label for="weightInput">Weight:</label>
+        <fieldset class="w8__add-record__field">
+          <legend><label for="weightInput">Weight (kg)</label></legend>
           <input
             required
             type="number"
             name="weight"
             id="weightInput"
-            placeholder="Weight"
+            inputmode="decimal"
+            placeholder="0.00"
             min="50"
             max="110"
             step="0.01"
           >
-        </div>
-        <div class="w8__add-record__date">
-          <label for="dateInput" style="grid-column: span 2">Date:</label>
+        </fieldset>
+        <fieldset class="w8__add-record__field">
+          <legend><label for="dateInput">Date</label></legend>
           <input
             required
             type="date"
             name="date"
             id="dateInput"
-            placeholder="Date"
           >
-        </div>
+        </fieldset>
         <div class="w8__add-record__submit">
           <!-- If adding is fixed, could try the traditional way of submitting via "onsubmit=/endpoint" -->
           <button
