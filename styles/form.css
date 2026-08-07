@@ -13,7 +13,7 @@
   flex: 1 1 100%;
   min-width: 0;
   margin: 0;
-  border: .0625rem solid #cccccc;
+  border: .0625rem solid var(--gray-5);
   border-radius: .375rem;
   padding: 0 .5rem .25rem;
   background-color: #fefefe;
@@ -22,7 +22,7 @@
   legend {
     margin-left: .125rem;
     padding: 0 .25rem;
-    color: #777777;
+    color: var(--gray-3);
     font-size: .625rem;
     font-weight: 500;
     letter-spacing: .02em;
@@ -43,14 +43,15 @@
     min-width: 0;
     height: 1.75rem;
     background-color: transparent;
-    color: inherit;
+    color: var(--gray-5);
     font-family: inherit;
     font-weight: 400;
     font-size: .875rem;
+    transition: color .15s ease;
   }
 
   input::placeholder {
-    color: #bbbbbb;
+    color: var(--gray-5);
   }
 
   input:focus {
@@ -67,7 +68,15 @@
   }
 
   &:hover:not(:focus-within) {
-    border-color: #999999;
+    border-color: var(--gray-2);
+
+    legend {
+      color: var(--gray-1);
+    }
+
+    input::placeholder {
+      color: var(--gray-2);
+    }
   }
 }
 

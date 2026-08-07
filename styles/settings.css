@@ -10,22 +10,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: .0625rem solid #dddddd;
+  border: .0625rem solid var(--gray-3);
   border-radius: .25rem;
   width: 2rem;
   height: 2rem;
   background-color: #fefefe;
-  color: #555555;
 
   &:hover {
     cursor: pointer;
     border-color: var(--primary-color);
-    color: var(--primary-color);
-  }
-}
 
-.w8__settings__toggle svg {
-  transition: transform .4s cubic-bezier(.2, 1, .4, 1);
+    svg {
+      color: var(--primary-color);
+    }
+  }
+
+  svg {
+    color: var(--gray-3);
+    transition: all .15s ease;
+  }
 }
 
 .w8__settings__toggle[aria-expanded="true"] svg {
@@ -138,7 +141,7 @@
   position: absolute;
   inset: 0;
   border-radius: 1.25rem;
-  background-color: #cccccc;
+  background-color: var(--gray-5);
   transition: background-color .2s ease;
 }
 

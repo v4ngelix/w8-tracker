@@ -61,7 +61,7 @@ body {
 
 main {
     position: relative;
-    border: 0.0625rem solid #eeeeee;
+    border: 0.0625rem solid var(--gray-6);
     width: 100%;
     max-width: 1000px;
     background-color: #fefefe;

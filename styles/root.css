@@ -1,7 +1,12 @@
 :root {
   font-size: 16px;
   --primary-color: #4653df;
-
+  --gray-1: #444;
+  --gray-2: #666;
+  --gray-3: #888;
+  --gray-4: #aaa;
+  --gray-5: #ccc;
+  --gray-6: #eee;
   --main-content-padding: .5rem;
 
   @media (min-width: 600px) {
@@ -12,8 +17,6 @@
     --main-content-padding: 1.5rem;
   }
 }
-
-
 
 *, *:before, *:after {
   box-sizing: border-box;
