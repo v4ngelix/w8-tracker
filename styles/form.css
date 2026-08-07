@@ -43,7 +43,7 @@
     min-width: 0;
     height: 1.75rem;
     background-color: transparent;
-    color: var(--gray-5);
+    color: var(--gray-3);
     font-family: inherit;
     font-weight: 400;
     font-size: .875rem;
@@ -52,6 +52,7 @@
 
   input::placeholder {
     color: var(--gray-5);
+    transition: color .15s ease;
   }
 
   input:focus {
@@ -71,6 +72,10 @@
     border-color: var(--gray-2);
 
     legend {
+      color: var(--gray-1);
+    }
+
+    input {
       color: var(--gray-1);
     }
 
