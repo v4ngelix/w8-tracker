@@ -14,6 +14,7 @@
 
 TODO:
 - line should be average, not some approximation
+- [ ] Trendline / records.
 - candlestick chart?
 - ## Style improvements and new features
 - [ ] Point hover peaks joonistama x/y jooni
@@ -24,9 +25,14 @@ TODO:
   - [ ] protein intake
 - [ ] If good score - https://www.kirilv.com/canvas-confetti/
 - [ ] If bad... flames?
+- [ ] Scaled labels. In mobile they don't fit.
+- [ ] Ceck lighthouse scores
+- [ ] Track performance
+- 
 
 ## Structural changes
-- [ ] Would love to have both online and offline modes. Meaning if API is down, the page still gets served.
+- [ ] Would love to have both online and a robust offline mode. Offline meaning if API is down, the page still gets served.
+  - [ ] If offline or bad connectivity use a worker? to submit changes when the connectivity is restored? 
 - [ ] Kasuta sesa 80 või 433 porti. Lihtsalt kui api on maas serveeritakse by default index html? Veidi teine struktuur
 - [ ] Vb eraldada w8 old ja new, et vana jääks ülesse aga uut saaks ka arendada.
 
