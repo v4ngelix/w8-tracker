@@ -3,7 +3,6 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  border-bottom: .0625rem solid black;
 }
 
 .w8__settings__toggle {

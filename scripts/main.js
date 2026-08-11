@@ -218,12 +218,15 @@ function initializePage() {
   document
     .getElementsByClassName('w8__header__retro-logo-effect')[0]
     .classList
-    .add('w8__header__retro-logo-effect--active')
+    .add(
+      'w8__header__retro-logo-effect--visible',
+      'w8__header__retro-logo-effect--active'
+    );
 
   document
     .getElementsByClassName('w8__header__subtitle')[0]
     .classList
-    .add('w8__header__subtitle--active')
+    .add('w8__header__subtitle--active');
 
   initializeSubtitleCollapse();
 }
