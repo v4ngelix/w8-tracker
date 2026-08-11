@@ -18,6 +18,8 @@ header {
   width: 100%;
   border-bottom: .0625rem solid black;
 
+  /** TODO: Esimene täht, kui font laetud, opacity > 1 */
+
   h1 {
     position: absolute;
     left: 0;
