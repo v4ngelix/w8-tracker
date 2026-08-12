@@ -28,13 +28,14 @@ header {
     line-height: 1;
     margin: 0;
     font-size: 3rem;
-    font-weight: 700;
+    font-weight: 900;
     transition: all 1s cubic-bezier(.2, 1, .4, 1);
     transition-delay: 1s;
   }
 
   h1:nth-of-type(6) {
-    left: 4rem;
+    left: 4.4rem;
+    font-size: 2.5rem;
     z-index: 6;
     opacity: 0;
     transition: all 1.5s cubic-bezier(.2, 1, .4, 1);
@@ -52,24 +53,24 @@ header {
 
   h1:nth-of-type(2) {
     color: #FFA41B;
-    left: .375rem;
+    left: .4rem;
     z-index: 2;
   }
 
   h1:nth-of-type(3) {
     color: #F86F03;
-    left: .75rem;
+    left: .8rem;
     z-index: 3;
   }
 
   h1:nth-of-type(4) {
     color: #525FE1;
-    left: 1rem;
+    left: 1.15rem;
     z-index: 4;
   }
 
   h1:nth-of-type(5) {
-    left: 1.25rem;
+    left: 1.5rem;
     z-index: 5;
   }
 
@@ -89,7 +90,7 @@ header {
   height: 1.75rem;
   line-height: 1.75rem;
   transition: all 1.5s cubic-bezier(.2, 1, .4, 1);
-  transition-delay: .5s;
+  transition-delay: .25s;
   overflow-y: hidden;
   opacity: 0;
 
