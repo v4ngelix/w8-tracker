@@ -6,6 +6,7 @@
   * Provide a simple interface for inserting, updating and deleting weights.
   * Save the data in a database for the long-term storage.
   * Supports both desktop and mobile use.
+  * Display caloric and protein intake suggestions based on the last weight record.
 * Learn new technologies:
   * Low-level full-stack application.
   * Set up a RESTful application from scratch.
