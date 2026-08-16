@@ -13,8 +13,6 @@
   * Practice devops on my limited plan VPS.
 
 TODO:
-- line should be average, not some approximation
-- [ ] Trendline / records.
 - candlestick chart?
 - ## Style improvements and new features
 - [ ] Info button with project description in the header

@@ -113,6 +113,11 @@ main {
     font-weight: 700;
 }
 
+.w8__chart__tooltip__trend {
+    display: block;
+    color: var(--gray-5);
+}
+
 canvas {
     margin-bottom: 1.5rem;
     border-radius: .25rem;

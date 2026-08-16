@@ -355,6 +355,25 @@ const CHART_MARGIN_LEFT = 30;
 const POINT_RADIUS = 2;
 const POINT_RADIUS_HOVER = 4;
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+const TREND_WINDOW_DAYS = 90;
+
+function getTrendData(visibleData, allData) {
+  const measurements = allData.map((d) => ({
+    time: new Date(d.date).getTime(),
+    weight: Number(d.weight),
+  }));
+
+  return visibleData.map((d) => {
+    const time = new Date(d.date).getTime();
+    const windowStart = time - TREND_WINDOW_DAYS * DAY_MS;
+    const window = measurements.filter((m) => m.time <= time && m.time > windowStart);
+    const total = window.reduce((sum, m) => sum + m.weight, 0);
+
+    return { date: d.date, time, weight: total / window.length };
+  });
+}
+
 function formatTooltipDate(date) {
   const d = new Date(date);
   const day = String(d.getDate()).padStart(2, '0');
@@ -528,20 +547,24 @@ function drawChart() {
     .attr('fill', 'url(#bmi-gradient)')
     .attr('fill-opacity', 0.3);
 
+  const trendData = getTrendData(chartData, getChartData());
+  const trendByDate = new Map(trendData.map((d) => [d.date, d.weight]));
+
   const lineMaker = d3
     .line()
     .x((d) => xAxis(new Date(d.date)))
     .y((d) => yWeight(d.weight))
     .curve(d3.curveBumpX);
 
-  /** TODO: Create or update the line */
   chart
-    .selectAll('path.weight-line')
-    .data([chartData])
+    .selectAll('path.weight-trend')
+    .data(trendData.length > 1 ? [trendData] : [])
     .join('path')
+    .attr('class', 'weight-trend')
     .attr('fill', 'none')
-    .attr('stroke', 'gray')
-    .attr('stroke-width', 1)
+    .attr('stroke', '#333333')
+    .attr('stroke-width', 2)
+    .attr('stroke-linecap', 'round')
     .attr('d', lineMaker);
 
   const tooltip = document.getElementById('chartTooltip');
@@ -589,9 +612,13 @@ function drawChart() {
     .on('mouseenter', function (event, d) {
       d3.select(this).attr('r', POINT_RADIUS_HOVER);
       showCrosshair(xAxis(new Date(d.date)), yWeight(d.weight));
+      const trend = trendByDate.get(d.date);
       tooltip.innerHTML = (
         `<span class="w8__chart__tooltip__weight">${ Number(d.weight).toFixed(2) } kg</span>`
         + ` - ${ formatTooltipDate(d.date) }`
+        + (trend === undefined
+          ? ''
+          : `<span class="w8__chart__tooltip__trend">${ TREND_WINDOW_DAYS }-day avg ${ trend.toFixed(2) } kg</span>`)
       );
       tooltip.hidden = false;
       tooltip.style.left = `${ xAxis(new Date(d.date)) }px`;
