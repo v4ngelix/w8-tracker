@@ -18,7 +18,6 @@ TODO:
 - candlestick chart?
 - ## Style improvements and new features
 - [ ] Point hover peaks joonistama x/y jooni
-- [ ] Hoveril peaks kuvama tooltipi.
 - [ ] Info button with project description in the header
 - [ ] Guides:
   - [ ] claoric maintenance rate
@@ -27,16 +26,11 @@ TODO:
 - [ ] If bad... flames?
 - [ ] Scaled labels. In mobile they don't fit.
 - [ ] Ceck lighthouse scores
-- [ ] Track performance
-- 
+- [ ] Track performance.
 
 ## Structural changes
 - [ ] Would love to have both online and a robust offline mode. Offline meaning if API is down, the page still gets served.
-  - [ ] If offline or bad connectivity use a worker? to submit changes when the connectivity is restored? 
+- [ ] If offline or bad connectivity use a worker? to submit changes when the connectivity is restored? 
 - [ ] Kasuta sesa 80 või 433 porti. Lihtsalt kui api on maas serveeritakse by default index html? Veidi teine struktuur
-- [ ] Vb eraldada w8 old ja new, et vana jääks ülesse aga uut saaks ka arendada.
-
 - [ ] Check/Update Github Issues
 - [ ] Load fonts, then render the page.
-- [ ] W8 axis can only show täisarv
-- [ ] Use fieldset for nice looking inputs. Also refactor adding form, it's currently quite difficult to maintain.
