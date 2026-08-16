@@ -59,6 +59,8 @@
   border-radius: .5rem;
   padding: 1rem;
   width: 18rem;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
   background-color: #fefefe;
   box-shadow:
     0 1px 1px rgba(3, 7, 18, 0.02),
@@ -78,11 +80,21 @@
   font-weight: 600;
 }
 
+.w8__settings__title ~ .w8__settings__title {
+  margin-top: .25rem;
+  padding-top: .75rem;
+}
+
 .w8__settings__row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: .75rem;
+
+  input,
+  select {
+    width: 7rem;
+  }
 }
 
 .w8__settings__row--sub {
@@ -123,7 +135,6 @@
 
 .w8__settings__row input[type="number"] {
   padding-left: .4rem;
-  width: 5rem;
 }
 
 .w8__settings__row select:focus,
@@ -133,7 +144,6 @@
   color: var(--primary-color);
 }
 
-/* Toggle switch */
 .w8__settings__switch {
   position: relative;
   display: inline-block;

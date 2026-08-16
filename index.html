@@ -153,6 +153,63 @@
                   onchange="updateSetting('targetWeight', Number(this.value))"
                 >
               </div>
+
+              <h3 class="w8__settings__title">Profile</h3>
+
+              <div class="w8__settings__row">
+                <div class="w8__settings__label-group">
+                  <label class="w8__settings__label" for="settingSex">Sex</label>
+                  <span class="w8__settings__hint">Used by the calorie formula</span>
+                </div>
+                <select id="settingSex" onchange="updateSetting('sex', this.value)">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+
+              <div class="w8__settings__row">
+                <div class="w8__settings__label-group">
+                  <label class="w8__settings__label" for="settingHeight">Height</label>
+                  <span class="w8__settings__hint">In centimetres, also used for BMI</span>
+                </div>
+                <input
+                  type="number"
+                  id="settingHeight"
+                  min="120"
+                  max="230"
+                  step="1"
+                  onchange="updateSetting('height', Number(this.value))"
+                >
+              </div>
+
+              <div class="w8__settings__row">
+                <div class="w8__settings__label-group">
+                  <label class="w8__settings__label" for="settingAge">Age</label>
+                  <span class="w8__settings__hint">In years</span>
+                </div>
+                <input
+                  type="number"
+                  id="settingAge"
+                  min="14"
+                  max="100"
+                  step="1"
+                  onchange="updateSetting('age', Number(this.value))"
+                >
+              </div>
+
+              <div class="w8__settings__row">
+                <div class="w8__settings__label-group">
+                  <label class="w8__settings__label" for="settingActivityLevel">Activity level</label>
+                  <span class="w8__settings__hint">How much you move in a normal week</span>
+                </div>
+                <select id="settingActivityLevel" onchange="updateSetting('activityLevel', this.value)">
+                  <option value="sedentary">Sedentary</option>
+                  <option value="light">Light</option>
+                  <option value="moderate">Moderate</option>
+                  <option value="active">Active</option>
+                  <option value="athlete">Athlete</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -261,6 +318,16 @@
           </tbody>
         </table>
       </div>
+
+      <section class="w8__guides" id="guides">
+        <h2 class="w8__guides__title">Guides</h2>
+        <p class="w8__guides__intro" id="guidesIntro"></p>
+        <div class="w8__guides__cards" id="guidesCards"></div>
+        <p class="w8__guides__disclaimer">
+          Estimates only — the Mifflin-St Jeor equation and general protein
+          recommendations. Track the scale for a couple of weeks and adjust.
+        </p>
+      </section>
     </main>
     <script src="/scripts/main.js"></script>
   </body>

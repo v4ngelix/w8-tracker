@@ -4,6 +4,7 @@
 @import "form.css";
 @import "settings.css";
 @import "info.css";
+@import "guides.css";
 
 html {
     height: 100%;

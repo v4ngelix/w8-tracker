@@ -15,6 +15,10 @@ const DEFAULT_SETTINGS = {
   historyRange: 'all',
   yAxisMode: 'auto',
   targetWeight: 95,
+  sex: 'male',
+  height: 173,
+  age: null,
+  activityLevel: 'light',
 };
 
 const HISTORY_RANGE_MONTHS = {
@@ -42,6 +46,10 @@ function applySettingsToControls() {
   document.getElementById('settingYAxisMode').value = settings.yAxisMode;
   document.getElementById('settingTargetWeight').value = settings.targetWeight;
   document.getElementById('settingTargetRow').hidden = settings.yAxisMode !== 'custom';
+  document.getElementById('settingSex').value = settings.sex;
+  document.getElementById('settingHeight').value = settings.height ?? '';
+  document.getElementById('settingAge').value = settings.age ?? '';
+  document.getElementById('settingActivityLevel').value = settings.activityLevel;
 }
 
 function updateSetting(key, value) {
@@ -53,6 +61,7 @@ function updateSetting(key, value) {
   }
 
   drawChart();
+  drawGuides();
 }
 
 function toggleSettings() {
@@ -179,7 +188,13 @@ function getRangedChartData() {
   return data.filter((d) => new Date(d.date) >= cutoff);
 }
 
-const userHeight = 1.73;
+const FALLBACK_HEIGHT_CM = 173;
+
+/** Configured height in metres, as BMI wants it */
+function getUserHeight() {
+  const height = Number(settings.height);
+  return (Number.isFinite(height) && height > 0 ? height : FALLBACK_HEIGHT_CM) / 100;
+}
 
 function updateFavicon() {
   const favicon = document.getElementById('favicon');
@@ -306,6 +321,7 @@ function initializePage() {
     sortWeightData();
     drawTable();
     drawChart();
+    drawGuides();
   });
 
   document
@@ -453,7 +469,7 @@ function drawChart() {
 
   /** TODO: Maybe BMI is only used for coloring of the weight line. The second axis doesn't give any useful inforamtion. */
   const getBWI = (weight) => (
-    weight / Math.pow(userHeight, 2)
+    weight / Math.pow(getUserHeight(), 2)
   );
 
   const BWIValues = weightValues.map((weight) => {
@@ -680,6 +696,138 @@ function drawChart() {
   updateFavicon();
 }
 
+const ACTIVITY_LEVELS = {
+  sedentary: { factor: 1.2,   label: 'Sedentary — desk job, little exercise' },
+  light:     { factor: 1.375, label: 'Light — training 1-3 days a week' },
+  moderate:  { factor: 1.55,  label: 'Moderate — training 3-5 days a week' },
+  active:    { factor: 1.725, label: 'Active — training 6-7 days a week' },
+  athlete:   { factor: 1.9,   label: 'Athlete — twice a day or physical job' },
+};
+
+/** Calories in a kilogram of body fat, the classic 500 kcal/day = 0.5 kg/week rule */
+const CALORIE_DEFICIT_PER_DAY = 500;
+const CALORIE_SURPLUS_PER_DAY = 300;
+
+const PROTEIN_RDA_PER_KG = 0.8;
+const PROTEIN_LOW_PER_KG = 1.6;
+const PROTEIN_HIGH_PER_KG = 2.2;
+const MEALS_PER_DAY = 4;
+
+/** The most recent weight record, regardless of how the table happens to be sorted */
+function getLatestRecord() {
+  const byDate = getChartData();
+  return byDate[byDate.length - 1];
+}
+
+/**
+ * Basal metabolic rate by the Mifflin-St Jeor equation - the one that holds up
+ * best against indirect calorimetry for people who are not extremely lean or obese.
+ */
+function getBasalMetabolicRate(weight, heightCm, age, sex) {
+  const base = 10 * weight + 6.25 * heightCm - 5 * age;
+  return sex === 'female' ? base - 161 : base + 5;
+}
+
+const formatCalories = (value) => `${ Math.round(value / 10) * 10 } kcal`;
+const formatGrams = (value) => `${ Math.round(value) } g`;
+
+function renderGuideCard(title, headline, headlineHint, rows) {
+  const rowsHtml = rows
+    .map((row) => (
+      `<div class="w8__guides__row">
+        <span class="w8__guides__row__label">${ row.label }</span>
+        <span class="w8__guides__row__value">${ row.value }</span>
+      </div>`
+    ))
+    .join('');
+
+  return (
+    `<article class="w8__guides__card">
+      <h3 class="w8__guides__card__title">${ title }</h3>
+      <div class="w8__guides__headline">${ headline }</div>
+      <div class="w8__guides__headline__hint">${ headlineHint }</div>
+      ${ rowsHtml }
+    </article>`
+  );
+}
+
+/** Renders the calorie and protein guidance for the latest weight record */
+function drawGuides() {
+  const intro = document.getElementById('guidesIntro');
+  const cards = document.getElementById('guidesCards');
+  if (!intro || !cards) return;
+
+  const latest = getLatestRecord();
+  const weight = latest && Number(latest.weight);
+  const heightCm = Number(settings.height);
+  const age = Number(settings.age);
+  const activity = ACTIVITY_LEVELS[settings.activityLevel] || ACTIVITY_LEVELS.light;
+
+  const missing = [];
+  if (!weight) missing.push('a weight record');
+  if (!Number.isFinite(heightCm) || heightCm <= 0) missing.push('your height');
+  if (!Number.isFinite(age) || age <= 0) missing.push('your age');
+
+  if (missing.length > 0) {
+    intro.innerHTML = (
+      `Add ${ missing.join(' and ') } in the settings to see your calorie and protein targets.`
+    );
+    cards.innerHTML = '';
+    return;
+  }
+
+  const basalRate = getBasalMetabolicRate(weight, heightCm, age, settings.sex);
+  const maintenance = basalRate * activity.factor;
+
+  intro.innerHTML = (
+    `Based on your latest weight of <strong>${ weight.toFixed(2) } kg</strong>`
+    + ` (${ formatTooltipDate(latest.date) }), ${ Math.round(heightCm) } cm and ${ Math.round(age) } years.`
+  );
+
+  cards.innerHTML = (
+    renderGuideCard(
+      'Caloric maintenance',
+      formatCalories(maintenance),
+      'per day to hold your current weight',
+      [
+        { label: 'Resting burn (BMR)', value: formatCalories(basalRate) },
+        { label: activity.label, value: `× ${ activity.factor }` },
+        {
+          label: `Losing ~0.5 kg a week (−${ CALORIE_DEFICIT_PER_DAY })`,
+          value: formatCalories(maintenance - CALORIE_DEFICIT_PER_DAY),
+        },
+        {
+          label: `Lean gaining (+${ CALORIE_SURPLUS_PER_DAY })`,
+          value: formatCalories(maintenance + CALORIE_SURPLUS_PER_DAY),
+        },
+      ]
+    )
+    + renderGuideCard(
+      'Protein intake',
+      `${ formatGrams(weight * PROTEIN_LOW_PER_KG) } – ${ formatGrams(weight * PROTEIN_HIGH_PER_KG) }`,
+      `per day, ${ PROTEIN_LOW_PER_KG }–${ PROTEIN_HIGH_PER_KG } g per kg of body weight`,
+      [
+        {
+          label: `Bare minimum (${ PROTEIN_RDA_PER_KG } g/kg)`,
+          value: formatGrams(weight * PROTEIN_RDA_PER_KG),
+        },
+        {
+          label: 'Keeping muscle in a deficit',
+          value: `${ formatGrams(weight * 2) } and up`,
+        },
+        {
+          label: `Spread over ${ MEALS_PER_DAY } meals`,
+          value: `~${ formatGrams(weight * PROTEIN_LOW_PER_KG / MEALS_PER_DAY) } each`,
+        },
+        {
+          label: 'Share of maintenance calories',
+          value: `${ Math.round(weight * PROTEIN_LOW_PER_KG * 4 / maintenance * 100) }%`,
+        },
+      ]
+    )
+  );
+}
+
 /** Weight of the latest record preceding the given date, or undefined if there is none */
 function getPreviousWeight(date) {
   const previous = weightData
@@ -723,6 +871,7 @@ function addWeight() {
         sortWeightData();
         drawTable();
         drawChart();
+        drawGuides();
 
         if (previousWeight !== undefined && Number(weight) < previousWeight) celebrate();
       }
@@ -745,6 +894,7 @@ function deleteWeight(date) {
       sortWeightData();
       drawTable();
       drawChart();
+      drawGuides();
     }
   }).catch(error => console.error(error));
 }
