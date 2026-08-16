@@ -10,4 +10,4 @@
   * Low-level full-stack application.
   * Set up a RESTful application from scratch.
   * Deal with all the nitty-gritty details of the application, without the help of any frameworks.
-  * Practice devops on my limited plan VPS.
+  * Practice devops on my limited VPS plan.
