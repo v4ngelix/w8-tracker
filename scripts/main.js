@@ -14,10 +14,10 @@ const DEFAULT_SETTINGS = {
   bmiBackground: true,
   historyRange: 'all',
   yAxisMode: 'auto',
-  targetWeight: 95,
+  targetWeight: undefined,
   sex: 'male',
-  height: 173,
-  age: 36,
+  height: undefined,
+  age: undefined,
   activityLevel: 'light',
 };
 
