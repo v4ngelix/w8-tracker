@@ -648,12 +648,35 @@ function drawChart() {
   updateFavicon();
 }
 
+/** Weight of the latest record preceding the given date, or undefined if there is none */
+function getPreviousWeight(date) {
+  const previous = weightData
+    .filter((d) => d.date.split('T')[0] < date)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+
+  return previous && Number(previous.weight);
+}
+
+/** Reward for a weight lower than the previous one */
+function celebrate() {
+  if (typeof confetti !== 'function') return;
+
+  confetti({
+    particleCount: 120,
+    spread: 80,
+    startVelocity: 45,
+    origin: { y: 0.7 },
+  });
+}
+
 function addWeight() {
   const date = document.getElementById('dateInput').value;
   const weight = document.getElementById('weightInput').value;
   const addWeightUrl = API_URL + `/addWeight?date=${ date }&weight=${ weight }`;
 
   if (weight && date) {
+    const previousWeight = getPreviousWeight(date);
+
     fetch(
       addWeightUrl,
       {} // TODO: use method: "POST"
@@ -668,6 +691,8 @@ function addWeight() {
         sortWeightData();
         drawTable();
         drawChart();
+
+        if (previousWeight !== undefined && Number(weight) < previousWeight) celebrate();
       }
       const graph = document.getElementById('weightTimeSeriesChart');
       graph.scrollIntoView({behavior: 'smooth'});

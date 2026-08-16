@@ -118,12 +118,6 @@ main {
     color: var(--gray-5);
 }
 
-canvas {
-    margin-bottom: 1.5rem;
-    border-radius: .25rem;
-    background-color: #fff;
-}
-
 .w8__table {
     padding: 0 var(--main-content-padding) var(--main-content-padding);
     overflow-x: auto;
