@@ -10,5 +10,5 @@
 * Learn new technologies:
   * Low-level full-stack application.
   * Set up a RESTful application from scratch.
-  * Deal with all the nitty-gritty details of the application, without the help of any frameworks.
+  * Deal with all the nitty-gritty details of the application, without the help of any frameworks. Stick to vanilla JavaScript and Node.js.
   * Practice devops on my limited VPS plan.
