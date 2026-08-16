@@ -353,6 +353,38 @@ const CHART_MARGIN_BOTTOM = 30;
 const CHART_MARGIN_LEFT = 30;
 
 const POINT_RADIUS = 2;
+
+/** Roughly how many pixels one x-axis label needs before neighbours start touching. */
+const CHART_X_LABEL_WIDTH = 70;
+/** Below this chart width the labels switch to their short forms. */
+const CHART_COMPACT_WIDTH = 480;
+
+/**
+ * Formats an x-axis tick according to what it actually is (a year, a month or a day)
+ * and how much room the chart has for it.
+ */
+function getTimeTickFormat(width) {
+  const compact = width < CHART_COMPACT_WIDTH;
+  const formatYear = d3.utcFormat('%Y');
+  const formatMonth = d3.utcFormat(compact ? '%b' : '%B');
+  const formatDay = d3.utcFormat(compact ? '%-d.%-m' : '%d %b');
+
+  return (date) => {
+    if (d3.utcYear(date) >= date) return formatYear(date);
+    if (d3.utcMonth(date) >= date) return formatMonth(date);
+    return formatDay(date);
+  };
+}
+
+/** Bottom x-axis with a tick count and label format that scale with the chart width. */
+function getBottomAxis(xAxis, width) {
+  const tickCount = Math.max(2, Math.min(10, Math.floor(width / CHART_X_LABEL_WIDTH)));
+
+  return d3
+    .axisBottom(xAxis)
+    .ticks(tickCount)
+    .tickFormat(getTimeTickFormat(width));
+}
 const POINT_RADIUS_HOVER = 4;
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -444,7 +476,7 @@ function drawChart() {
     chart
       .append('g', 'chart-x-axis')
       .attr('transform', `translate(0,${ CHART_HEIGHT - CHART_MARGIN_BOTTOM })`)
-      .call(d3.axisBottom(xAxis));
+      .call(getBottomAxis(xAxis, width));
 
     chart
       .append('g', 'chart-top-border')
@@ -478,7 +510,7 @@ function drawChart() {
 
     chart
       .select('g#chart-x-axis')
-      .call(d3.axisBottom(xAxis));
+      .call(getBottomAxis(xAxis, width));
 
     chart
       .select('g#chart-top-border')

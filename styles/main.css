@@ -89,6 +89,10 @@ main {
     padding: 0 var(--main-content-padding);
 }
 
+#weightTimeSeriesChart svg text {
+    font-size: clamp(9px, 2.5vw, 11px);
+}
+
 #weightTimeSeriesChart circle {
     cursor: pointer;
     transition: r 0.1s ease-out;
