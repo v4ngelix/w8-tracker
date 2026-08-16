@@ -22,7 +22,7 @@ TODO:
 - [ ] If good score - https://www.kirilv.com/canvas-confetti/
 - [ ] If bad... flames?
 - [ ] Scaled labels. In mobile they don't fit.
-- [ ] Ceck lighthouse scores
+- [ ] Check lighthouse scores
 - [ ] Track performance.
 
 ## Structural changes
