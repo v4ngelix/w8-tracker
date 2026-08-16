@@ -3,6 +3,7 @@
 @import "table.css";
 @import "form.css";
 @import "settings.css";
+@import "info.css";
 
 html {
     height: 100%;

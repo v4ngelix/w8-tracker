@@ -64,16 +64,109 @@ function toggleSettings() {
   toggle.setAttribute('aria-expanded', String(willOpen));
 }
 
+let readmeLoaded = false;
+
+function toggleInfo() {
+  const panel = document.getElementById('infoPanel');
+  const toggle = document.querySelector('.w8__info__toggle');
+  const willOpen = panel.hidden;
+
+  panel.hidden = !willOpen;
+  toggle.setAttribute('aria-expanded', String(willOpen));
+
+  if (willOpen && !readmeLoaded) loadReadme();
+}
+
+async function loadReadme() {
+  const content = document.getElementById('infoContent');
+
+  try {
+    const response = await fetch('/README.md');
+    if (!response.ok) throw new Error(`Status ${response.status}`);
+
+    content.innerHTML = renderMarkdown(await response.text());
+    content.classList.remove('w8__info__content--error');
+    readmeLoaded = true;
+  } catch (error) {
+    console.log('Error while loading README', error);
+    content.textContent = 'Could not load the project description.';
+    content.classList.add('w8__info__content--error');
+  }
+}
+
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function renderInline(text) {
+  return escapeHtml(text)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/(^|[\s(])(https?:\/\/[^\s)]+)/g, '$1<a href="$2" target="_blank" rel="noopener">$2</a>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+}
+
+function renderMarkdown(markdown) {
+  const html = [];
+  let listDepth = 0;
+
+  const closeLists = (depth) => {
+    while (listDepth > depth) {
+      html.push('</ul>');
+      listDepth--;
+    }
+  };
+
+  for (const line of markdown.split('\n')) {
+    const heading = line.match(/^(#{1,3})\s+(.*)$/);
+    const listItem = line.match(/^(\s*)[-*]\s+(.*)$/);
+
+    if (heading) {
+      closeLists(0);
+      const level = heading[1].length;
+      html.push(`<h${level}>${renderInline(heading[2])}</h${level}>`);
+    } else if (listItem) {
+      const depth = Math.floor(listItem[1].length / 2) + 1;
+      while (listDepth < depth) {
+        html.push('<ul>');
+        listDepth++;
+      }
+      closeLists(depth);
+
+      const item = listItem[2].replace(/^\[( |x)]\s*/, (_, mark) => (mark === 'x' ? '☑ ' : '☐ '));
+      html.push(`<li>${renderInline(item)}</li>`);
+    } else if (line.trim()) {
+      closeLists(0);
+      html.push(`<p>${renderInline(line.trim())}</p>`);
+    }
+  }
+
+  closeLists(0);
+  return html.join('');
+}
+
 document.addEventListener('click', (event) => {
   const settingsRoot = document.querySelector('.w8__settings');
   const panel = document.getElementById('settingsPanel');
-  if (!panel || panel.hidden) return;
-  if (!settingsRoot.contains(event.target)) toggleSettings();
+  if (panel && !panel.hidden && !settingsRoot.contains(event.target)) toggleSettings();
+
+  const infoRoot = document.querySelector('.w8__info');
+  const infoPanel = document.getElementById('infoPanel');
+  if (infoPanel && !infoPanel.hidden && !infoRoot.contains(event.target)) toggleInfo();
 });
 
 document.addEventListener('keydown', (event) => {
+  if (event.key !== 'Escape') return;
+
   const panel = document.getElementById('settingsPanel');
-  if (event.key === 'Escape' && panel && !panel.hidden) toggleSettings();
+  if (panel && !panel.hidden) toggleSettings();
+
+  const infoPanel = document.getElementById('infoPanel');
+  if (infoPanel && !infoPanel.hidden) toggleInfo();
 });
 
 function getRangedChartData() {

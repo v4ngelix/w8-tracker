@@ -1,5 +1,5 @@
 # W8-Tracker
-*Suckless weight tracking application for personal use. Fast, private and just plain awesome.*
+*A back-to-the-roots suckless weight tracking application for personal use. Fast, private and just plain awesome.*
 
 ## Goals :
 * Make tracking personal body weight and BMI over long period a convenient chore.
@@ -10,7 +10,7 @@
   * Low-level full-stack application.
   * Set up a RESTful application from scratch.
   * Deal with all the nitty-gritty details of the application, without the help of any frameworks.
-  * Devops.
+  * Practice devops on my limited plan VPS.
 
 TODO:
 - line should be average, not some approximation

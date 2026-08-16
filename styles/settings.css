@@ -5,7 +5,8 @@
   align-items: center;
 }
 
-.w8__settings__toggle {
+.w8__settings__toggle,
+.w8__info__toggle {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,17 +32,22 @@
   }
 }
 
-.w8__settings__toggle[aria-expanded="true"] {
+.w8__settings__toggle[aria-expanded="true"],
+.w8__info__toggle[aria-expanded="true"] {
   border-color: var(--primary-color);
   background: var(--primary-color);
 
   svg {
-    transform: rotate(90deg);
     color: white;
   }
 }
 
-.w8__settings__panel {
+.w8__settings__toggle[aria-expanded="true"] svg {
+  transform: rotate(90deg);
+}
+
+.w8__settings__panel,
+.w8__info__panel {
   position: absolute;
   top: calc(100% + .25rem);
   right: 0;
@@ -61,7 +67,8 @@
     0 20px 15px rgba(3, 7, 18, 0.08);
 }
 
-.w8__settings__panel[hidden] {
+.w8__settings__panel[hidden],
+.w8__info__panel[hidden] {
   display: none;
 }
 

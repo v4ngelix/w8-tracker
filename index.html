@@ -29,6 +29,45 @@
             <h1>W</h1>
             <h1>8-Tracker</h1>
           </div>
+          <div class="w8__info">
+            <button
+              type="button"
+              class="w8__info__toggle"
+              aria-label="About this project"
+              aria-haspopup="true"
+              aria-expanded="false"
+              onclick="toggleInfo()"
+            >
+              <svg
+                width="1.5rem"
+                height="1.5rem"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M12 6.75C12.5523 6.75 13 7.19772 13 7.75C13 8.30228 12.5523 8.75 12 8.75C11.4477 8.75 11 8.30228 11 7.75C11 7.19772 11.4477 6.75 12 6.75Z"
+                  fill="currentColor"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M11.25 10.75C11.25 10.3358 11.5858 10 12 10C12.4142 10 12.75 10.3358 12.75 10.75V16.75C12.75 17.1642 12.4142 17.5 12 17.5C11.5858 17.5 11.25 17.1642 11.25 16.75V10.75Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+
+            <div class="w8__info__panel" id="infoPanel" role="dialog" aria-label="About this project" hidden>
+              <div class="w8__info__content" id="infoContent">Loading…</div>
+            </div>
+          </div>
           <div class="w8__settings">
             <button
               type="button"

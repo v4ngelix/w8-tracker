@@ -53,7 +53,7 @@ const server: Server = createServer(
       const isValid = w8Key === applicationKey;
       endResponse(response, 200, 'application/json', JSON.stringify({ valid: isValid }));
     } else if (
-      ['assets', 'styles', 'scripts', 'favicon.ico'].includes(requestPath[0])
+      ['assets', 'styles', 'scripts', 'favicon.ico', 'README.md'].includes(requestPath[0])
       && method === 'GET'
     ) {
       serveAssets(requestPath, response);

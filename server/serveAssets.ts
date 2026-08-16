@@ -25,6 +25,7 @@ function serveAssets(
         const dir: string = requestPath[0];
 
         if (dir === 'favicon.ico') type = 'image/png';
+        if (dir === 'README.md') type = 'text/markdown';
         if (dir === 'assets') type = 'image/svg+xml';
         if (dir === 'styles') type = 'text/css';
         if (['scripts', 'node_modules'].includes(dir)) type = 'text/javascript';
