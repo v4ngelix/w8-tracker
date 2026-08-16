@@ -562,7 +562,7 @@ function drawChart() {
     .join('path')
     .attr('class', 'weight-trend')
     .attr('fill', 'none')
-    .attr('stroke', '#fd8484')
+    .attr('stroke', '#fa9898')
     .attr('stroke-width', 2)
     .attr('stroke-linecap', 'round')
     .attr('d', lineMaker);
