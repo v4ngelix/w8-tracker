@@ -17,7 +17,6 @@ TODO:
 - [ ] Trendline / records.
 - candlestick chart?
 - ## Style improvements and new features
-- [ ] Point hover peaks joonistama x/y jooni
 - [ ] Info button with project description in the header
 - [ ] Guides:
   - [ ] claoric maintenance rate

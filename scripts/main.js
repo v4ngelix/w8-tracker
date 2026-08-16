@@ -454,6 +454,35 @@ function drawChart() {
   const tooltip = document.getElementById('chartTooltip');
   const hideTooltip = () => { tooltip.hidden = true; };
 
+  const crosshair = chart
+    .append('g', 'chart-crosshair')
+    .attr('stroke', 'gray')
+    .attr('stroke-width', 1)
+    .attr('stroke-dasharray', '3 3')
+    .attr('pointer-events', 'none')
+    .attr('opacity', 0);
+
+  const crosshairX = crosshair.append('line');
+  const crosshairY = crosshair.append('line');
+
+  const showCrosshair = (cx, cy) => {
+    crosshairX
+      .attr('x1', cx)
+      .attr('x2', cx)
+      .attr('y1', cy)
+      .attr('y2', CHART_HEIGHT - CHART_MARGIN_BOTTOM);
+
+    crosshairY
+      .attr('x1', CHART_MARGIN_LEFT)
+      .attr('x2', width - CHART_MARGIN_RIGHT)
+      .attr('y1', cy)
+      .attr('y2', cy);
+
+    crosshair.attr('opacity', 1);
+  };
+
+  const hideCrosshair = () => { crosshair.attr('opacity', 0); };
+
   chart
     .selectAll('circle')
     .data(chartData)
@@ -466,6 +495,7 @@ function drawChart() {
     .attr('fill', 'red')
     .on('mouseenter', function (event, d) {
       d3.select(this).attr('r', POINT_RADIUS_HOVER);
+      showCrosshair(xAxis(new Date(d.date)), yWeight(d.weight));
       tooltip.innerHTML = (
         `<span class="w8__chart__tooltip__weight">${ Number(d.weight).toFixed(2) } kg</span>`
         + ` - ${ formatTooltipDate(d.date) }`
@@ -476,9 +506,11 @@ function drawChart() {
     })
     .on('mouseleave', function () {
       d3.select(this).attr('r', POINT_RADIUS);
+      hideCrosshair();
       hideTooltip();
     });
 
+  hideCrosshair();
   hideTooltip();
   updateFavicon();
 }
