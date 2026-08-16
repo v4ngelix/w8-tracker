@@ -32,4 +32,3 @@ TODO:
 - [ ] If offline or bad connectivity use a worker? to submit changes when the connectivity is restored? 
 - [ ] Kasuta sesa 80 või 433 porti. Lihtsalt kui api on maas serveeritakse by default index html? Veidi teine struktuur
 - [ ] Check/Update Github Issues
-- [ ] Load fonts, then render the page.
