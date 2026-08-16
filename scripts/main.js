@@ -547,6 +547,19 @@ function drawChart() {
     .attr('fill', 'url(#bmi-gradient)')
     .attr('fill-opacity', 0.3);
 
+  chart
+    .selectAll('line.target-weight')
+    .data(useTarget && Number.isFinite(weightTarget) ? [weightTarget] : [])
+    .join('line')
+    .attr('class', 'target-weight')
+    .attr('x1', bandX)
+    .attr('x2', bandX + bandWidth)
+    .attr('y1', (d) => yWeight(d))
+    .attr('y2', (d) => yWeight(d))
+    .attr('stroke', '#9be59b')
+    .attr('stroke-width', 2)
+    .attr('stroke-dasharray', '6 4');
+
   const trendData = getTrendData(chartData, getChartData());
   const trendByDate = new Map(trendData.map((d) => [d.date, d.weight]));
 
