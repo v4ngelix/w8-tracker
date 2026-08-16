@@ -14,19 +14,9 @@
 
 TODO:
 - candlestick chart?
-- ## Style improvements and new features
-- [ ] Info button with project description in the header
 - [ ] Guides:
   - [ ] claoric maintenance rate
   - [ ] protein intake
 - [ ] If good score - https://www.kirilv.com/canvas-confetti/
 - [ ] If bad... flames?
 - [ ] Scaled labels. In mobile they don't fit.
-- [ ] Check lighthouse scores
-- [ ] Track performance.
-
-## Structural changes
-- [ ] Would love to have both online and a robust offline mode. Offline meaning if API is down, the page still gets served.
-- [ ] If offline or bad connectivity use a worker? to submit changes when the connectivity is restored? 
-- [ ] Kasuta sesa 80 või 433 porti. Lihtsalt kui api on maas serveeritakse by default index html? Veidi teine struktuur
-- [ ] Check/Update Github Issues
