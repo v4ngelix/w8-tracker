@@ -17,7 +17,7 @@ const DEFAULT_SETTINGS = {
   targetWeight: 95,
   sex: 'male',
   height: 173,
-  age: null,
+  age: 36,
   activityLevel: 'light',
 };
 
