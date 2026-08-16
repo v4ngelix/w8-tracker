@@ -17,6 +17,4 @@ TODO:
 - [ ] Guides:
   - [ ] claoric maintenance rate
   - [ ] protein intake
-- [ ] If good score - https://www.kirilv.com/canvas-confetti/
-- [ ] If bad... flames?
 - [ ] Scaled labels. In mobile they don't fit.
