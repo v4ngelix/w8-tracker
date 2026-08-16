@@ -11,10 +11,3 @@
   * Set up a RESTful application from scratch.
   * Deal with all the nitty-gritty details of the application, without the help of any frameworks.
   * Practice devops on my limited plan VPS.
-
-TODO:
-- candlestick chart?
-- [ ] Guides:
-  - [ ] claoric maintenance rate
-  - [ ] protein intake
-- [ ] Scaled labels. In mobile they don't fit.
