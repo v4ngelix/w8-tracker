@@ -35,6 +35,7 @@ header {
 
   h1:nth-of-type(6) {
     left: 4.4rem;
+    font-size: 2.5rem;
     z-index: 6;
     opacity: 0;
     transition: all 1.5s cubic-bezier(.2, 1, .4, 1);
