@@ -67,7 +67,6 @@ main {
     border: 0.0625rem solid var(--gray-6);
     width: 100%;
     max-width: 1000px;
-    height: 54rem;
     max-height: calc(100% - 2rem);
     background-color: #fefefe;
     box-shadow:
