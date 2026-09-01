@@ -73,7 +73,7 @@ main {
     border: 0.0625rem solid var(--gray-6);
     width: 100%;
     max-width: 1000px;
-    max-height: calc(100% - 2rem);
+    max-height: 100dvh;
     background-color: #fefefe;
     box-shadow:
         0 1px 1px rgba(3, 7, 18, 0.02),
@@ -87,6 +87,7 @@ main {
     @media (min-width: 1000px) {
         margin: 1rem;
         border-radius: .5rem;
+        max-height: calc(100% - 2rem);
     }
 }
 
