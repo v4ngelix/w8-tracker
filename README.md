@@ -12,3 +12,8 @@
   * Set up a RESTful application from scratch.
   * Deal with all the nitty-gritty details of the application, without the help of any frameworks. Stick to vanilla JavaScript and Node.js.
   * Practice devops on my limited VPS plan.
+
+## TODO:
+- Initial draw is ugly. main jumps from 0 => fit-content.
+- Y-axis alignment broken for table column icons.
+- Change column doesnt have sorting - should have as its informative.
