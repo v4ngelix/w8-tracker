@@ -42,8 +42,15 @@
   letter-spacing: .05em;
 }
 
+.w8__guides__headline-container {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  margin: .25rem 0;
+
+}
+
 .w8__guides__headline {
-  margin-top: .25rem;
   color: var(--primary-color);
   font-size: 1.5rem;
   font-weight: 700;
@@ -51,7 +58,6 @@
 }
 
 .w8__guides__headline__hint {
-  margin-bottom: .5rem;
   color: var(--gray-3);
   font-size: .625rem;
   font-weight: 300;
@@ -74,7 +80,7 @@
 
 .w8__guides__row__value {
   flex-shrink: 0;
-  font-weight: 600;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 

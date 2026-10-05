@@ -750,8 +750,10 @@ function renderGuideCard(title, headline, headlineHint, rows) {
   return (
     `<article class="w8__guides__card">
       <h3 class="w8__guides__card__title">${ title }</h3>
-      <div class="w8__guides__headline">${ headline }</div>
-      <div class="w8__guides__headline__hint">${ headlineHint }</div>
+      <div class="w8__guides__headline-container">
+        <div class="w8__guides__headline">${ headline }</div>
+        <div class="w8__guides__headline__hint">${ headlineHint }</div>
+      </div>
       ${ rowsHtml }
     </article>`
   );
