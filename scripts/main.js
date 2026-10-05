@@ -322,6 +322,7 @@ function initializePage() {
     drawTable();
     drawChart();
     drawGuides();
+    updateWeightPlaceholder();
   });
 
   document
@@ -719,6 +720,11 @@ function getLatestRecord() {
   return byDate[byDate.length - 1];
 }
 
+function updateWeightPlaceholder() {
+  const latest = getLatestRecord();
+  weightInput.placeholder = latest ? Number(latest.weight).toFixed(1) : '0.0';
+}
+
 /**
  * Basal metabolic rate by the Mifflin-St Jeor equation - the one that holds up
  * best against indirect calorimetry for people who are not extremely lean or obese.
@@ -872,6 +878,7 @@ function addWeight() {
         drawTable();
         drawChart();
         drawGuides();
+        updateWeightPlaceholder();
 
         if (previousWeight !== undefined && Number(weight) < previousWeight) celebrate();
       }
@@ -895,6 +902,7 @@ function deleteWeight(date) {
       drawTable();
       drawChart();
       drawGuides();
+      updateWeightPlaceholder();
     }
   }).catch(error => console.error(error));
 }
