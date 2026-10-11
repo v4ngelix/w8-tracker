@@ -249,15 +249,15 @@ function drawTable() {
   while (index < limit) {
     const weight = weightData[index];
     const row = tbody.insertRow();
-    const weightValue = Number(weight.weight).toFixed(2);
+    const weightValue = Number(weight.weight).toFixed(1);
     row.insertCell(0).innerHTML = `${weightValue} kg`;
 
     const difference = index !== weightData.length - 1
-      ? (weightValue - Number(weightData[index + 1].weight).toFixed(2)).toFixed(2)
+      ? (Number(weight.weight) - Number(weightData[index + 1].weight) || 0).toFixed(1)
       : '-'
     const isBigger = difference > 0;
     row.insertCell(1).innerHTML = `${isBigger ? '+' : ''}${difference} kg`;
-    if (difference !== '0.00') {
+    if (Number(difference) !== 0) {
       row.cells[1].style.color = difference > 0 ? 'red' : 'green';
     } else {
       row.cells[1].style.color = 'orange';
