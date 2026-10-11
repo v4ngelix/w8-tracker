@@ -322,7 +322,7 @@ function initializePage() {
     drawTable();
     drawChart();
     drawGuides();
-    updateWeightPlaceholder();
+    prefillWeightInput();
   });
 
   document
@@ -720,9 +720,9 @@ function getLatestRecord() {
   return byDate[byDate.length - 1];
 }
 
-function updateWeightPlaceholder() {
+function prefillWeightInput() {
   const latest = getLatestRecord();
-  weightInput.placeholder = latest ? Number(latest.weight).toFixed(1) : '0.0';
+  weightInput.value = latest ? Number(latest.weight).toFixed(1) : '';
 }
 
 /**
@@ -880,7 +880,7 @@ function addWeight() {
         drawTable();
         drawChart();
         drawGuides();
-        updateWeightPlaceholder();
+        prefillWeightInput();
 
         if (previousWeight !== undefined && Number(weight) < previousWeight) celebrate();
       }
@@ -904,7 +904,7 @@ function deleteWeight(date) {
       drawTable();
       drawChart();
       drawGuides();
-      updateWeightPlaceholder();
+      prefillWeightInput();
     }
   }).catch(error => console.error(error));
 }
