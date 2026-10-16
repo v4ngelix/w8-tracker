@@ -858,11 +858,12 @@ function celebrate() {
 }
 
 function addWeight() {
-  const date = document.getElementById('dateInput').value;
-  const weight = document.getElementById('weightInput').value;
+  const dateInput = document.getElementById('dateInput');
+  const date = dateInput.value;
+  const weight = weightInput.value;
   const addWeightUrl = API_URL + `/addWeight?date=${ date }&weight=${ weight }`;
 
-  if (weight && date) {
+  if (weightInput.reportValidity() && dateInput.reportValidity()) {
     const previousWeight = getPreviousWeight(date);
 
     fetch(
@@ -889,6 +890,13 @@ function addWeight() {
     }).catch(error => console.error(error));
   }
 }
+
+/** Enter in either add-record input submits, same as the button */
+['weightInput', 'dateInput'].forEach((id) => {
+  document.getElementById(id).addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') addWeight();
+  });
+});
 
 function deleteWeight(date) {
   const dateToDelete = date.split('T')[0];
