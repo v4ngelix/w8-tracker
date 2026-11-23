@@ -2,18 +2,19 @@ name: Deploy to Website
 
 on:
   push:
-      branches:
-        - main
+    branches:
+      - main
+
+# Never run two deploys against the server at the same time.
+concurrency:
+  group: deploy-w8
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Set up SSH key
         run: |
           mkdir -p ~/.ssh
@@ -21,23 +22,59 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H boheemia.ee >> ~/.ssh/known_hosts
 
-      - name: Update application and restart
+      - name: Back up weights, update code and restart
         run: |
-          ssh virt65914@boheemia.ee "\
-            cd domeenid/www.boheemia.ee/w8/ && \
-            echo 'In directory:' && pwd && \
-            ls && \
-            if [ -f package.json ]; then \
-              echo 'Running backup...' && \
-              npm run backup || echo 'Backup failed, continuing anyway' && \
-              nvm use || true && \
-              npm i || true && \
-              pm2 delete w8-tracker || true && \
-              pm2 save --force && \
-              pm2 start ./server/application.ts --interpreter=node --node-args='--env-file=./configurations/.env' --watch --name=w8-tracker && pm2 save; \
-            else \
-              npm i || true && \
-              pm2 delete w8-tracker || true && \
-              pm2 save --force && \
-              pm2 start ./server/application.ts --interpreter=node --node-args='--env-file=./configurations/.env' --watch --name=w8-tracker && pm2 save; \
-            fi"
+          ssh virt65914@boheemia.ee 'bash -s' <<'EOF'
+          set -euo pipefail
+
+          APP_DIR="$HOME/domeenid/www.boheemia.ee/w8"
+          BACKUP_DIR="$HOME/backups/w8"
+          STAMP="$(date +%Y-%m-%d_%H-%M-%S)"
+          BACKUP_FILE="$BACKUP_DIR/weights-$STAMP.db"
+
+          # Talk to the PM2 daemon from a directory that is never removed, otherwise
+          # the daemon can crash with "process.cwd failed ... uv_cwd".
+          cd "$HOME"
+          pm2 ping >/dev/null
+
+          # 1. Stop the app so nothing writes to the database during the deploy.
+          pm2 stop w8-tracker || true
+
+          # 2. File backup of the live database, outside the repository.
+          mkdir -p "$BACKUP_DIR"
+          sqlite3 "$APP_DIR/weights.db" ".backup '$BACKUP_FILE'"
+          echo "Backed up weights.db to $BACKUP_FILE"
+          # Keep only the 60 most recent backups.
+          ls -1t "$BACKUP_DIR"/weights-*.db | tail -n +61 | xargs -r rm --
+
+          # 3. Update the code to exactly what is on main.
+          cd "$APP_DIR"
+          git fetch origin main
+          git reset --hard origin/main
+
+          # 4. The server's database is the source of truth: put it back, even if the
+          #    pushed commit contained an older weights.db.
+          cp "$BACKUP_FILE" weights.db
+
+          # 5. Also commit the live data to git. [skip ci] stops this push from
+          #    triggering another deploy.
+          if ! git diff --quiet -- weights.db; then
+            git add weights.db
+            git commit -m "Update weights.db [skip ci]"
+            git push origin HEAD:main || echo "WARNING: pushing weights.db failed, file backup is at $BACKUP_FILE"
+          fi
+
+          # 6. Install dependencies and start WITHOUT --watch: the app writes
+          #    weights.db inside this directory, and watching it made PM2 restart
+          #    the app on every new weight entry.
+          npm install --no-audit --no-fund
+          cd "$HOME"
+          pm2 delete w8-tracker || true
+          pm2 start "$APP_DIR/server/application.ts" \
+            --name=w8-tracker \
+            --cwd="$APP_DIR" \
+            --interpreter=node \
+            --node-args="--env-file=$APP_DIR/configurations/.env"
+          pm2 save
+          pm2 list
+          EOF
